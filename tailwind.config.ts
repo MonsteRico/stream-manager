@@ -55,6 +55,9 @@ module.exports = {
       },
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
+        roboto: ["Roboto", "sans-serif"],
+        overwatch: ["Big Noodle Titling", "sans-serif"],
+        overwatchOblique: ["Big Noodle Titling Oblique", "sans-serif"],
       },
       keyframes: {
         "accordion-down": {
