@@ -20,8 +20,11 @@ import { Route as OverlaysOverlayLayoutImport } from './routes/overlays/_overlay
 import { Route as OverlaysSessionIdWaitingForNextImport } from './routes/overlays/$sessionId/waitingForNext'
 import { Route as OverlaysSessionIdThanksImport } from './routes/overlays/$sessionId/thanks'
 import { Route as OverlaysSessionIdStartingSoonImport } from './routes/overlays/$sessionId/startingSoon'
+import { Route as OverlaysSessionIdSingleCameraImport } from './routes/overlays/$sessionId/singleCamera'
 import { Route as OverlaysSessionIdMatchImport } from './routes/overlays/$sessionId/match'
 import { Route as OverlaysSessionIdMapsImport } from './routes/overlays/$sessionId/maps'
+import { Route as OverlaysSessionIdCastersSingleCameraImport } from './routes/overlays/$sessionId/castersSingleCamera'
+import { Route as OverlaysSessionIdCastersImport } from './routes/overlays/$sessionId/casters'
 import { Route as OverlaysSessionIdBrbImport } from './routes/overlays/$sessionId/brb'
 import { Route as OverlaysSessionIdVictoryWinnerImport } from './routes/overlays/$sessionId/victory.$winner'
 
@@ -73,6 +76,12 @@ const OverlaysSessionIdStartingSoonRoute =
     getParentRoute: () => OverlaysRoute,
   } as any)
 
+const OverlaysSessionIdSingleCameraRoute =
+  OverlaysSessionIdSingleCameraImport.update({
+    path: '/$sessionId/singleCamera',
+    getParentRoute: () => OverlaysRoute,
+  } as any)
+
 const OverlaysSessionIdMatchRoute = OverlaysSessionIdMatchImport.update({
   path: '/$sessionId/match',
   getParentRoute: () => OverlaysRoute,
@@ -80,6 +89,17 @@ const OverlaysSessionIdMatchRoute = OverlaysSessionIdMatchImport.update({
 
 const OverlaysSessionIdMapsRoute = OverlaysSessionIdMapsImport.update({
   path: '/$sessionId/maps',
+  getParentRoute: () => OverlaysRoute,
+} as any)
+
+const OverlaysSessionIdCastersSingleCameraRoute =
+  OverlaysSessionIdCastersSingleCameraImport.update({
+    path: '/$sessionId/castersSingleCamera',
+    getParentRoute: () => OverlaysRoute,
+  } as any)
+
+const OverlaysSessionIdCastersRoute = OverlaysSessionIdCastersImport.update({
+  path: '/$sessionId/casters',
   getParentRoute: () => OverlaysRoute,
 } as any)
 
@@ -140,6 +160,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OverlaysSessionIdBrbImport
       parentRoute: typeof OverlaysImport
     }
+    '/overlays/$sessionId/casters': {
+      id: '/overlays/$sessionId/casters'
+      path: '/$sessionId/casters'
+      fullPath: '/overlays/$sessionId/casters'
+      preLoaderRoute: typeof OverlaysSessionIdCastersImport
+      parentRoute: typeof OverlaysImport
+    }
+    '/overlays/$sessionId/castersSingleCamera': {
+      id: '/overlays/$sessionId/castersSingleCamera'
+      path: '/$sessionId/castersSingleCamera'
+      fullPath: '/overlays/$sessionId/castersSingleCamera'
+      preLoaderRoute: typeof OverlaysSessionIdCastersSingleCameraImport
+      parentRoute: typeof OverlaysImport
+    }
     '/overlays/$sessionId/maps': {
       id: '/overlays/$sessionId/maps'
       path: '/$sessionId/maps'
@@ -152,6 +186,13 @@ declare module '@tanstack/react-router' {
       path: '/$sessionId/match'
       fullPath: '/overlays/$sessionId/match'
       preLoaderRoute: typeof OverlaysSessionIdMatchImport
+      parentRoute: typeof OverlaysImport
+    }
+    '/overlays/$sessionId/singleCamera': {
+      id: '/overlays/$sessionId/singleCamera'
+      path: '/$sessionId/singleCamera'
+      fullPath: '/overlays/$sessionId/singleCamera'
+      preLoaderRoute: typeof OverlaysSessionIdSingleCameraImport
       parentRoute: typeof OverlaysImport
     }
     '/overlays/$sessionId/startingSoon': {
@@ -190,8 +231,11 @@ declare module '@tanstack/react-router' {
 interface OverlaysRouteChildren {
   OverlaysOverlayLayoutRoute: typeof OverlaysOverlayLayoutRoute
   OverlaysSessionIdBrbRoute: typeof OverlaysSessionIdBrbRoute
+  OverlaysSessionIdCastersRoute: typeof OverlaysSessionIdCastersRoute
+  OverlaysSessionIdCastersSingleCameraRoute: typeof OverlaysSessionIdCastersSingleCameraRoute
   OverlaysSessionIdMapsRoute: typeof OverlaysSessionIdMapsRoute
   OverlaysSessionIdMatchRoute: typeof OverlaysSessionIdMatchRoute
+  OverlaysSessionIdSingleCameraRoute: typeof OverlaysSessionIdSingleCameraRoute
   OverlaysSessionIdStartingSoonRoute: typeof OverlaysSessionIdStartingSoonRoute
   OverlaysSessionIdThanksRoute: typeof OverlaysSessionIdThanksRoute
   OverlaysSessionIdWaitingForNextRoute: typeof OverlaysSessionIdWaitingForNextRoute
@@ -201,8 +245,12 @@ interface OverlaysRouteChildren {
 const OverlaysRouteChildren: OverlaysRouteChildren = {
   OverlaysOverlayLayoutRoute: OverlaysOverlayLayoutRoute,
   OverlaysSessionIdBrbRoute: OverlaysSessionIdBrbRoute,
+  OverlaysSessionIdCastersRoute: OverlaysSessionIdCastersRoute,
+  OverlaysSessionIdCastersSingleCameraRoute:
+    OverlaysSessionIdCastersSingleCameraRoute,
   OverlaysSessionIdMapsRoute: OverlaysSessionIdMapsRoute,
   OverlaysSessionIdMatchRoute: OverlaysSessionIdMatchRoute,
+  OverlaysSessionIdSingleCameraRoute: OverlaysSessionIdSingleCameraRoute,
   OverlaysSessionIdStartingSoonRoute: OverlaysSessionIdStartingSoonRoute,
   OverlaysSessionIdThanksRoute: OverlaysSessionIdThanksRoute,
   OverlaysSessionIdWaitingForNextRoute: OverlaysSessionIdWaitingForNextRoute,
@@ -219,8 +267,11 @@ export interface FileRoutesByFullPath {
   '/overlays': typeof OverlaysOverlayLayoutRoute
   '/session/$sessionId': typeof SessionSessionIdRoute
   '/overlays/$sessionId/brb': typeof OverlaysSessionIdBrbRoute
+  '/overlays/$sessionId/casters': typeof OverlaysSessionIdCastersRoute
+  '/overlays/$sessionId/castersSingleCamera': typeof OverlaysSessionIdCastersSingleCameraRoute
   '/overlays/$sessionId/maps': typeof OverlaysSessionIdMapsRoute
   '/overlays/$sessionId/match': typeof OverlaysSessionIdMatchRoute
+  '/overlays/$sessionId/singleCamera': typeof OverlaysSessionIdSingleCameraRoute
   '/overlays/$sessionId/startingSoon': typeof OverlaysSessionIdStartingSoonRoute
   '/overlays/$sessionId/thanks': typeof OverlaysSessionIdThanksRoute
   '/overlays/$sessionId/waitingForNext': typeof OverlaysSessionIdWaitingForNextRoute
@@ -233,8 +284,11 @@ export interface FileRoutesByTo {
   '/overlays': typeof OverlaysOverlayLayoutRoute
   '/session/$sessionId': typeof SessionSessionIdRoute
   '/overlays/$sessionId/brb': typeof OverlaysSessionIdBrbRoute
+  '/overlays/$sessionId/casters': typeof OverlaysSessionIdCastersRoute
+  '/overlays/$sessionId/castersSingleCamera': typeof OverlaysSessionIdCastersSingleCameraRoute
   '/overlays/$sessionId/maps': typeof OverlaysSessionIdMapsRoute
   '/overlays/$sessionId/match': typeof OverlaysSessionIdMatchRoute
+  '/overlays/$sessionId/singleCamera': typeof OverlaysSessionIdSingleCameraRoute
   '/overlays/$sessionId/startingSoon': typeof OverlaysSessionIdStartingSoonRoute
   '/overlays/$sessionId/thanks': typeof OverlaysSessionIdThanksRoute
   '/overlays/$sessionId/waitingForNext': typeof OverlaysSessionIdWaitingForNextRoute
@@ -249,8 +303,11 @@ export interface FileRoutesById {
   '/overlays/_overlayLayout': typeof OverlaysOverlayLayoutRoute
   '/session/$sessionId': typeof SessionSessionIdRoute
   '/overlays/$sessionId/brb': typeof OverlaysSessionIdBrbRoute
+  '/overlays/$sessionId/casters': typeof OverlaysSessionIdCastersRoute
+  '/overlays/$sessionId/castersSingleCamera': typeof OverlaysSessionIdCastersSingleCameraRoute
   '/overlays/$sessionId/maps': typeof OverlaysSessionIdMapsRoute
   '/overlays/$sessionId/match': typeof OverlaysSessionIdMatchRoute
+  '/overlays/$sessionId/singleCamera': typeof OverlaysSessionIdSingleCameraRoute
   '/overlays/$sessionId/startingSoon': typeof OverlaysSessionIdStartingSoonRoute
   '/overlays/$sessionId/thanks': typeof OverlaysSessionIdThanksRoute
   '/overlays/$sessionId/waitingForNext': typeof OverlaysSessionIdWaitingForNextRoute
@@ -265,8 +322,11 @@ export interface FileRouteTypes {
     | '/overlays'
     | '/session/$sessionId'
     | '/overlays/$sessionId/brb'
+    | '/overlays/$sessionId/casters'
+    | '/overlays/$sessionId/castersSingleCamera'
     | '/overlays/$sessionId/maps'
     | '/overlays/$sessionId/match'
+    | '/overlays/$sessionId/singleCamera'
     | '/overlays/$sessionId/startingSoon'
     | '/overlays/$sessionId/thanks'
     | '/overlays/$sessionId/waitingForNext'
@@ -278,8 +338,11 @@ export interface FileRouteTypes {
     | '/overlays'
     | '/session/$sessionId'
     | '/overlays/$sessionId/brb'
+    | '/overlays/$sessionId/casters'
+    | '/overlays/$sessionId/castersSingleCamera'
     | '/overlays/$sessionId/maps'
     | '/overlays/$sessionId/match'
+    | '/overlays/$sessionId/singleCamera'
     | '/overlays/$sessionId/startingSoon'
     | '/overlays/$sessionId/thanks'
     | '/overlays/$sessionId/waitingForNext'
@@ -292,8 +355,11 @@ export interface FileRouteTypes {
     | '/overlays/_overlayLayout'
     | '/session/$sessionId'
     | '/overlays/$sessionId/brb'
+    | '/overlays/$sessionId/casters'
+    | '/overlays/$sessionId/castersSingleCamera'
     | '/overlays/$sessionId/maps'
     | '/overlays/$sessionId/match'
+    | '/overlays/$sessionId/singleCamera'
     | '/overlays/$sessionId/startingSoon'
     | '/overlays/$sessionId/thanks'
     | '/overlays/$sessionId/waitingForNext'
@@ -344,8 +410,11 @@ export const routeTree = rootRoute
       "children": [
         "/overlays/_overlayLayout",
         "/overlays/$sessionId/brb",
+        "/overlays/$sessionId/casters",
+        "/overlays/$sessionId/castersSingleCamera",
         "/overlays/$sessionId/maps",
         "/overlays/$sessionId/match",
+        "/overlays/$sessionId/singleCamera",
         "/overlays/$sessionId/startingSoon",
         "/overlays/$sessionId/thanks",
         "/overlays/$sessionId/waitingForNext",
@@ -363,12 +432,24 @@ export const routeTree = rootRoute
       "filePath": "overlays/$sessionId/brb.tsx",
       "parent": "/overlays"
     },
+    "/overlays/$sessionId/casters": {
+      "filePath": "overlays/$sessionId/casters.tsx",
+      "parent": "/overlays"
+    },
+    "/overlays/$sessionId/castersSingleCamera": {
+      "filePath": "overlays/$sessionId/castersSingleCamera.tsx",
+      "parent": "/overlays"
+    },
     "/overlays/$sessionId/maps": {
       "filePath": "overlays/$sessionId/maps.tsx",
       "parent": "/overlays"
     },
     "/overlays/$sessionId/match": {
       "filePath": "overlays/$sessionId/match.tsx",
+      "parent": "/overlays"
+    },
+    "/overlays/$sessionId/singleCamera": {
+      "filePath": "overlays/$sessionId/singleCamera.tsx",
       "parent": "/overlays"
     },
     "/overlays/$sessionId/startingSoon": {

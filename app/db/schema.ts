@@ -31,6 +31,7 @@ export type MapInfo = {
 }
 
 export type CasterInfo = {
+  id: number;
   name: string;
   pronouns: string;
   twitter: string;

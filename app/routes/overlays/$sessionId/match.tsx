@@ -75,15 +75,7 @@ function TeamInfo({
             animate={{ x: 0 }}
             transition={{ duration: 0.5 }}
         >
-            {icon && (
-                <motion.img
-                    src={icon}
-                    alt={`${name} logo`}
-                    className="w-10 h-10"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                />
-            )}
+            {icon && <img src={icon} alt={`${name} logo`} className="w-10 h-10" />}
             <span className="text-4xl font-semibold font-overwatchOblique">{name}</span>
             <span className="text-4xl font-overwatch">{score}</span>
         </motion.div>

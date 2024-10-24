@@ -19,6 +19,7 @@ import debounce from "lodash.debounce";
 import MatchMapsDashboard from "@/components/MapDashboard";
 import { OverwatchMaps } from "@/lib/maps";
 import OverlaysCard from "@/components/OverlaysCard";
+import CasterDashboard from "@/components/CasterDashboard";
 
 const getSession = createServerFn("GET", async (id: string) => {
     try {
@@ -328,6 +329,7 @@ function SessionDashboard() {
                 </div>
             </form>
             {session.game === "Overwatch" && <MatchMapsDashboard sessionId={sessionId} gameMaps={OverwatchMaps} />}
+            <CasterDashboard sessionId={sessionId} />
             <OverlaysCard sessionId={sessionId} />
             <input type="file" ref={fileInputRef} style={{ display: "none" }} accept="image/*" />
         </div>
