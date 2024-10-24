@@ -72,7 +72,7 @@ useEffect(() => {
       <BorderAnimation clippath={clipPath}>
           <div className="flex flex-col items-center justify-center my-auto">
               <div className="flex h-full w-full z-30 flex-col items-baseline relative overflow-hidden">
-                  <div ref={placeholderRef} className="w-[90dvw] h-[90dvh] bg-secondary rounded-lg ">
+                  <div ref={placeholderRef} className="w-[90%] h-[90%] bg-secondary rounded-lg ">
                       {/* Placeholder for camera feed */}
                       <div className="w-full h-full flex items-center justify-center text-secondary-foreground flex-col">
                           <p>Camera Feed</p>

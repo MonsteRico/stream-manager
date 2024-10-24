@@ -64,25 +64,33 @@ export default function MapOverlay() {
     const [nextMapRef, nextAnimate] = useAnimate();
 
     async function mapChangeAnimation() {
-        animate(previousMapRef.current, { width: ["120%", "100%"]}, {
-            duration: 0.75,
-        })
-        nextAnimate(nextMapRef.current, { width: ["100%", "120%"] }, { 
-            duration: 0.75,
-        });
+        animate(
+            previousMapRef.current,
+            { width: ["120%", "100%"] },
+            {
+                duration: 0.75,
+            },
+        );
+        nextAnimate(
+            nextMapRef.current,
+            { width: ["100%", "120%"] },
+            {
+                duration: 0.75,
+            },
+        );
     }
 
     return (
-        <div className="w-full p-4 rounded-lg shadow-lg bg-[url(/images/puggMousepad2.png)] bg-no-repeat bg-cover h-screen">
-            <div className="flex flex-row px-8">
+        <div className="w-screen p-4 rounded-lg shadow-lg bg-[url(/images/puggMousepad2.png)] bg-no-repeat bg-cover h-screen">
+            <div className="flex flex-row px-8 w-full h-full">
                 {maps.map((map, index) => (
                     <motion.div
-                        ref={index == nextMapIndex ? nextMapRef : (index == previousMapIndex ? previousMapRef : null)}
+                        ref={index == nextMapIndex ? nextMapRef : index == previousMapIndex ? previousMapRef : null}
                         initial={{ opacity: 0, y: 50 }}
                         animate={index < visibleMaps.length ? { opacity: 1, y: 0 } : {}}
                         transition={{ duration: 0.5 }}
                         key={map.id}
-                        className={cn("relative h-[75dvh] w-full overflow-hidden bg-black", index == previousMapIndex && "w-[120%]")}
+                        className={cn("relative h-[75%] w-full overflow-hidden bg-black", index == previousMapIndex && "w-[120%]")}
                         style={{
                             backgroundImage: `url(${map.name && map.image ? map.image : ""})`,
                             backgroundRepeat: "no-repeat",
@@ -90,9 +98,11 @@ export default function MapOverlay() {
                             backgroundPosition: "center",
                         }}
                     >
-                        {!map.image && <div className="h-full p-16 flex items-center justify-center">
-                            <img src="/images/purdueEsports.png" alt="Purdue Esports" className="" />
-                        </div>}
+                        {!map.image && (
+                            <div className="h-full w-full p-16 flex items-center justify-center">
+                                <img src="/images/purdueEsports.png" alt="Purdue Esports" className="" />
+                            </div>
+                        )}
                         {map.winner && (
                             <div
                                 style={{

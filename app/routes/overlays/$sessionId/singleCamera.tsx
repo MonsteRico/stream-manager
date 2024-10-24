@@ -59,9 +59,9 @@ function SingleCamOverlay() {
 
     return (
         <BorderAnimation clippath={clipPath}>
-            <div className="flex flex-col items-center justify-center my-auto">
+            <div className="flex flex-col items-center justify-center my-auto w-full h-full">
                 <div className="flex h-full w-full z-30 flex-col items-baseline relative overflow-hidden">
-                    <div className="w-[90dvw] h-[90dvh] rounded-lg bg-secondary" ref={placeholderRef}>
+                    <div className="w-[90%] h-[90%] rounded-lg bg-secondary" ref={placeholderRef}>
                         {/* Placeholder for camera feed */}
                         <div className="w-full h-full flex items-center justify-center text-secondary-foreground">Camera Feed</div>
                     </div>
