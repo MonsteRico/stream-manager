@@ -190,7 +190,7 @@ function SessionDashboard() {
     };
 
     return (
-        <div className="container mx-auto p-4">
+        <div className="container mx-auto p-4 bg-background">
             <div className="mb-6 flex flex-row justify-between">
                 <div className="flex flex-col gap-2">
                     {editingSession ? (
@@ -330,7 +330,7 @@ function SessionDashboard() {
             </form>
             {session.game === "Overwatch" && <MatchMapsDashboard sessionId={sessionId} gameMaps={OverwatchMaps} />}
             <CasterDashboard sessionId={sessionId} />
-            <OverlaysCard sessionId={sessionId} />
+            <OverlaysCard sessionId={sessionId} team1DisplayName={session.team1DisplayName} team2DisplayName={session.team2DisplayName} />
             <input type="file" ref={fileInputRef} style={{ display: "none" }} accept="image/*" />
         </div>
     );

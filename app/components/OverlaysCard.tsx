@@ -6,16 +6,12 @@ import { NotFound } from "./NotFound";
 import { sessionQueryOptions } from "@/lib/serverFunctions";
 import { Button } from "./ui/button";
 
-function OverlaysCard({ sessionId }: { sessionId: string }) {
-    const sessionQuery = useSuspenseQuery({
-        ...sessionQueryOptions(sessionId),
-    });
+function OverlaysCard({ sessionId, team1DisplayName, team2DisplayName }: { sessionId: string; team1DisplayName: string; team2DisplayName: string }) {
 
-    if (!sessionQuery.data) {
-        return <NotFound>Session not found</NotFound>;
-    }
-
-    const session = sessionQuery.data;
+    const singleCameraWidth = Math.round(window.innerWidth * 0.9);
+    const singleCameraHeight = Math.round(window.innerHeight * 0.9);
+    const casterCameraWidth = Math.round(window.innerWidth * 0.33);
+    const casterCameraHeight = Math.round(window.innerHeight * 0.7);
 
     return (
         <div className="container mx-auto p-4">
@@ -36,12 +32,12 @@ function OverlaysCard({ sessionId }: { sessionId: string }) {
                     </Button>
                     <Button>
                         <Link target="_blank" to={`/overlays/${sessionId}/victory/team1`}>
-                            Victory {session.team1DisplayName}
+                            Victory {team1DisplayName}
                         </Link>
                     </Button>
                     <Button>
                         <Link target="_blank" to={`/overlays/${sessionId}/victory/team2`}>
-                            Victory {session.team2DisplayName}
+                            Victory {team2DisplayName}
                         </Link>
                     </Button>
                     <Button>
@@ -66,12 +62,12 @@ function OverlaysCard({ sessionId }: { sessionId: string }) {
                     </Button>
                     <Button>
                         <Link target="_blank" to={`/overlays/${sessionId}/casters`}>
-                            Casters
+                            Casters [{casterCameraWidth}x{casterCameraHeight}]
                         </Link>
                     </Button>
                     <Button>
                         <Link target="_blank" to={`/overlays/${sessionId}/casters/singleCamera`}>
-                            Casters (Single Camera)
+                            Casters (Single Camera) [{singleCameraWidth}x{singleCameraHeight}]
                         </Link>
                     </Button>
                     <Button>

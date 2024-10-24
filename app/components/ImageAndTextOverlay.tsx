@@ -16,6 +16,10 @@ function ImageAndTextOverlay({
     text: string;
     textClassName?: string;
 }) {
+    const startX = window.innerWidth * (624/1754);
+    const endX = window.innerWidth * (1225/1754);
+    const startY = window.innerHeight * (520/957);
+    const endY = window.innerHeight * (240/957);
     return (
         <BorderAnimation>
             <div className="flex flex-col items-center justify-center my-auto">
@@ -25,10 +29,10 @@ function ImageAndTextOverlay({
                 </div>
                 <MovingDots
                     backgroundColor="#d1d3d4"
-                    startX={614}
-                    startY={520}
-                    endX={1225}
-                    endY={240}
+                    startX={startX}
+                    startY={startY}
+                    endX={endX}
+                    endY={endY}
                     numDots={3}
                     repeatDelay={1.5}
                     staggerDelay={0.2}
