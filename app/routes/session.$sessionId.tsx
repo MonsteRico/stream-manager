@@ -9,7 +9,7 @@ import { createFileRoute, ErrorComponent, redirect, useRouter, type ErrorCompone
 import { createServerFn } from "@tanstack/start";
 import { eq } from "drizzle-orm";
 import { useState, useCallback, useRef } from "react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -79,6 +79,7 @@ function SessionDashboard() {
             team2Logo,
             team1Score,
             team2Score,
+            team1First,
         }: NewSession) => {
             await updateSession({
                 id: sessionId,
@@ -92,7 +93,8 @@ function SessionDashboard() {
                 team1Score,
                 team2Score,
                 game,
-                mapInfo
+                mapInfo,
+                team1First
             });
         },
         onMutate: (variables) => {
@@ -189,6 +191,15 @@ function SessionDashboard() {
         console.log("Session updated:", session);
     };
 
+    const [teamOrder, setTeamOrder] = useState([1, 2]);
+
+    const flipSides = () => {
+        setTeamOrder(teamOrder.reverse());
+        mutate({
+            team1First: !session.team1First
+        })
+    }
+
     return (
         <div className="container mx-auto p-4 bg-background">
             <div className="mb-6 flex flex-row justify-between">
@@ -239,94 +250,106 @@ function SessionDashboard() {
                 </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {[1, 2].map((team) => (
-                        <div key={team} className="space-y-4">
-                            <div className="flex items-center justify-between">
-                                {editingTeam === team ? (
-                                    <Input
-                                        className="text-2xl font-bold bg-transparent border-b border-white flex-grow mr-4"
-                                        defaultValue={session[`team${team}DisplayName`]}
-                                        onChange={(e) => handleTeamNameChange(team as 1 | 2, e.target.value)}
-                                        onBlur={() => setEditingTeam(null)}
-                                        autoFocus
-                                    />
-                                ) : (
-                                    <h2
-                                        className="text-2xl font-bold cursor-pointer hover:text-gray-300 transition-colors duration-200 flex-grow mr-4"
-                                        onClick={() => setEditingTeam(team as 1 | 2)}
-                                    >
-                                        {session[`team${team}DisplayName` as "team1DisplayName" | "team2DisplayName"]}{" "}
-                                        <Edit2 className="inline-block w-4 h-4 ml-2" />
-                                    </h2>
-                                )}
-                                <div className="flex items-center">
-                                    <div className="flex flex-col mr-2">
-                                        <Button
-                                            size="sm"
-                                            variant="success"
-                                            onClick={() => handleScoreChange(team as 1 | 2, true)}
-                                            className="px-2 py-0 h-6"
-                                        >
-                                            <ChevronUp className="h-4 w-4" />
-                                        </Button>
-                                        <Button
-                                            size="sm"
-                                            variant="destructive"
-                                            onClick={() => handleScoreChange(team as 1 | 2, false)}
-                                            className="px-2 py-0 h-6 mt-1"
-                                        >
-                                            <ChevronDown className="h-4 w-4" />
-                                        </Button>
-                                    </div>
-                                    <span className="text-3xl font-bold">{session[`team${team}Score` as "team1Score" | "team2Score"]}</span>
-                                </div>
-                            </div>
-                            <div className="flex space-x-4">
-                                <div className="flex-1">
-                                    <Label htmlFor={`team${team}Color`}>Color</Label>
-                                    <Input
-                                        id={`team${team}Color`}
-                                        name={`team${team}Color`}
-                                        type="color"
-                                        value={session[`team${team}Color` as "team1Color" | "team2Color"]}
-                                        onChange={handleInputChange}
-                                        className="w-full h-10 p-1 bg-transparent border-2 border-gray-600 rounded"
-                                    />
-                                </div>
-                                <div className="flex-1">
-                                    <Label htmlFor={`team${team}Logo`}>Logo</Label>
-                                    <Popover>
-                                        <PopoverTrigger asChild>
-                                            <Button variant="outline" className="w-full h-10">
-                                                {session[`team${team}Logo` as "team1Logo" | "team2Logo"] ? (
-                                                    <img
-                                                        src={session[`team${team}Logo` as "team1Logo" | "team2Logo"] ?? ""}
-                                                        alt={`Team ${team} logo`}
-                                                        className="w-full h-full object-contain"
-                                                    />
-                                                ) : (
-                                                    "Set Logo"
-                                                )}
-                                            </Button>
-                                        </PopoverTrigger>
-                                        <PopoverContent className="w-40">
-                                            <div className="grid gap-4">
-                                                <Button onClick={() => handleLogoChange(team as 1 | 2, "url")}>
-                                                    <Link className="mr-2 h-4 w-4" /> URL
+            <form onSubmit={handleSubmit} className="space-y-6 container mx-auto p-4">
+                <Card className="bg-gradient-to-r from-gray-800 to-gray-900 text-white">
+                    <CardHeader>
+                        <CardTitle className="text-2xl font-bold text-center">Edit Teams</CardTitle>
+                        <div>
+                            <Button onClick={flipSides}>Flip Teams</Button>
+                        </div>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            {teamOrder.map((team) => (
+                                <div key={team} className="space-y-4">
+                                    <div className="flex items-center justify-between">
+                                        {editingTeam === team ? (
+                                            <Input
+                                                className="text-2xl font-bold bg-transparent border-b border-white flex-grow mr-4"
+                                                defaultValue={session[`team${team}DisplayName`]}
+                                                onChange={(e) => handleTeamNameChange(team as 1 | 2, e.target.value)}
+                                                onBlur={() => setEditingTeam(null)}
+                                                autoFocus
+                                            />
+                                        ) : (
+                                            <h2
+                                                className="text-2xl font-bold cursor-pointer hover:text-gray-300 transition-colors duration-200 flex-grow mr-4"
+                                                onClick={() => setEditingTeam(team as 1 | 2)}
+                                            >
+                                                {session[`team${team}DisplayName` as "team1DisplayName" | "team2DisplayName"]}{" "}
+                                                <Edit2 className="inline-block w-4 h-4 ml-2" />
+                                            </h2>
+                                        )}
+                                        <div className="flex items-center">
+                                            <div className="flex flex-col mr-2">
+                                                <Button
+                                                    size="sm"
+                                                    variant="success"
+                                                    onClick={() => handleScoreChange(team as 1 | 2, true)}
+                                                    className="px-2 py-0 h-6"
+                                                >
+                                                    <ChevronUp className="h-4 w-4" />
                                                 </Button>
-                                                <Button onClick={() => handleLogoChange(team as 1 | 2, "file")}>
-                                                    <Upload className="mr-2 h-4 w-4" /> Upload
+                                                <Button
+                                                    size="sm"
+                                                    variant="destructive"
+                                                    onClick={() => handleScoreChange(team as 1 | 2, false)}
+                                                    className="px-2 py-0 h-6 mt-1"
+                                                >
+                                                    <ChevronDown className="h-4 w-4" />
                                                 </Button>
                                             </div>
-                                        </PopoverContent>
-                                    </Popover>
+                                            <span className="text-3xl font-bold">
+                                                {session[`team${team}Score` as "team1Score" | "team2Score"]}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div className="flex space-x-4">
+                                        <div className="flex-1">
+                                            <Label htmlFor={`team${team}Color`}>Color</Label>
+                                            <Input
+                                                id={`team${team}Color`}
+                                                name={`team${team}Color`}
+                                                type="color"
+                                                value={session[`team${team}Color` as "team1Color" | "team2Color"]}
+                                                onChange={handleInputChange}
+                                                className="w-full h-10 p-1 bg-transparent border-2 border-gray-600 rounded"
+                                            />
+                                        </div>
+                                        <div className="flex-1">
+                                            <Label htmlFor={`team${team}Logo`}>Logo</Label>
+                                            <Popover>
+                                                <PopoverTrigger asChild>
+                                                    <Button variant="outline" className="w-full h-10">
+                                                        {session[`team${team}Logo` as "team1Logo" | "team2Logo"] ? (
+                                                            <img
+                                                                src={session[`team${team}Logo` as "team1Logo" | "team2Logo"] ?? ""}
+                                                                alt={`Team ${team} logo`}
+                                                                className="w-full h-full object-contain"
+                                                            />
+                                                        ) : (
+                                                            "Set Logo"
+                                                        )}
+                                                    </Button>
+                                                </PopoverTrigger>
+                                                <PopoverContent className="w-40">
+                                                    <div className="grid gap-4">
+                                                        <Button onClick={() => handleLogoChange(team as 1 | 2, "url")}>
+                                                            <Link className="mr-2 h-4 w-4" /> URL
+                                                        </Button>
+                                                        <Button onClick={() => handleLogoChange(team as 1 | 2, "file")}>
+                                                            <Upload className="mr-2 h-4 w-4" /> Upload
+                                                        </Button>
+                                                    </div>
+                                                </PopoverContent>
+                                            </Popover>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
+                    </CardContent>
+                </Card>
             </form>
             {session.game === "Overwatch" && <MatchMapsDashboard sessionId={sessionId} gameMaps={OverwatchMaps} />}
             <CasterDashboard sessionId={sessionId} />

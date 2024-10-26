@@ -40,14 +40,40 @@ function MatchOverlay() {
 
     return (
         <div className="relative w-full h-12 flex flex-row !bg-white">
-            <TeamInfo name={session.team1DisplayName} icon={session.team1Logo} score={session.team1Score} color={session.team1Color} />
-            <TeamInfo
-                name={session.team2DisplayName}
-                icon={session.team2Logo}
-                score={session.team2Score}
-                color={session.team2Color}
-                flipped
-            />
+            {session.team1First && (
+                <>
+                    <TeamInfo
+                        name={session.team1DisplayName}
+                        icon={session.team1Logo}
+                        score={session.team1Score}
+                        color={session.team1Color}
+                    />
+                    <TeamInfo
+                        name={session.team2DisplayName}
+                        icon={session.team2Logo}
+                        score={session.team2Score}
+                        color={session.team2Color}
+                        flipped
+                    />
+                </>
+            )}
+            {!session.team1First && (
+                <>
+                    <TeamInfo
+                        name={session.team2DisplayName}
+                        icon={session.team2Logo}
+                        score={session.team2Score}
+                        color={session.team2Color}
+                    />
+                    <TeamInfo
+                        name={session.team1DisplayName}
+                        icon={session.team1Logo}
+                        score={session.team1Score}
+                        color={session.team1Color}
+                        flipped
+                    />
+                </>
+            )}
         </div>
     );
 }

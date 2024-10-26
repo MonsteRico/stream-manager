@@ -1,6 +1,7 @@
 import { sql } from "drizzle-orm";
 import {
 
+  boolean,
   integer,
   jsonb,
   pgEnum,
@@ -56,6 +57,7 @@ export const sessionsTable = createTable("sessions", {
   team2Logo: varchar({ length: 255 }),
   mapInfo: jsonb("map_info").$type<MapInfo>().array().notNull().default(sql`'{}'::jsonb[]`),
   casters: jsonb("casters").$type<CasterInfo>().array().notNull().default(sql`'{}'::jsonb[]`),
+  team1First: boolean().notNull().default(true),
 });
 
 export type Session = typeof sessionsTable.$inferSelect;

@@ -44,6 +44,7 @@
     body {
         @apply text-foreground;
     }
+
 }
 
 .roboto-thin {

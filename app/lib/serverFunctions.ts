@@ -45,7 +45,8 @@ export const updateSession = createServerFn(
         team1Score,
         team2Score,
         mapInfo,
-        casters
+        casters,
+        team1First
     }: NewSession & { id: string }) => {
         const session = await db.query.sessionsTable.findFirst({
             where: eq(sessionsTable.id, id),
@@ -73,7 +74,8 @@ export const updateSession = createServerFn(
                 team1Score,
                 team2Score,
                 mapInfo,
-                casters
+                casters,
+                team1First
             })
             .where(eq(sessionsTable.id, id))
             .returning();
