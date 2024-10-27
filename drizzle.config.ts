@@ -8,5 +8,5 @@ export default {
   dbCredentials: {
     url: env.DATABASE_URL,
   },
-  tablesFilter: ["stream-manager_*"],
+  tablesFilter: ["stream-manager_*"]
 } satisfies Config;

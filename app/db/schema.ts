@@ -44,20 +44,35 @@ export type CasterInfo = {
 export const gameEnum = pgEnum('game', ["Overwatch", "Splatoon"]);
 
 export const sessionsTable = createTable("sessions", {
-  id: uuid().primaryKey().defaultRandom(),
-  game: gameEnum(),
-  name: varchar({ length: 255 }).notNull().default("New Session"),
-  team1DisplayName: varchar({ length: 255 }).notNull().default("Team 1"),
-  team2DisplayName: varchar({ length: 255 }).notNull().default("Team 2"),
-  team1Score: integer().notNull().default(0),
-  team2Score: integer().notNull().default(0),
-  team1Color: varchar({ length: 255 }).notNull().default("#0000ff"),
-  team2Color: varchar({ length: 255 }).notNull().default("#ff0000"),
-  team1Logo: varchar({ length: 255 }),
-  team2Logo: varchar({ length: 255 }),
-  mapInfo: jsonb("map_info").$type<MapInfo>().array().notNull().default(sql`'{}'::jsonb[]`),
-  casters: jsonb("casters").$type<CasterInfo>().array().notNull().default(sql`'{}'::jsonb[]`),
-  team1First: boolean().notNull().default(true),
+    id: uuid().primaryKey().defaultRandom(),
+    game: gameEnum(),
+    name: varchar({ length: 255 }).notNull().default("New Session"),
+    team1DisplayName: varchar({ length: 255 }).notNull().default("Team 1"),
+    team2DisplayName: varchar({ length: 255 }).notNull().default("Team 2"),
+    team1Score: integer().notNull().default(0),
+    team2Score: integer().notNull().default(0),
+    team1Color: varchar({ length: 255 }).notNull().default("#0000ff"),
+    team2Color: varchar({ length: 255 }).notNull().default("#ff0000"),
+    team1Logo: varchar({ length: 255 }),
+    team2Logo: varchar({ length: 255 }),
+    team1Record: varchar({ length: 255 }).default("").notNull(),
+    team2Record: varchar({ length: 255 }).default("").notNull(),
+    team1Abbreviation: varchar({ length: 255 }).default("").notNull(),
+    team2Abbreviation: varchar({ length: 255 }).default("").notNull(),
+    team1Rank: varchar({ length: 255 }).default("").notNull(),
+    team2Rank: varchar({ length: 255 }).default("").notNull(),
+    mapInfo: jsonb("map_info")
+        .$type<MapInfo>()
+        .array()
+        .notNull()
+        .default(sql`ARRAY[]::jsonb[]`),
+    casters: jsonb("casters")
+        .$type<CasterInfo>()
+        .array()
+        .notNull()
+        .default(sql`ARRAY[]::jsonb[]`),
+    team1First: boolean().notNull().default(true),
+    matchName: varchar({ length: 255 }).default("").notNull(),
 });
 
 export type Session = typeof sessionsTable.$inferSelect;

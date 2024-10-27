@@ -80,6 +80,12 @@ function SessionDashboard() {
             team1Score,
             team2Score,
             team1First,
+            team1Abbreviation,
+            team2Abbreviation,
+            team1Record,
+            team2Record,
+            team1Rank,
+            team2Rank,
         }: NewSession) => {
             await updateSession({
                 id: sessionId,
@@ -94,7 +100,13 @@ function SessionDashboard() {
                 team2Score,
                 game,
                 mapInfo,
-                team1First
+                team1First,
+                team1Abbreviation,
+                team2Abbreviation,
+                team1Record,
+                team2Record,
+                team1Rank,
+                team2Rank,
             });
         },
         onMutate: (variables) => {
@@ -112,10 +124,7 @@ function SessionDashboard() {
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name: field, value } = e.target;
-        mutate({
-            [field]: value,
-        });
+        debouncedInputChange(e.target.name, e.target.value);
     };
 
     const handleSelectChange = (name: string, value: string) => {
@@ -144,6 +153,15 @@ function SessionDashboard() {
         debounce((team: 1 | 2, value: string) => {
             mutate({
                 [`team${team}DisplayName`]: value,
+            });
+        }, 300),
+        [],
+    );
+
+    const debouncedInputChange = useCallback(
+        debounce(( name: string, value: string ) => {
+            mutate({
+                [name]: value,
             });
         }, 300),
         [],
@@ -302,6 +320,41 @@ function SessionDashboard() {
                                             <span className="text-3xl font-bold">
                                                 {session[`team${team}Score` as "team1Score" | "team2Score"]}
                                             </span>
+                                        </div>
+                                    </div>
+                                    <div className="flex space-x-4">
+                                        <div className="flex-1">
+                                            <Label htmlFor={`team${team}Abbreviation`}>Abbreviation</Label>
+                                            <Input
+                                                id={`team${team}Abbreviation`}
+                                                name={`team${team}Abbreviation`}
+                                                type="text"
+                                                value={session[`team${team}Abbreviation` as "team1Abbreviation" | "team2Abbreviation"]}
+                                                onChange={handleInputChange}
+                                                className="w-full h-10 p-1 bg-transparent border-2 border-gray-600 rounded"
+                                            />
+                                        </div>
+                                        <div className="flex-1">
+                                            <Label htmlFor={`team${team}Record`}>Record</Label>
+                                            <Input
+                                                id={`team${team}Record`}
+                                                name={`team${team}Record`}
+                                                type="text"
+                                                value={session[`team${team}Record` as "team1Record" | "team2Record"]}
+                                                onChange={handleInputChange}
+                                                className="w-full h-10 p-1 bg-transparent border-2 border-gray-600 rounded"
+                                            />
+                                        </div>
+                                        <div className="flex-1">
+                                            <Label htmlFor={`team${team}Rank`}>Rank/Seed</Label>
+                                            <Input
+                                                id={`team${team}Rank`}
+                                                name={`team${team}Rank`}
+                                                type="text"
+                                                value={session[`team${team}Rank` as "team1Rank" | "team2Rank"]}
+                                                onChange={handleInputChange}
+                                                className="w-full h-10 p-1 bg-transparent border-2 border-gray-600 rounded"
+                                            />
                                         </div>
                                     </div>
                                     <div className="flex space-x-4">
