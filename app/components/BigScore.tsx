@@ -1,7 +1,9 @@
 import type { Session } from "@/db/schema";
+import { getGameLogoSrc } from "@/lib/utils";
 import React from "react";
 
 function BigScore({
+    game,
     team1Color,
     team1DisplayName,
     team1Logo,
@@ -20,7 +22,7 @@ function BigScore({
     return (
         <div className="w-full flex flex-row px-8 h-[10%] justify-between mb-8 font-overwatch">
             <div className="flex flex-row items-center w-full h-full" style={{ backgroundColor: team1Color }}>
-                <img src={team1Logo ?? "/images/placeholderLogo.png"} alt={team1DisplayName} className="h-16 p-2" />
+                <img src={team1Logo ?? getGameLogoSrc(game)} alt={team1DisplayName} className="h-16 p-2" />
                 <div className="flex flex-row justify-between items-center w-full px-4">
                     <div className="flex flex-row items-end gap-4">
                         <h3 className="text-6xl font-bold">{team1Abbreviation != "" ? team1Abbreviation : team1DisplayName}</h3>
@@ -33,7 +35,7 @@ function BigScore({
                 </div>
             </div>
             <div className="flex flex-row-reverse items-center w-full h-full" style={{ backgroundColor: team2Color }}>
-                <img src={team2Logo ?? "/images/placeholderLogo.png"} alt={team2DisplayName} className="h-16 p-2" />
+                <img src={team2Logo ?? getGameLogoSrc(game)} alt={team2DisplayName} className="h-16 p-2" />
                 <div className="flex flex-row-reverse items-center justify-between w-full px-4">
                     <div className="flex flex-row-reverse items-end gap-4">
                         <h3 className="text-6xl font-bold">{team2Abbreviation != "" ? team2Abbreviation : team2DisplayName}</h3>

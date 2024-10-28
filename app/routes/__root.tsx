@@ -72,7 +72,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
                 <Meta />
             </Head>
             <Body>
-                <main className="bg-transparent">{children}</main>
+                {children}
                 <ScrollRestoration />
                 <Scripts />
             </Body>

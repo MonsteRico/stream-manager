@@ -77,3 +77,15 @@ export const sessionsTable = createTable("sessions", {
 
 export type Session = typeof sessionsTable.$inferSelect;
 export type NewSession = typeof sessionsTable.$inferInsert;
+
+export const teamsTable = createTable("teams", {
+    id: uuid().primaryKey().defaultRandom(),
+    name: varchar({ length: 255 }).notNull().default("New Team"),
+    color: varchar({ length: 255 }).notNull().default("#000000"),
+    logo: varchar({ length: 255 }).notNull().default(""),
+    abbreviation: varchar({ length: 255 }).notNull().default(""),
+    rank: varchar({length: 255}).notNull().default(""),
+});
+
+export type Team = typeof teamsTable.$inferSelect;
+export type NewTeam = typeof teamsTable.$inferInsert;
