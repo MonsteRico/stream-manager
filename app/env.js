@@ -10,6 +10,7 @@ export const env = createEnv({
         DATABASE_URL: z.string().url(),
         NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
         STARTGG_API_TOKEN: z.string(),
+        UPLOADTHING_TOKEN: z.string(),
     },
 
     /**
@@ -29,6 +30,7 @@ export const env = createEnv({
         DATABASE_URL: process.env.DATABASE_URL,
         NODE_ENV: process.env.NODE_ENV,
         STARTGG_API_TOKEN: process.env.STARTGG_API_TOKEN,
+        UPLOADTHING_TOKEN: process.env.UPLOADTHING_TOKEN,
     },
     /**
      * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

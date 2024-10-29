@@ -10,6 +10,11 @@ import type { UseMutateAsyncFunction } from "@tanstack/react-query";
 import { LoaderPinwheel } from "lucide-react";
 
 function ChoosePresetTeams({ sessionId, mutateFunction }: { sessionId: string; mutateFunction: UseMutateAsyncFunction<unknown, unknown, NewSession, unknown> }) {
+    if (!localStorage) {
+        return <div>Local storage not available</div>;
+    }
+
+
     const localStorageTeams = localStorage.getItem("myLocalTeams");
     const teams = localStorageTeams ? (JSON.parse(localStorageTeams) as Team[]) : ([] as Team[]);
 

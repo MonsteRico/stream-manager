@@ -23,6 +23,8 @@ import { NotFound } from "@/components/NotFound";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import ChoosePresetTeams from "@/components/ChoosePresetTeams";
 import { useUpdateSessionMutation } from "@/lib/utils";
+import { useUploadThing } from "@/lib/uploadthing";
+import { UploadButton } from "@/lib/uploadthing";
 
 const getSession = createServerFn("GET", async (id: string) => {
     try {
@@ -129,7 +131,7 @@ function SessionDashboard() {
         debouncedTeamNameChange(team, value);
     };
 
-    const handleLogoChange = (team: 1 | 2, type: "url" | "file") => {
+    const handleLogoChange = (team: 1 | 2, type: "url") => {
         if (type === "url") {
             const url = prompt("Enter logo URL:");
             if (url) {
@@ -137,24 +139,6 @@ function SessionDashboard() {
                     [`team${team}Logo`]: url,
                 });
             }
-        } else if (type === "file" && fileInputRef.current) {
-            alert("I haven't finished allowing uploaded files yet use URLs for now");
-            // fileInputRef.current.click();
-            // fileInputRef.current.onchange = (e) => {
-            //     const file = (e.target as HTMLInputElement).files?.[0];
-            //     if (file) {
-            //         const reader = new FileReader();
-            //         reader.onload = (e) => {
-            //             const result = e.target?.result;
-            //             if (typeof result === "string") {
-            //                 mutate({
-            //                     [`team${team}Logo`]: result,
-            //                 });
-            //             }
-            //         };
-            //         reader.readAsDataURL(file);
-            //     }
-            // };
         }
     };
 
@@ -340,14 +324,20 @@ function SessionDashboard() {
                                                         )}
                                                     </Button>
                                                 </PopoverTrigger>
-                                                <PopoverContent className="w-40">
+                                                <PopoverContent className="w-fit">
                                                     <div className="grid gap-4">
                                                         <Button onClick={() => handleLogoChange(team as 1 | 2, "url")}>
                                                             <Link className="mr-2 h-4 w-4" /> URL
                                                         </Button>
-                                                        <Button onClick={() => handleLogoChange(team as 1 | 2, "file")}>
-                                                            <Upload className="mr-2 h-4 w-4" /> Upload
-                                                        </Button>
+                                                        <UploadButton
+                                                            className="ut-button:bg-primary ut-button:text-primary-foreground ut-button:hover:bg-primary/90"
+                                                            endpoint="imageUploader"
+                                                            onClientUploadComplete={([{ url }]) => {
+                                                                mutate({
+                                                                    [`team${team}Logo`]: url,
+                                                                });
+                                                            }}
+                                                        />
                                                     </div>
                                                 </PopoverContent>
                                             </Popover>

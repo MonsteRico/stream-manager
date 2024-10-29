@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { env } from "@/env";
 import { getStartGGTeams } from "@/lib/serverFunctions";
+import { UploadButton } from "@/lib/uploadthing";
 
 export const Route = createFileRoute("/_dashboard/manageTeams")({
     component: TeamDashboard,
@@ -129,11 +130,18 @@ export default function TeamDashboard() {
             <Card className="w-full max-w-2xl mx-auto">
                 <CardHeader>
                     <CardTitle>Import Teams from start.gg</CardTitle>
-                    <CardDescription>This will import all the teams from a start.gg event. You can find the event slug in the URL of the event page. This will only import the names and logos, so you will have to manually set anything else on the dashboard!</CardDescription>
+                    <CardDescription>
+                        This will import all the teams from a start.gg event. You can find the event slug in the URL of the event page. This
+                        will only import the names and logos, so you will have to manually set anything else on the dashboard!
+                    </CardDescription>
                 </CardHeader>
                 <CardContent>
                     <div className="flex space-x-2">
-                        <Input placeholder="Enter start.gg event slug (e.g. tournament/abcd/event/efgh)" value={eventSlug} onChange={(e) => setEventSlug(e.target.value)} />
+                        <Input
+                            placeholder="Enter start.gg event slug (e.g. tournament/abcd/event/efgh)"
+                            value={eventSlug}
+                            onChange={(e) => setEventSlug(e.target.value)}
+                        />
                         <Button onClick={importTeams} disabled={isImporting || !eventSlug}>
                             {isImporting ? "Importing..." : "Import"}
                         </Button>
@@ -166,10 +174,14 @@ export default function TeamDashboard() {
                                     placeholder="Enter logo URL"
                                 />
                                 <Label htmlFor="file-upload" className="cursor-pointer">
-                                    <div className="flex items-center justify-center w-10 h-10 bg-primary text-primary-foreground rounded-md">
-                                        <Upload className="h-5 w-5" />
-                                    </div>
-                                    <input id="file-upload" type="file" accept="image/*" onChange={handleFileUpload} className="hidden" />
+                                    <UploadButton
+                                        className="ut-button:bg-primary ut-button:text-primary-foreground ut-button:hover:bg-primary/90"
+                                        endpoint="imageUploader"
+                                        onClientUploadComplete={([{ url }]) => {
+                                            setNewTeam((prev) => ({ ...prev, logo: url }));
+                                            alert("Logo uploaded successfully!");
+                                        }}
+                                    />
                                 </Label>
                             </div>
                         </div>
@@ -204,7 +216,10 @@ export default function TeamDashboard() {
             <Card className="w-full max-w-2xl mx-auto mt-8">
                 <CardHeader>
                     <CardTitle>Saved Teams</CardTitle>
-                    <CardDescription>Unfortunately you cannot edit locally saved teams. When you use the team on the dashboard, you can still edit the values then.</CardDescription>
+                    <CardDescription>
+                        Unfortunately you cannot edit locally saved teams. When you use the team on the dashboard, you can still edit the
+                        values then.
+                    </CardDescription>
                 </CardHeader>
                 <CardContent>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
