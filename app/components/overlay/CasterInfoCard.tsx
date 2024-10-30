@@ -1,5 +1,4 @@
 import { Card, CardContent } from "@/components/ui/card";
-import type { CasterInfo } from "@/db/schema";
 import { Twitter, Youtube, Instagram, MessageCircle, Twitch } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";

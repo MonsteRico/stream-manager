@@ -1,4 +1,3 @@
-import React from 'react'
 import BorderAnimation from './BorderAnimation';
 import MovingDots from './MovingDots';
 import { cn } from '@/lib/utils';

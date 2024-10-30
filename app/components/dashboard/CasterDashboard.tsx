@@ -9,7 +9,7 @@ import { Trash2 } from "lucide-react";
 import type { CasterInfo, NewSession } from "@/db/schema";
 import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { sessionQueryOptions, updateSession } from "@/lib/serverFunctions";
-import { NotFound } from "./NotFound";
+import { NotFound } from "../NotFound";
 import debounce from "lodash.debounce";
 
 export default function CasterDashboard({ sessionId }: { sessionId: string }) {
@@ -64,7 +64,7 @@ export default function CasterDashboard({ sessionId }: { sessionId: string }) {
         },
     });
 
-    const [casters, setCasters] = useState<CasterInfo[]>(session.casters as CasterInfo[] || []);
+    const [casters, setCasters] = useState<CasterInfo[]>((session.casters as CasterInfo[]) || []);
 
     const addCaster = () => {
         const newCaster: CasterInfo = {

@@ -3,10 +3,9 @@ import { createFileRoute, redirect } from '@tanstack/react-router'
 import { sessionQueryOptions } from '@/lib/serverFunctions'
 import { NotFound } from '@/components/NotFound'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import CasterInfoCard from '@/components/CasterInfoCard'
+import CasterInfoCard from '@/components/overlay/CasterInfoCard'
 import type { CasterInfo } from '@/db/schema'
-import MovingDots from '@/components/MovingDots'
-import BorderAnimation from '@/components/BorderAnimation'
+import BorderAnimation from '@/components/overlay/BorderAnimation'
 import { useEffect, useRef, useState } from 'react'
 
 export const Route = createFileRoute('/overlays/_overlay/$sessionId/casters')({

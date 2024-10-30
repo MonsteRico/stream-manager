@@ -7,7 +7,7 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { redirect } from '@tanstack/react-router'
 import { cn } from '@/lib/utils'
-import BigScore from '@/components/BigScore'
+import BigScore from '@/components/overlay/BigScore';
 
 const placeholderImage =
   'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { AlertCircle, Upload, X } from "lucide-react";
+import { AlertCircle, X } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import type { Team } from "@/db/schema";
 import {
@@ -18,7 +18,6 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { env } from "@/env";
 import { getStartGGTeams } from "@/lib/serverFunctions";
 import { UploadButton } from "@/lib/uploadthing";
 

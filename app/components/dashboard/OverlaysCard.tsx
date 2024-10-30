@@ -1,13 +1,16 @@
-import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Link } from "@tanstack/react-router";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { NotFound } from "./NotFound";
-import { sessionQueryOptions } from "@/lib/serverFunctions";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
-function OverlaysCard({ sessionId, team1DisplayName, team2DisplayName }: { sessionId: string; team1DisplayName: string; team2DisplayName: string }) {
-
+function OverlaysCard({
+    sessionId,
+    team1DisplayName,
+    team2DisplayName,
+}: {
+    sessionId: string;
+    team1DisplayName: string;
+    team2DisplayName: string;
+}) {
     const singleCameraWidth = Math.round(window.innerWidth * 0.9);
     const singleCameraHeight = Math.round(window.innerHeight * 0.9);
     const casterCameraWidth = Math.round(window.innerWidth * 0.33);

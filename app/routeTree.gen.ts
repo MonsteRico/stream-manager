@@ -18,7 +18,6 @@ import { Route as DashboardImport } from './routes/_dashboard'
 import { Route as IndexImport } from './routes/index'
 import { Route as OverlaysOverlayImport } from './routes/overlays/_overlay'
 import { Route as DashboardManageTeamsImport } from './routes/_dashboard/manageTeams'
-import { Route as DashboardManageCastersImport } from './routes/_dashboard/manageCasters'
 import { Route as DashboardSessionSessionIdImport } from './routes/_dashboard/session.$sessionId'
 import { Route as OverlaysOverlaySessionIdWaitingForNextImport } from './routes/overlays/_overlay.$sessionId/waitingForNext'
 import { Route as OverlaysOverlaySessionIdThanksImport } from './routes/overlays/_overlay.$sessionId/thanks'
@@ -64,11 +63,6 @@ const OverlaysOverlayRoute = OverlaysOverlayImport.update({
 
 const DashboardManageTeamsRoute = DashboardManageTeamsImport.update({
   path: '/manageTeams',
-  getParentRoute: () => DashboardRoute,
-} as any)
-
-const DashboardManageCastersRoute = DashboardManageCastersImport.update({
-  path: '/manageCasters',
   getParentRoute: () => DashboardRoute,
 } as any)
 
@@ -161,13 +155,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/new'
       preLoaderRoute: typeof NewImport
       parentRoute: typeof rootRoute
-    }
-    '/_dashboard/manageCasters': {
-      id: '/_dashboard/manageCasters'
-      path: '/manageCasters'
-      fullPath: '/manageCasters'
-      preLoaderRoute: typeof DashboardManageCastersImport
-      parentRoute: typeof DashboardImport
     }
     '/_dashboard/manageTeams': {
       id: '/_dashboard/manageTeams'
@@ -273,13 +260,11 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface DashboardRouteChildren {
-  DashboardManageCastersRoute: typeof DashboardManageCastersRoute
   DashboardManageTeamsRoute: typeof DashboardManageTeamsRoute
   DashboardSessionSessionIdRoute: typeof DashboardSessionSessionIdRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
-  DashboardManageCastersRoute: DashboardManageCastersRoute,
   DashboardManageTeamsRoute: DashboardManageTeamsRoute,
   DashboardSessionSessionIdRoute: DashboardSessionSessionIdRoute,
 }
@@ -339,7 +324,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof DashboardRouteWithChildren
   '/new': typeof NewRoute
-  '/manageCasters': typeof DashboardManageCastersRoute
   '/manageTeams': typeof DashboardManageTeamsRoute
   '/overlays': typeof OverlaysOverlayRouteWithChildren
   '/session/$sessionId': typeof DashboardSessionSessionIdRoute
@@ -359,7 +343,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof DashboardRouteWithChildren
   '/new': typeof NewRoute
-  '/manageCasters': typeof DashboardManageCastersRoute
   '/manageTeams': typeof DashboardManageTeamsRoute
   '/overlays': typeof OverlaysOverlayRouteWithChildren
   '/session/$sessionId': typeof DashboardSessionSessionIdRoute
@@ -380,7 +363,6 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_dashboard': typeof DashboardRouteWithChildren
   '/new': typeof NewRoute
-  '/_dashboard/manageCasters': typeof DashboardManageCastersRoute
   '/_dashboard/manageTeams': typeof DashboardManageTeamsRoute
   '/overlays': typeof OverlaysRouteWithChildren
   '/overlays/_overlay': typeof OverlaysOverlayRouteWithChildren
@@ -403,7 +385,6 @@ export interface FileRouteTypes {
     | '/'
     | ''
     | '/new'
-    | '/manageCasters'
     | '/manageTeams'
     | '/overlays'
     | '/session/$sessionId'
@@ -422,7 +403,6 @@ export interface FileRouteTypes {
     | '/'
     | ''
     | '/new'
-    | '/manageCasters'
     | '/manageTeams'
     | '/overlays'
     | '/session/$sessionId'
@@ -441,7 +421,6 @@ export interface FileRouteTypes {
     | '/'
     | '/_dashboard'
     | '/new'
-    | '/_dashboard/manageCasters'
     | '/_dashboard/manageTeams'
     | '/overlays'
     | '/overlays/_overlay'
@@ -497,17 +476,12 @@ export const routeTree = rootRoute
     "/_dashboard": {
       "filePath": "_dashboard.tsx",
       "children": [
-        "/_dashboard/manageCasters",
         "/_dashboard/manageTeams",
         "/_dashboard/session/$sessionId"
       ]
     },
     "/new": {
       "filePath": "new.tsx"
-    },
-    "/_dashboard/manageCasters": {
-      "filePath": "_dashboard/manageCasters.tsx",
-      "parent": "/_dashboard"
     },
     "/_dashboard/manageTeams": {
       "filePath": "_dashboard/manageTeams.tsx",

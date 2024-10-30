@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Trash2 } from "lucide-react";
 import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { sessionQueryOptions, updateSession } from "@/lib/serverFunctions";
-import { NotFound } from "./NotFound";
+import { NotFound } from "../NotFound";
 import type { MapInfo, NewSession } from "@/db/schema";
 
 export default function MatchMapsDashboard({ sessionId, gameMaps }: { sessionId: string; gameMaps: MapInfo[] }) {

@@ -1,6 +1,4 @@
-import BorderAnimation from '@/components/BorderAnimation'
-import ImageAndTextOverlay from '@/components/ImageAndTextOverlay'
-import MovingDots from '@/components/MovingDots'
+import ImageAndTextOverlay from '@/components/overlay/ImageAndTextOverlay'
 import { createFileRoute } from '@tanstack/react-router'
 import { motion } from 'framer-motion'
 export const Route = createFileRoute(

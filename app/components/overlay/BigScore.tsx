@@ -1,6 +1,5 @@
 import type { Session } from "@/db/schema";
 import { getGameLogoSrc } from "@/lib/utils";
-import React from "react";
 
 function BigScore({
     game,
