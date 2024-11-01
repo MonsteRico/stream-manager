@@ -78,6 +78,11 @@ function SessionInfoDash({ session, mutateFn }: { session: Session; mutateFn: Us
                         <SelectContent>
                             <SelectItem value="Overwatch">Overwatch</SelectItem>
                             <SelectItem value="Splatoon">Splatoon</SelectItem>
+                            <SelectItem value="Rocket League">Rocket League</SelectItem>
+                            <SelectItem value="Smash">Smash</SelectItem>
+                            <SelectItem value="Valorant">Valorant</SelectItem>
+                            <SelectItem value="CS">CS</SelectItem>
+                            <SelectItem value="League of Legends">League of Legends</SelectItem>
                         </SelectContent>
                     </Select>
                 </div>
@@ -88,7 +93,7 @@ function SessionInfoDash({ session, mutateFn }: { session: Session; mutateFn: Us
                         defaultValue={session.animationDelay}
                         onChange={(e) => handleAnimationDelayChange(e.target.value)}
                     />
-                    </div>
+                </div>
                 <div className="flex flex-row items-center gap-2">
                     <Button
                         variant="destructive"

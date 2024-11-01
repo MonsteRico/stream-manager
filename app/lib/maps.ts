@@ -30,3 +30,12 @@ export const OverwatchMaps: MapInfo[] = [
         winner: null,
     },
 ];
+
+export const SplatoonMaps: MapInfo[] = [
+]
+
+export const ValorantMaps: MapInfo[] = [
+]
+
+export const CSMaps: MapInfo[] = [
+]

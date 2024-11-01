@@ -4,7 +4,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useState } from "react";
 import MatchMapsDashboard from "@/components/dashboard/MapDashboard";
-import { OverwatchMaps } from "@/lib/maps";
+import { CSMaps, OverwatchMaps, SplatoonMaps, ValorantMaps } from "@/lib/maps";
 import OverlaysDash from "@/components/dashboard/OverlaysDash";
 import CasterDashboard from "@/components/dashboard/CasterDashboard";
 import { NotFound } from "@/components/NotFound";
@@ -53,6 +53,9 @@ function SessionDashboard() {
                     team2DisplayName={session.team2DisplayName}
                 />
                 {session.game === "Overwatch" && <MatchMapsDashboard sessionId={sessionId} gameMaps={OverwatchMaps} />}
+                {session.game === "Splatoon" && <MatchMapsDashboard sessionId={sessionId} gameMaps={SplatoonMaps} />}
+                {session.game === "Valorant" && <MatchMapsDashboard sessionId={sessionId} gameMaps={ValorantMaps} />}
+                {session.game === "CS" && <MatchMapsDashboard sessionId={sessionId} gameMaps={CSMaps} />}
                 <CasterDashboard sessionId={sessionId} />
             </div>
         </div>
