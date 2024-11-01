@@ -73,6 +73,7 @@ export const sessionsTable = createTable("sessions", {
         .default(sql`ARRAY[]::jsonb[]`),
     team1First: boolean().notNull().default(true),
     matchName: varchar({ length: 255 }).default("").notNull(),
+    animationDelay: integer().notNull().default(0),
 });
 
 export type Session = typeof sessionsTable.$inferSelect;

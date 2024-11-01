@@ -52,50 +52,44 @@ function VictoryOverlay() {
   }, [])
 
   return (
-    <motion.div
-      initial={{ x: '-100%' }}
-      animate={{ x: show ? 0 : '-100%' }}
-      transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-      style={{ backgroundColor: teamColor, backdropFilter: 'blur(10px)' }}
-      className="fixed inset-0 flex items-center justify-center z-50"
-    >
-      <div className="text-center">
-        <motion.div
-          initial={{ scale: 0, rotate: -180 }}
-          animate={{ scale: 1, rotate: 0 }}
-          transition={{
-            type: 'spring',
-            stiffness: 260,
-            damping: 20,
-            delay: 0.3,
-          }}
-          className="mb-8"
-        >
-          <img
-            src={teamLogo ?? ''}
-            alt={`${teamName} logo`}
-            width={200}
-            height={200}
-            className="mx-auto"
-          />
-        </motion.div>
-        <motion.h1
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="text-6xl font-bold text-white mb-4"
-        >
-          {teamName}
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7 }}
-          className="text-3xl text-white"
-        >
-          Wins the Match!
-        </motion.p>
-      </div>
-    </motion.div>
-  )
+      <motion.div
+          initial={{ x: "-100%" }}
+          animate={{ x: show ? 0 : "-100%" }}
+          transition={{ type: "spring", stiffness: 100, damping: 20, delay: session.animationDelay }}
+          style={{ backgroundColor: teamColor, backdropFilter: "blur(10px)" }}
+          className="fixed inset-0 flex items-center justify-center z-50"
+      >
+          <div className="text-center">
+              <motion.div
+                  initial={{ scale: 0, rotate: -180 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{
+                      type: "spring",
+                      stiffness: 260,
+                      damping: 20,
+                      delay: 0.3,
+                  }}
+                  className="mb-8"
+              >
+                  <img src={teamLogo ?? ""} alt={`${teamName} logo`} width={200} height={200} className="mx-auto" />
+              </motion.div>
+              <motion.h1
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                  className="text-6xl font-bold text-white mb-4"
+              >
+                  {teamName}
+              </motion.h1>
+              <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.7 }}
+                  className="text-3xl text-white"
+              >
+                  Wins the Match!
+              </motion.p>
+          </div>
+      </motion.div>
+  );
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Fuse from "fuse.js";
-import { Input } from "./ui/input";
+import { Input } from "@/components/ui/input";
 
 // Define the type for each item in the dropdown
 interface DropdownItem<T> {

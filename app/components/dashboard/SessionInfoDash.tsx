@@ -1,6 +1,6 @@
 import type { NewSession, Session } from "@/db/schema";
 import type { UseMutateFunction } from "@tanstack/react-query";
-import { debounce } from "lodash";
+import debounce from "lodash.debounce";
 import React, { useCallback, useState } from "react";
 import { Card, CardContent, CardHeader } from "../ui/card";
 import { Input } from "../ui/input";
@@ -31,6 +31,19 @@ function SessionInfoDash({ session, mutateFn }: { session: Session; mutateFn: Us
 
     const handleSessionNameChange = (value: string) => {
         debouncedSessionNameChange(value);
+    };
+
+    const debouncedAnimationDelayChange = useCallback(
+        debounce((value: string) => {
+            mutateFn({
+                animationDelay: parseInt(value),
+            });
+        }, 300),
+        [],
+    );
+
+    const handleAnimationDelayChange = (value: string) => {
+        debouncedAnimationDelayChange(value);
     };
 
     const router = useRouter();
@@ -68,6 +81,14 @@ function SessionInfoDash({ session, mutateFn }: { session: Session; mutateFn: Us
                         </SelectContent>
                     </Select>
                 </div>
+                <div className="flex flex-row items-center gap-2">
+                    <Label htmlFor="team1DisplayName">Animation Delay (in seconds)</Label>
+                    <Input
+                        className="text-xl font-bold bg-transparent border-b border-white w-full"
+                        defaultValue={session.animationDelay}
+                        onChange={(e) => handleAnimationDelayChange(e.target.value)}
+                    />
+                    </div>
                 <div className="flex flex-row items-center gap-2">
                     <Button
                         variant="destructive"

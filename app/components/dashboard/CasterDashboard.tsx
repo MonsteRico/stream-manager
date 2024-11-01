@@ -108,7 +108,6 @@ export default function CasterDashboard({ sessionId }: { sessionId: string }) {
     }, [debouncedUpdate]);
 
     return (
-        <div className="container mx-auto p-4">
             <Card className="bg-gradient-to-r from-gray-800 to-gray-900 text-white">
                 <CardHeader>
                     <CardTitle className="text-2xl font-bold text-center">Casters Dashboard</CardTitle>
@@ -196,6 +195,5 @@ export default function CasterDashboard({ sessionId }: { sessionId: string }) {
                     </div>
                 </CardContent>
             </Card>
-        </div>
     );
 }

@@ -70,12 +70,14 @@ function GenericMatchOverlay() {
         score,
         color,
         flipped = false,
+        delay,
     }: {
         name: string;
         icon: string | undefined | null;
         score: number;
         color: string;
         flipped?: boolean;
+        delay: number;
     }) {
         return (
             <motion.div
@@ -103,12 +105,14 @@ function GenericMatchOverlay() {
                         icon={session.team1Logo}
                         score={session.team1Score}
                         color={session.team1Color}
+                        delay={session.animationDelay}
                     />
                     <TeamInfo
                         name={session.team2DisplayName}
                         icon={session.team2Logo}
                         score={session.team2Score}
                         color={session.team2Color}
+                        delay={session.animationDelay}
                         flipped
                     />
                 </>
@@ -120,12 +124,14 @@ function GenericMatchOverlay() {
                         icon={session.team2Logo}
                         score={session.team2Score}
                         color={session.team2Color}
+                        delay={session.animationDelay}
                     />
                     <TeamInfo
                         name={session.team1DisplayName}
                         icon={session.team1Logo}
                         score={session.team1Score}
                         color={session.team1Color}
+                        delay={session.animationDelay}
                         flipped
                     />
                 </>
@@ -155,6 +161,7 @@ function OverwatchMatchOverlay() {
         icon,
         score,
         color,
+        delay,
         flipped = false,
     }: {
         name: string;
@@ -162,6 +169,7 @@ function OverwatchMatchOverlay() {
         score: number;
         color: string;
         flipped?: boolean;
+        delay: number;
     }) {
         return (
             <motion.div
@@ -174,7 +182,7 @@ function OverwatchMatchOverlay() {
                 )}
                 initial={{ x: !flipped ? "-100%" : "200%" }}
                 animate={{ x: 0 }}
-                transition={{ duration: 0.5 }}
+                transition={{ duration: 0.5, delay }}
             >
                 {icon && <img src={icon} alt={`${name} logo`} className="h-12 w-auto py-1" />}
                 <span className="text-5xl font-overwatchOblique">{name}</span>
@@ -192,6 +200,7 @@ function OverwatchMatchOverlay() {
                         icon={session.team1Logo ?? getGameLogoSrc(session.game)}
                         score={session.team1Score}
                         color={session.team1Color}
+                        delay={session.animationDelay}
                     />
                     {session.matchName != "" && (
                         <div className="bg-gray-800 w-[13.6%] h-6 absolute left-[43.2%] top-1 flex items-center justify-center">
@@ -204,6 +213,7 @@ function OverwatchMatchOverlay() {
                         score={session.team2Score}
                         color={session.team2Color}
                         flipped
+                        delay={session.animationDelay}
                     />
                 </>
             )}
@@ -214,6 +224,7 @@ function OverwatchMatchOverlay() {
                         icon={session.team2Logo ?? getGameLogoSrc(session.game)}
                         score={session.team2Score}
                         color={session.team2Color}
+                        delay={session.animationDelay}
                     />
                     <TeamInfo
                         name={session.team1DisplayName}
@@ -221,6 +232,7 @@ function OverwatchMatchOverlay() {
                         score={session.team1Score}
                         color={session.team1Color}
                         flipped
+                        delay={session.animationDelay}
                     />
                 </>
             )}

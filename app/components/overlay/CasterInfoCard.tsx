@@ -11,6 +11,7 @@ const CasterInfoCard = ({
     youtube,
     twitch,
     showSocials = true,
+    delay = 0.5
 }: {
     id?: number;
     name: string;
@@ -20,8 +21,9 @@ const CasterInfoCard = ({
     youtube?: string;
     twitch?: string;
     showSocials?: boolean;
+    delay: number;
 }) => (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.5 }}>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: delay+0.5 }}>
         <Card className="w-64">
             <CardContent className="p-4">
                 <div className="flex items-center space-x-4 mb-2">

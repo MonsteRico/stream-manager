@@ -103,7 +103,7 @@ function CastersOverlay() {
                   Camera Feed
                 </div>
               </div>
-              <CasterInfoCard {...caster} />
+              <CasterInfoCard {...caster} delay={session.animationDelay} />
             </div>
           ))}
         </div>

@@ -82,7 +82,7 @@ function SingleCamCastersOverlay() {
           </div>
           <div className="flex flex-row inset-0 absolute h-full justify-between items-end">
             {casters.map((caster: CasterInfo, index) => (
-              <CasterInfoCard key={index} {...caster} showSocials={false} />
+              <CasterInfoCard key={index} {...caster} showSocials={false} delay={session.animationDelay} />
             ))}
           </div>
         </div>

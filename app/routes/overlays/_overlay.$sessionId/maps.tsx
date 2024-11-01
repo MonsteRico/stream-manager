@@ -83,6 +83,7 @@ export default function MapOverlay() {
         { width: ['120%', '100%'] },
         {
           duration: 0.75,
+          delay: session.animationDelay,
         },
       )
     }
@@ -110,7 +111,7 @@ export default function MapOverlay() {
             }
             initial={{ opacity: 0, y: 50 }}
             animate={index < visibleMaps.length ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.5, delay: session.animationDelay }}
             key={map.id}
             className={cn(
               'relative h-[75%] w-full overflow-hidden',
@@ -130,9 +131,9 @@ export default function MapOverlay() {
             {!map.image && (
               <div className="h-full w-full p-16 flex items-center justify-center z-10 absolute top-0 left-0">
                 <img
-                  src="/images/purdueEsports.png"
+                  src="/images/esap.png"
                   alt="Purdue Esports"
-                  className="z-10"
+                  className="z-10 w-32 h-32"
                 />
               </div>
             )}

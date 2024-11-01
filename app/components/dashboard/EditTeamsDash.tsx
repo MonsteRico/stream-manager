@@ -1,6 +1,6 @@
 import type { NewSession, Session } from "@/db/schema";
 import type { UseMutateAsyncFunction, UseMutateFunction } from "@tanstack/react-query";
-import { debounce } from "lodash";
+import debounce from "lodash.debounce";
 import { useCallback, useState, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Input } from "../ui/input";

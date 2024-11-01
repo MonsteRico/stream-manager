@@ -96,7 +96,6 @@ export default function MatchMapsDashboard({ sessionId, gameMaps }: { sessionId:
     };
 
     return (
-        <div className="container mx-auto p-4">
             <Card className="bg-gradient-to-r from-gray-800 to-gray-900 text-white">
                 <CardHeader>
                     <CardTitle className="text-2xl font-bold text-center">Match Maps Dashboard</CardTitle>
@@ -165,6 +164,5 @@ export default function MatchMapsDashboard({ sessionId, gameMaps }: { sessionId:
                     </form>
                 </CardContent>
             </Card>
-        </div>
     );
 }
