@@ -14,6 +14,16 @@ export function getGameLogoSrc(game: string | null) {
             return "/images/gameLogos/overwatch.png";
         case "Splatoon":
             return "/images/gameLogos/splatoon.png";
+        case "Rocket League":
+            return "/images/gameLogos/rocket-league.png";
+        case "Smash":
+            return "/images/gameLogos/smash.png";
+        case "Valorant":
+            return "/images/gameLogos/valorant.webp";
+        case "CS":
+            return "/images/gameLogos/counter-strike-2.webp";
+        case "League of Legends":
+            return "/images/gameLogos/league-of-legends.png";
         default:
             return "/images/gameLogos/overwatch.png";
     }
