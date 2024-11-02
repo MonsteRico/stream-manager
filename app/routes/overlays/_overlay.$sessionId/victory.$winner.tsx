@@ -24,6 +24,7 @@ import { motion } from 'framer-motion'
 import { NotFound } from '@/components/NotFound'
 import { sessionQueryOptions } from '@/lib/serverFunctions'
 import { useSuspenseQuery } from '@tanstack/react-query'
+import { getGameLogoSrc } from '@/lib/utils'
 
 function VictoryOverlay() {
   const { sessionId, winner } = Route.useParams()
@@ -71,7 +72,7 @@ function VictoryOverlay() {
                   }}
                   className="mb-8"
               >
-                  <img src={teamLogo ?? ""} alt={`${teamName} logo`} width={200} height={200} className="mx-auto" />
+                  <img src={teamLogo ?? getGameLogoSrc(session.game)} alt={`${teamName} logo`} width={200} height={200} className="mx-auto" />
               </motion.div>
               <motion.h1
                   initial={{ opacity: 0, y: 50 }}
