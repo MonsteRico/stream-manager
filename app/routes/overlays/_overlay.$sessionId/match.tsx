@@ -650,6 +650,14 @@ function ValorantMatchOverlay() {
                     delay,
                 },
             );
+            animate2(
+                scope2.current,
+                { x: [!flipped ? "-300%" : "500%", 0] },
+                {
+                    duration: 0.5,
+                    delay,
+                },
+            );
         }, [scope, animate, flipped, delay]);
 
         return (
