@@ -639,7 +639,7 @@ function ValorantMatchOverlay() {
         flipped?: boolean;
         delay: number;
     }) {
-\
+
 
         return (
             <div className={cn("flex flex-row-reverse w-1/2", flipped && "flex-row")}>
