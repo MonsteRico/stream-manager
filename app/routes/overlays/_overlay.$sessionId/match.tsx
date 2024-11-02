@@ -639,28 +639,7 @@ function ValorantMatchOverlay() {
         flipped?: boolean;
         delay: number;
     }) {
-        const [firstRender, setFirstRender] = useState(true);
-        const [scope, animate] = useAnimate();
-        const [scope2, animate2] = useAnimate();
-        useEffect(() => {
-            animate(
-                scope.current,
-                { x: [!flipped ? "-300%" : "500%", 0] },
-                {
-                    duration: 0.5,
-                    delay,
-                },
-            );
-            animate2(
-                scope2.current,
-                { x: [!flipped ? "-300%" : "500%", 0] },
-                {
-                    duration: 0.5,
-                    delay,
-                },
-            );
-            setFirstRender(false);
-        }, [scope, animate, flipped, delay]);
+\
 
         return (
             <div className={cn("flex flex-row-reverse w-1/2", flipped && "flex-row")}>
@@ -669,7 +648,6 @@ function ValorantMatchOverlay() {
                         backgroundColor: color,
                     }}
                     className={cn("flex items-center gap-4 w-full h-6")}
-                    ref={scope}
                 ></motion.div>
                 <motion.div
                     style={{
@@ -679,7 +657,6 @@ function ValorantMatchOverlay() {
                         "flex items-center gap-4 w-[60%] h-16 justify-between pr-4 pl-2",
                         flipped && "flex-row-reverse pl-4 pr-2",
                     )}
-                    ref={scope2}
                 >
                     <div className={cn("flex flex-row items-center gap-4", flipped && "flex-row-reverse")}>
                         {icon && <img src={icon} alt={`${name} logo`} className="h-12 w-auto py-1" />}
