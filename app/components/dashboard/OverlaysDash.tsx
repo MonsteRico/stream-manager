@@ -83,27 +83,6 @@ function OverlaysDash({
             await obs.call("CreateSceneCollection", { sceneCollectionName });
             console.log(`Scene collection '${sceneCollectionName}' created.`);
 
-            // Create a scene and add a browser source for each URL
-            for (const source of browserSources) {
-                // Create scene
-                await obs.call("CreateScene", { sceneName: `${source.name} - Scene` });
-                console.log(`Scene '${source.name}' created.`);
-
-                // Add browser source to the scene
-                await obs.call("CreateInput", {
-                    sceneName: `${source.name} - Scene`,
-                    inputName: source.name,
-                    inputKind: "browser_source",
-                    inputSettings: {
-                        url: source.url,
-                        width: 1920, // Set width and height as needed
-                        height: 1080,
-                        restart_when_active: source.restartActive,
-                    },
-                });
-                console.log(`Browser source '${source.name}' added to scene.`);
-            }
-
             await obs.call("CreateInput", {
                 sceneName: "Match - Scene",
                 inputName: "BARL",
@@ -256,6 +235,27 @@ function OverlaysDash({
             await obs.call("RemoveScene", { sceneName: "Scene" });
 
             console.log("All scenes and sources have been set up.");
+
+            // Create a scene and add a browser source for each URL
+            for (const source of browserSources) {
+                // Create scene
+                await obs.call("CreateScene", { sceneName: `${source.name} - Scene` });
+                console.log(`Scene '${source.name}' created.`);
+
+                // Add browser source to the scene
+                await obs.call("CreateInput", {
+                    sceneName: `${source.name} - Scene`,
+                    inputName: source.name,
+                    inputKind: "browser_source",
+                    inputSettings: {
+                        url: source.url,
+                        width: 1920, // Set width and height as needed
+                        height: 1080,
+                        restart_when_active: source.restartActive,
+                    },
+                });
+                console.log(`Browser source '${source.name}' added to scene.`);
+            }
 
             setPostImportInfoOpen(true);
 
