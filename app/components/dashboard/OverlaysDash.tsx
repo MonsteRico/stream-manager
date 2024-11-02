@@ -42,7 +42,7 @@ function OverlaysDash({
     async function connectToObs() {
         try {
             const { obsWebSocketVersion, negotiatedRpcVersion } = await obs.connect(
-                `ws://${obsUrl == "" ? "localhost" : obsUrl}:${obsPort == "" ? "4455" : obsPort}`,
+                `ws${window.location.hostname == "localhost" ? "" : "s"}://${obsUrl == "" ? "localhost" : obsUrl}:${obsPort == "" ? "4455" : obsPort}`,
                 obsPassword != "" ? obsPassword : undefined,
                 {
                     rpcVersion: 1,

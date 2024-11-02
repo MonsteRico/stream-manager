@@ -3,7 +3,7 @@ import { sessionQueryOptions } from "@/lib/serverFunctions";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, redirect, useRouter } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, useAnimate } from "framer-motion";
 import { Trophy } from "lucide-react";
 import { cn, getGameLogoSrc } from "@/lib/utils";
 
@@ -356,10 +356,7 @@ function LeagueOfLegendsMatchOverlay() {
                 style={{
                     backgroundColor: color,
                 }}
-                className={cn(
-                    "flex items-center gap-4 w-[34%] h-12 justify-end pr-4",
-                    flipped && "flex-row-reverse justify-end pl-4 pr-0",
-                )}
+                className={cn("flex items-center gap-4 w-[34%] h-12 justify-end pr-4", flipped && "flex-row-reverse justify-end pl-4 pr-0")}
                 initial={{ x: !flipped ? "-100%" : "200%" }}
                 animate={{ x: 0 }}
                 transition={{ duration: 0.5, delay }}
@@ -414,7 +411,6 @@ function LeagueOfLegendsMatchOverlay() {
         </div>
     );
 }
-
 
 function SmashMatchOverlay() {
     const router = useRouter();
@@ -643,37 +639,45 @@ function ValorantMatchOverlay() {
         flipped?: boolean;
         delay: number;
     }) {
+        const [scope, animate] = useAnimate();
+        const [scope2, animate2] = useAnimate();
+        useEffect(() => {
+            animate(
+                scope.current,
+                { x: [!flipped ? "-300%" : "500%", 0] },
+                {
+                    duration: 0.5,
+                    delay,
+                },
+            );
+        }, [scope, animate, flipped, delay]);
+
         return (
             <div className={cn("flex flex-row-reverse w-1/2", flipped && "flex-row")}>
-            <motion.div
-                style={{
-                    backgroundColor: color,
-                }}
-                className={cn(
-                    "flex items-center gap-4 w-full h-6",
-                )}
-                initial={{ x: !flipped ? "-300%" : "500%" }}
-                animate={{ x: 0 }}
-                transition={{ duration: 0.5, delay }}
-            ></motion.div>
-            <motion.div
-                style={{
-                    backgroundColor: color,
-                }}
-                className={cn(
-                    "flex items-center gap-4 w-[60%] h-16 justify-between pr-4 pl-2",
-                    flipped && "flex-row-reverse pl-4 pr-2",
-                )}
-                initial={{ x: !flipped ? "-300%" : "500%" }}
-                animate={{ x: 0 }}
-                transition={{ duration: 0.5, delay }}
-            >
-                <div className={cn("flex flex-row items-center gap-4", flipped && "flex-row-reverse")}>
-                    {icon && <img src={icon} alt={`${name} logo`} className="h-12 w-auto py-1" />}
-                    <span className="text-3xl">{name}</span>
-                </div>
-                <span className="text-4xl">{score}</span>
-            </motion.div></div>
+                <motion.div
+                    style={{
+                        backgroundColor: color,
+                    }}
+                    className={cn("flex items-center gap-4 w-full h-6")}
+                    ref={scope}
+                ></motion.div>
+                <motion.div
+                    style={{
+                        backgroundColor: color,
+                    }}
+                    className={cn(
+                        "flex items-center gap-4 w-[60%] h-16 justify-between pr-4 pl-2",
+                        flipped && "flex-row-reverse pl-4 pr-2",
+                    )}
+                    ref={scope2}
+                >
+                    <div className={cn("flex flex-row items-center gap-4", flipped && "flex-row-reverse")}>
+                        {icon && <img src={icon} alt={`${name} logo`} className="h-12 w-auto py-1" />}
+                        <span className="text-3xl">{name}</span>
+                    </div>
+                    <span className="text-4xl">{score}</span>
+                </motion.div>
+            </div>
         );
     }
 
