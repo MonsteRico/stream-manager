@@ -104,6 +104,146 @@ function OverlaysDash({
                 console.log(`Browser source '${source.name}' added to scene.`);
             }
 
+            await obs.call("CreateInput", {
+                sceneName: "Match - Scene",
+                inputName: "BARL",
+                inputKind: "browser_source",
+                inputSettings: {
+                    url: "https://barl-overlay.web.app/",
+                    width: 1920, // Set width and height as needed
+                    height: 1080,
+                },
+            });
+
+            const { inputUuid: camInputId } = await obs.call("CreateInput", {
+                sceneName: "Casters Single Camera - Scene",
+                inputName: "Cam",
+                inputKind: "dshow_input",
+                inputSettings: {
+                    video_device_id:
+                        "Cam Link 4K:\\\\?\\usb#22vid_0fd9&pid_0066&mi_00#226&38faf89f&1&0000#22{65e8773d-8f56-11d0-a3b9-00a0c9223196}\\global",
+                    last_video_device_id:
+                        "Cam Link 4K:\\\\?\\usb#22vid_0fd9&pid_0066&mi_00#226&38faf89f&1&0000#22{65e8773d-8f56-11d0-a3b9-00a0c9223196}\\global",
+                },
+            });
+            await obs.call("CreateSourceFilter", {
+                sourceName: "Cam",
+                filterName: "compressor_filter",
+                filterKind: "compressor_filter",
+                filterSettings: {
+                    ratio: 3.0,
+                    attack_time: 1,
+                },
+            });
+
+            await obs.call("CreateSourceFilter", {
+                sourceName: "Cam",
+                filterName: "noise_gate_filter",
+                filterKind: "noise_gate_filter",
+                filterSettings: {
+                    close_threshold: -45.0,
+                    open_threshold: -32.0,
+                },
+            });
+
+            await obs.call("CreateSourceFilter", {
+                sourceName: "Cam",
+                filterName: "gain_filter",
+                filterKind: "gain_filter",
+            });
+
+            await obs.call("CreateSourceFilter", {
+                sourceName: "Cam",
+                filterName: "noise_suppress_filter",
+                filterKind: "noise_suppress_filter",
+            });
+
+            const { sceneItemId: camMicSceneItemId } = await obs.call("CreateInput", {
+                sceneName: "Match - Scene",
+                inputName: "Cam Mic",
+                inputKind: "wasapi_input_capture",
+                inputSettings: {
+                    device_id: "{0.0.1.00000000}.{485035ab-9fff-40f1-82fe-b5dc60d1facf}",
+                },
+            });
+
+            await obs.call("CreateSourceFilter", {
+                sourceName: "Cam Mic",
+                filterName: "compressor_filter",
+                filterKind: "compressor_filter",
+                filterSettings: {
+                    ratio: 3.0,
+                    attack_time: 1,
+                },
+            });
+
+            await obs.call("CreateSourceFilter", {
+                sourceName: "Cam Mic",
+                filterName: "noise_gate_filter",
+                filterKind: "noise_gate_filter",
+                filterSettings: {
+                    close_threshold: -45.0,
+                    open_threshold: -32.0,
+                },
+            });
+
+            await obs.call("CreateSourceFilter", {
+                sourceName: "Cam Mic",
+                filterName: "gain_filter",
+                filterKind: "gain_filter",
+            });
+
+            await obs.call("CreateSourceFilter", {
+                sourceName: "Cam Mic",
+                filterName: "noise_suppress_filter",
+                filterKind: "noise_suppress_filter",
+            });
+
+            await obs.call("DuplicateSceneItem", {
+                sceneName: "Match - Scene",
+                sceneItemId: camMicSceneItemId,
+                destinationSceneName: "Victory Team 1 - Scene",
+            });
+
+            await obs.call("DuplicateSceneItem", {
+                sceneName: "Match - Scene",
+                sceneItemId: camMicSceneItemId,
+                destinationSceneName: "Victory Team 2 - Scene",
+            });
+
+            await obs.call("DuplicateSceneItem", {
+                sceneName: "Match - Scene",
+                sceneItemId: camMicSceneItemId,
+                destinationSceneName: "Maps - Scene",
+            });
+
+            const { inputUuid: gameAudioInputId } = await obs.call("CreateInput", {
+                sceneName: "Match - Scene",
+                inputName: "Game Audio",
+                inputKind: "wasapi_process_output_capture",
+                inputSettings: {
+                    window: "Videos - File Explorer:CabinetWClass:explorer.exe",
+                },
+            });
+
+            const { inputUuid: gameCaptureInputId, sceneItemId: gameCaptureSceneItemId } = await obs.call("CreateInput", {
+                sceneName: "Match - Scene",
+                inputName: "Game Capture",
+                inputKind: "game_capture",
+            });
+
+            await obs.call("DuplicateSceneItem", {
+                sceneName: "Match - Scene",
+                sceneItemId: gameCaptureSceneItemId,
+                destinationSceneName: "Victory Team 1 - Scene",
+            });
+
+            await obs.call("DuplicateSceneItem", {
+                sceneName: "Match - Scene",
+                sceneItemId: gameCaptureSceneItemId,
+                destinationSceneName: "Victory Team 2 - Scene",
+            });
+
             // set scene to starting soon
             await obs.call("SetCurrentProgramScene", { sceneName: "Starting Soon - Scene" });
 
@@ -185,11 +325,15 @@ function OverlaysDash({
                     <DialogDescription>
                         <p>
                             After importing the scenes, you will need to set the transitions to Stinger. Click the + under the transitions,
-                            choose Stinger. Download the <a href="/Stinger.webm">Stinger.webm</a> file and use that as the path. Set the
-                            Transition Point to 1000ms. Set the Animation Delay on here to 2 seconds.
+                            choose Stinger. Download the{" "}
+                            <a href="/Stinger.webm" className="text-blue-500" download={true}>
+                                Stinger.webm
+                            </a>{" "}
+                            file and use that as the path. Set the Transition Point to 1000ms. Set the Animation Delay on here to 2 seconds.
                         </p>
                         <p>You will also need to set any game inputs and audio inputs to the correct settings!</p>
                         <p>After disconnecting from OBS, you can delete the scene collection and all scenes and sources.</p>
+                        <p>DRAG THE BROWSER SOURCES ABOVE THE GAME AND CAMERAS PLEASE</p>
                     </DialogDescription>
                 </DialogContent>
             </Dialog>
