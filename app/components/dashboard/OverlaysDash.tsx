@@ -67,15 +67,18 @@ function OverlaysDash({
             ];
 
             // check if scene collection already exists
-            const  {sceneCollections} = await obs.call("GetSceneCollectionList");
+            const { sceneCollections } = await obs.call("GetSceneCollectionList");
             console.log("Existing scene collections:", sceneCollections);
-            if (sceneCollections.find(collection => collection === sceneCollectionName)) {
+            if (sceneCollections.find((collection) => collection === sceneCollectionName)) {
                 // switch to existing scene collection
                 await obs.call("SetCurrentSceneCollection", { sceneCollectionName });
+
+                setPostImportInfoOpen(true);
+
+                setConnectedToObs(true);
                 return;
             }
-            
-            
+
             // Create new scene collection
             await obs.call("CreateSceneCollection", { sceneCollectionName });
             console.log(`Scene collection '${sceneCollectionName}' created.`);
@@ -172,7 +175,9 @@ function OverlaysDash({
             </CardHeader>
             <CardContent className="flex flex-wrap justify-center gap-4">
                 {!connectedToObs && <Links sessionId={sessionId} team1DisplayName={team1DisplayName} team2DisplayName={team2DisplayName} />}
-                {connectedToObs && <OBSButtons sessionId={sessionId} team1DisplayName={team1DisplayName} team2DisplayName={team2DisplayName} obs={obs} />}
+                {connectedToObs && (
+                    <OBSButtons sessionId={sessionId} team1DisplayName={team1DisplayName} team2DisplayName={team2DisplayName} obs={obs} />
+                )}
             </CardContent>
             <Dialog open={postImportInfoOpen} onOpenChange={setPostImportInfoOpen}>
                 <DialogContent>
