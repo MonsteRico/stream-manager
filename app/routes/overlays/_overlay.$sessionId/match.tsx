@@ -639,6 +639,7 @@ function ValorantMatchOverlay() {
         flipped?: boolean;
         delay: number;
     }) {
+        const [firstRender, setFirstRender] = useState(true);
         const [scope, animate] = useAnimate();
         const [scope2, animate2] = useAnimate();
         useEffect(() => {
@@ -658,6 +659,7 @@ function ValorantMatchOverlay() {
                     delay,
                 },
             );
+            setFirstRender(false);
         }, [scope, animate, flipped, delay]);
 
         return (
