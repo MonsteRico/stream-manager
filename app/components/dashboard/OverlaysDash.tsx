@@ -358,8 +358,8 @@ function OBSButtons({
         <>
             {sceneNames.map((sceneName, index) => (
                 <Button key={index} onClick={() => obs.call("SetCurrentProgramScene", { sceneName: `${sceneName} - Scene` })}>
-                    {sceneName === "Team 1" || sceneName === "Team 2"
-                        ? `${sceneName} - ${sceneName === "Team 1" ? team1DisplayName : team2DisplayName}`
+                    {sceneName === "Victory Team 1" || sceneName === "Victory Team 2"
+                        ? `${sceneName} - ${sceneName === "Victory Team 1" ? team1DisplayName : team2DisplayName}`
                         : sceneName}
                 </Button>
             ))}
