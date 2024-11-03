@@ -148,7 +148,7 @@ export default function MapOverlay() {
                   src={
                     (map.winner == 'team1'
                       ? session.team1Logo
-                      : session.team2Logo) ?? ''
+                      : session.team2Logo) ?? getGameLogoSrc(session.game)
                   }
                   alt={`${map.winner == 'team1' ? session.team1DisplayName : session.team2DisplayName} logo`}
                   className="w-[75%] h-[75%] object-contain px-4"
