@@ -55,85 +55,86 @@ export const OverwatchMaps: MapInfo[] = [
 export const SplatoonMaps: MapInfo[] = [
 ]
 
+
 export const ValorantMaps: MapInfo[] = [
-    {
-        id: 1,
-        name: "Bind",
-        image: "https://static.wikia.nocookie.net/valorant/images/2/23/Loading_Screen_Bind.png",
-        mode: "",
-        winner: null,
-    },
-    {
-        id: 2,
-        name: "Haven",
-        image: "https://static.wikia.nocookie.net/valorant/images/7/70/Loading_Screen_Haven.png",
-        mode: "",
-        winner: null,
-    },
-    {
-        id: 3,
-        name: "Split",
-        image: "https://static.wikia.nocookie.net/valorant/images/d/d6/Loading_Screen_Split.png",
-        mode: "",
-        winner: null,
-    },
-    {
-        id: 4,
-        name: "Ascent",
-        image: "https://static.wikia.nocookie.net/valorant/images/e/e7/Loading_Screen_Ascent.png",
-        mode: "",
-        winner: null,
-    },
-    {
-        id: 5,
-        name: "Icebox",
-        image: "https://static.wikia.nocookie.net/valorant/images/1/13/Loading_Screen_Icebox.png",
-        mode: "",
-        winner: null,
-    },
-    {
-        id:6,
-        name: "Breeze",
-        image: "https://static.wikia.nocookie.net/valorant/images/1/10/Loading_Screen_Breeze.png",
-        mode: "",
-        winner:null,
-    },
-    {
-        id: 7,
-        name: "Fracture",
-        image: "https://static.wikia.nocookie.net/valorant/images/f/fc/Loading_Screen_Fracture.png",
-        mode: "",
-        winner: null
-    },
-    {
-        id: 8,
-        name: "Pearl",
-        image: "https://static.wikia.nocookie.net/valorant/images/a/af/Loading_Screen_Pearl.png",
-        mode: "",
-        winner: null,
-    },
-    {
-        id: 9,
-        name: "Lotus",
-        image: "https://static.wikia.nocookie.net/valorant/images/d/d0/Loading_Screen_Lotus.png/",
-        mode: "",
-        winner: null,
-    },
-    {
-        id: 10,
-        name: "Sunset",
-        image: "https://static.wikia.nocookie.net/valorant/images/5/5c/Loading_Screen_Sunset.png",
-        mode: "",
-        winner: null,
-    },
-    {
-        id: 11,
-        name: "Abyss",
-        image: "https://static.wikia.nocookie.net/valorant/images/6/61/Loading_Screen_Abyss.png",
-        mode: "",
-        winner: null,
-    }
-]
+	{
+		id: 1,
+		name: "Bind",
+		image: `/mapImages/valorant/bind.jpg`,
+		mode: null,
+		winner: null,
+	},
+	{
+		id: 2,
+		name: "Haven",
+		image: `/mapImages/valorant/haven.jpg`,
+		mode: null,
+		winner: null,
+	},
+	{
+		id: 3,
+		name: "Split",
+		image: `/mapImages/valorant/split.jpg`,
+		mode: null,
+		winner: null,
+	},
+	{
+		id: 4,
+		name: "Ascent",
+		image: `/mapImages/valorant/ascent.jpg`,
+		mode: null,
+		winner: null,
+	},
+	{
+		id: 5,
+		name: "Icebox",
+		image: `/mapImages/valorant/icebox.jpg`,
+		mode: null,
+		winner: null,
+	},
+	{
+		id: 6,
+		name: "Breeze",
+		image: `/mapImages/valorant/breeze.jpg`,
+		mode: null,
+		winner: null,
+	},
+	{
+		id: 7,
+		name: "Fracture",
+		image: `/mapImages/valorant/fracture.jpg`,
+		mode: null,
+		winner: null,
+	},
+	{
+		id: 8,
+		name: "Pearl",
+		image: `/mapImages/valorant/pearl.jpg`,
+		mode: null,
+		winner: null,
+	},
+	{
+		id: 9,
+		name: "Lotus",
+		image: `/mapImages/valorant/lotus.jpeg`,
+		mode: null,
+		winner: null,
+	},
+	{
+		id: 10,
+		name: "Sunset",
+		image: `/mapImages/valorant/sunset.png`,
+		mode: null,
+		winner: null,
+	},
+	{
+		id: 11,
+		name: "Abyss",
+		image: "/mapImages/valorant/abyss.avif",
+		mode: null,
+		winner: null,
+	},
+];
 
 export const CSMaps: MapInfo[] = [
 ]
