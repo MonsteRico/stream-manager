@@ -83,7 +83,7 @@ function OverlaysDash({
             await obs.call("CreateSceneCollection", { sceneCollectionName });
             console.log(`Scene collection '${sceneCollectionName}' created.`);
 
-up.");
+            console.log("All scenes and sources have been set up.");
 
             // Create a scene and add a browser source for each URL
             for (const source of browserSources) {
@@ -258,7 +258,6 @@ up.");
             // Remove "Scene" scene
             await obs.call("RemoveScene", { sceneName: "Scene" });
 
-            console.log("All scenes and sources have been set 
 
             setPostImportInfoOpen(true);
 
