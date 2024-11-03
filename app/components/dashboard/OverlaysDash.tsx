@@ -19,6 +19,7 @@ const sceneNames = [
     "Casters",
     "Casters Single Camera",
     "Single Camera",
+    "Draft"
 ];
 
 function OverlaysDash({
@@ -64,6 +65,7 @@ function OverlaysDash({
                 { name: "Casters", url: `${domain}/overlays/${sessionId}/casters`, restartActive: true },
                 { name: "Casters Single Camera", url: `${domain}/overlays/${sessionId}/castersSingleCamera`, restartActive: true },
                 { name: "Single Camera", url: `${domain}/overlays/${sessionId}/singleCamera`, restartActive: true },
+                { name: "Draft", url: `${domain}/overlays/${sessionId}/match`, restartActive: true },
             ];
 
             // check if scene collection already exists
@@ -82,8 +84,6 @@ function OverlaysDash({
             // Create new scene collection
             await obs.call("CreateSceneCollection", { sceneCollectionName });
             console.log(`Scene collection '${sceneCollectionName}' created.`);
-
-            console.log("All scenes and sources have been set up.");
 
             // Create a scene and add a browser source for each URL
             for (const source of browserSources) {
@@ -113,6 +113,17 @@ function OverlaysDash({
                 inputKind: "browser_source",
                 inputSettings: {
                     url: "https://barl-overlay.web.app/",
+                    width: 1920, // Set width and height as needed
+                    height: 1080,
+                },
+            });
+
+            await obs.call("CreateInput", {
+                sceneName: "Draft - Scene",
+                inputName: "Draft Site",
+                inputKind: "browser_source",
+                inputSettings: {
+                    url: "",
                     width: 1920, // Set width and height as needed
                     height: 1080,
                 },
@@ -436,6 +447,11 @@ function Links({
             <Button>
                 <Link target="_blank" to={`/overlays/${sessionId}/singleCamera`}>
                     Single Camera Feed (Add "?text=[insert text here]" to the URL to change the text)
+                </Link>
+            </Button>
+            <Button>
+                <Link target="_blank" to={`/overlays/${sessionId}/match`}>
+                    Draft (same as Match overlay)
                 </Link>
             </Button>
         </>
