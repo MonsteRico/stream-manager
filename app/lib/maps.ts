@@ -295,4 +295,75 @@ export const ValorantMaps: MapInfo[] = [
     },
 ];
 
-export const CSMaps: MapInfo[] = [];
+export const CSMaps: MapInfo[] = [
+    {
+        id: 1,
+        name: "Ancient",
+        image: "/mapImages/cs/ancient.jpg",
+        mode: null,
+        winner: null,
+    },
+    {
+        id: 2,
+        name: "Anubis",
+        image: "/mapImages/cs/anubis.jpg",
+        mode: null,
+        winner: null,
+    },
+    {
+        id: 3,
+        name: "Dust II",
+        image: "/mapImages/cs/dust2.jpg",
+        mode: null,
+        winner: null,
+    },
+    {
+        id: 4,
+        name: "Inferno",
+        image: "/mapImages/cs/inferno.jpeg",
+        mode: null,
+        winner: null,
+    },
+    {
+        id: 5,
+        name: "Mills",
+        image: "/mapImages/cs/mills.png",
+        mode: null,
+        winner: null,
+    },
+    {
+        id: 6,
+        name: "Mirage",
+        image: "/mapImages/cs/mirage.jpg",
+        mode: null,
+        winner: null,
+    },
+    {
+        id: 7,
+        name: "Nuke",
+        image: "/mapImages/cs/nuke.jpeg",
+        mode: null,
+        winner: null,
+    },
+    {
+        id: 8,
+        name: "Overpass",
+        image: "/mapImages/cs/overpass.jpg",
+        mode: null,
+        winner: null,
+    },
+    {
+        id: 9,
+        name: "Thera",
+        image: "/mapImages/cs/thera.jpg",
+        mode: null,
+        winner: null,
+    },
+    {
+        id: 10,
+        name: "Vertigo",
+        image: "/mapImages/cs/vertigo.jpeg",
+        mode: null,
+        winner: null,
+    },
+];
