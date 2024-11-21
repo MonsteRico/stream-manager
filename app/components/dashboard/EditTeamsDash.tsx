@@ -61,7 +61,7 @@ function EditTeamsDash({
     return (
         <Card className="bg-gradient-to-r from-gray-800 to-gray-900 text-white">
             <CardHeader>
-                <CardTitle className="text-2xl font-bold text-center">Edit Teams {session.game}</CardTitle>
+                <CardTitle className="text-2xl font-bold text-center">Edit Teams</CardTitle>
                 <div className="flex flex-row gap-2">
                     <Button onClick={flipSides}>Flip Teams</Button>
                     <ChoosePresetTeams sessionId={session.id} mutateFunction={mutateAsyncFn} />
