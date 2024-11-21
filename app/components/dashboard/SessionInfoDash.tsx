@@ -77,7 +77,6 @@ function SessionInfoDash({ session, mutateFn }: { session: Session; mutateFn: Us
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="Overwatch">Overwatch</SelectItem>
-                            <SelectItem value="Splatoon">Splatoon</SelectItem>
                             <SelectItem value="Rocket League">Rocket League</SelectItem>
                             <SelectItem value="Smash">Smash</SelectItem>
                             <SelectItem value="Valorant">Valorant</SelectItem>

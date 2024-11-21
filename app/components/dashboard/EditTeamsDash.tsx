@@ -1,14 +1,15 @@
+"use client";
+
 import type { NewSession, Session } from "@/db/schema";
 import type { UseMutateAsyncFunction, UseMutateFunction } from "@tanstack/react-query";
-import debounce from "lodash.debounce";
-import { useCallback, useState, useRef } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { Input } from "../ui/input";
+import { useCallback, useState, useRef, useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { ChevronDown, ChevronUp, Edit2, Link } from "lucide-react";
-import { Label } from "../ui/label";
-import { Button } from "../ui/button";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 import ChoosePresetTeams from "./ChoosePresetTeams";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { UploadButton } from "@/lib/uploadthing";
 
 function EditTeamsDash({
@@ -20,53 +21,47 @@ function EditTeamsDash({
     mutateFn: UseMutateFunction<unknown, unknown, NewSession, unknown>;
     mutateAsyncFn: UseMutateAsyncFunction<unknown, unknown, NewSession, unknown>;
 }) {
+    const [formState, setFormState] = useState<NewSession>(session);
     const [teamOrder, setTeamOrder] = useState([1, 2]);
+    const [editingTeam, setEditingTeam] = useState<null | 1 | 2>(null);
+
+    useEffect(() => {
+        setFormState((prev) => ({ ...prev, ...session }));
+    }, [session]);
 
     const flipSides = () => {
         setTeamOrder(teamOrder.reverse());
-        mutateFn({
-            team1First: !session.team1First,
-        });
+        setFormState((prev) => ({ ...prev, team1First: !prev.team1First }));
     };
 
-    const [editingTeam, setEditingTeam] = useState<null | 1 | 2>(null);
-
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        debouncedInputChange(e.target.name, e.target.value);
+        const { name, value } = e.target;
+        setFormState((prev) => ({ ...prev, [name]: value }));
     };
 
     const handleScoreChange = (team: 1 | 2, increment: boolean) => {
-        mutateFn({
-            [`team${team}Score`]: Math.max(0, session[`team${team}Score` as "team1Score" | "team2Score"] + (increment ? 1 : -1)),
-        });
+        const scoreKey = `team${team}Score` as "team1Score" | "team2Score";
+        setFormState((prev) => ({
+            ...prev,
+            [scoreKey]: Math.max(0, prev[scoreKey]! + (increment ? 1 : -1)),
+        }));
     };
 
-    const debouncedTeamNameChange = useCallback(
-        debounce((team: 1 | 2, value: string) => {
-            mutateFn({
-                [`team${team}DisplayName`]: value,
-            });
-        }, 300),
-        [],
-    );
-
-    const debouncedInputChange = useCallback(
-        debounce((name: string, value: string) => {
-            mutateFn({
-                [name]: value,
-            });
-        }, 300),
-        [],
-    );
-
     const handleTeamNameChange = (team: 1 | 2, value: string) => {
-        debouncedTeamNameChange(team, value);
+        setFormState((prev) => ({
+            ...prev,
+            [`team${team}DisplayName`]: value,
+        }));
+    };
+
+    const handleSave = () => {
+        mutateFn(formState);
     };
 
     return (
         <Card className="bg-gradient-to-r from-gray-800 to-gray-900 text-white">
             <CardHeader>
-                <CardTitle className="text-2xl font-bold text-center">Edit Teams</CardTitle>
+                <CardTitle className="text-2xl font-bold text-center">Edit Teams {session.game}</CardTitle>
                 <div className="flex flex-row gap-2">
                     <Button onClick={flipSides}>Flip Teams</Button>
                     <ChoosePresetTeams sessionId={session.id} mutateFunction={mutateAsyncFn} />
@@ -80,7 +75,7 @@ function EditTeamsDash({
                                 {editingTeam === team ? (
                                     <Input
                                         className="text-2xl font-bold bg-transparent border-b border-white flex-grow mr-4"
-                                        defaultValue={session[`team${team}DisplayName`]}
+                                        value={formState[`team${team}DisplayName` as "team1DisplayName" | "team2DisplayName"]}
                                         onChange={(e) => handleTeamNameChange(team as 1 | 2, e.target.value)}
                                         onBlur={() => setEditingTeam(null)}
                                         autoFocus
@@ -90,7 +85,7 @@ function EditTeamsDash({
                                         className="text-2xl font-bold cursor-pointer hover:text-gray-300 transition-colors duration-200 flex-grow mr-4"
                                         onClick={() => setEditingTeam(team as 1 | 2)}
                                     >
-                                        {session[`team${team}DisplayName` as "team1DisplayName" | "team2DisplayName"]}{" "}
+                                        {formState[`team${team}DisplayName` as "team1DisplayName" | "team2DisplayName"]}{" "}
                                         <Edit2 className="inline-block w-4 h-4 ml-2" />
                                     </h2>
                                 )}
@@ -98,7 +93,7 @@ function EditTeamsDash({
                                     <div className="flex flex-col mr-2">
                                         <Button
                                             size="sm"
-                                            variant="success"
+                                            variant="outline"
                                             onClick={() => handleScoreChange(team as 1 | 2, true)}
                                             className="px-2 py-0 h-6"
                                         >
@@ -106,14 +101,16 @@ function EditTeamsDash({
                                         </Button>
                                         <Button
                                             size="sm"
-                                            variant="destructive"
+                                            variant="outline"
                                             onClick={() => handleScoreChange(team as 1 | 2, false)}
                                             className="px-2 py-0 h-6 mt-1"
                                         >
                                             <ChevronDown className="h-4 w-4" />
                                         </Button>
                                     </div>
-                                    <span className="text-3xl font-bold">{session[`team${team}Score` as "team1Score" | "team2Score"]}</span>
+                                    <span className="text-3xl font-bold">
+                                        {formState[`team${team}Score` as "team1Score" | "team2Score"]}
+                                    </span>
                                 </div>
                             </div>
                             <div className="flex space-x-4">
@@ -123,7 +120,7 @@ function EditTeamsDash({
                                         id={`team${team}Abbreviation`}
                                         name={`team${team}Abbreviation`}
                                         type="text"
-                                        value={session[`team${team}Abbreviation` as "team1Abbreviation" | "team2Abbreviation"]}
+                                        value={formState[`team${team}Abbreviation` as "team1Abbreviation" | "team2Abbreviation"]}
                                         onChange={handleInputChange}
                                         className="w-full h-10 p-1 bg-transparent border-2 border-gray-600 rounded"
                                     />
@@ -134,7 +131,7 @@ function EditTeamsDash({
                                         id={`team${team}Record`}
                                         name={`team${team}Record`}
                                         type="text"
-                                        value={session[`team${team}Record` as "team1Record" | "team2Record"]}
+                                        value={formState[`team${team}Record` as "team1Record" | "team2Record"]}
                                         onChange={handleInputChange}
                                         className="w-full h-10 p-1 bg-transparent border-2 border-gray-600 rounded"
                                     />
@@ -145,7 +142,7 @@ function EditTeamsDash({
                                         id={`team${team}Rank`}
                                         name={`team${team}Rank`}
                                         type="text"
-                                        value={session[`team${team}Rank` as "team1Rank" | "team2Rank"]}
+                                        value={formState[`team${team}Rank` as "team1Rank" | "team2Rank"]}
                                         onChange={handleInputChange}
                                         className="w-full h-10 p-1 bg-transparent border-2 border-gray-600 rounded"
                                     />
@@ -158,43 +155,43 @@ function EditTeamsDash({
                                         id={`team${team}Color`}
                                         name={`team${team}Color`}
                                         type="color"
-                                        value={session[`team${team}Color` as "team1Color" | "team2Color"]}
+                                        value={formState[`team${team}Color` as "team1Color" | "team2Color"]}
                                         onChange={handleInputChange}
                                         className="w-full h-10 p-1 bg-transparent border-2 border-gray-600 rounded"
                                     />
                                 </div>
                                 <div className="flex-1">
-                                    <LogoEdit team={team as 1 | 2} session={session} mutateFn={mutateFn} />
+                                    <LogoEdit team={team as 1 | 2} formState={formState} setFormState={setFormState} />
                                 </div>
                             </div>
                         </div>
                     ))}
                 </div>
+                <Button onClick={handleSave} className="mt-6 w-full">
+                    Save Changes
+                </Button>
             </CardContent>
         </Card>
     );
 }
 
-export default EditTeamsDash;
-
 function LogoEdit({
     team,
-    session,
-    mutateFn,
+    formState,
+    setFormState,
 }: {
     team: 1 | 2;
-    session: Session;
-    mutateFn: UseMutateFunction<unknown, unknown, NewSession, unknown>;
+    formState: NewSession;
+    setFormState: React.Dispatch<React.SetStateAction<NewSession>>;
 }) {
-    const fileInputRef = useRef<HTMLInputElement>(null);
-
     const handleLogoChange = (team: 1 | 2, type: "url") => {
         if (type === "url") {
             const url = prompt("Enter logo URL:");
             if (url) {
-                mutateFn({
+                setFormState((prev) => ({
+                    ...prev,
                     [`team${team}Logo`]: url,
-                });
+                }));
             }
         }
     };
@@ -205,9 +202,9 @@ function LogoEdit({
             <Popover>
                 <PopoverTrigger asChild>
                     <Button variant="outline" className="w-full h-10">
-                        {session[`team${team}Logo` as "team1Logo" | "team2Logo"] ? (
+                        {formState[`team${team}Logo` as "team1Logo" | "team2Logo"] ? (
                             <img
-                                src={session[`team${team}Logo` as "team1Logo" | "team2Logo"] ?? ""}
+                                src={formState[`team${team}Logo` as "team1Logo" | "team2Logo"] ?? ""}
                                 alt={`Team ${team} logo`}
                                 className="w-full h-full object-contain"
                             />
@@ -225,15 +222,17 @@ function LogoEdit({
                             className="ut-button:bg-primary ut-button:text-primary-foreground ut-button:hover:bg-primary/90"
                             endpoint="imageUploader"
                             onClientUploadComplete={([{ url }]) => {
-                                mutateFn({
+                                setFormState((prev) => ({
+                                    ...prev,
                                     [`team${team}Logo`]: url,
-                                });
+                                }));
                             }}
                         />
-                        <input type="file" ref={fileInputRef} style={{ display: "none" }} accept="image/*" />
                     </div>
                 </PopoverContent>
             </Popover>
         </>
     );
 }
+
+export default EditTeamsDash;

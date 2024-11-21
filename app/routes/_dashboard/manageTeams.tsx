@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { getStartGGTeams } from "@/lib/serverFunctions";
 import { UploadButton } from "@/lib/uploadthing";
+import { extractSlug } from "@/lib/utils";
 
 export const Route = createFileRoute("/_dashboard/manageTeams")({
     component: TeamDashboard,
@@ -40,7 +41,7 @@ export default function TeamDashboard() {
         rank: "",
     });
     const [error, setError] = useState<string | null>(null);
-    const [eventSlug, setEventSlug] = useState("");
+    const [eventURL, setEventURL] = useState("");
     const [isImporting, setIsImporting] = useState(false);
 
     useEffect(() => {
@@ -53,17 +54,6 @@ export default function TeamDashboard() {
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setNewTeam((prev) => ({ ...prev, [name]: value }));
-    };
-
-    const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setNewTeam((prev) => ({ ...prev, logo: reader.result as string }));
-            };
-            reader.readAsDataURL(file);
-        }
     };
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -104,6 +94,11 @@ export default function TeamDashboard() {
         setIsImporting(true);
         setError(null);
         try {
+            const eventSlug = extractSlug(eventURL)
+            if (!eventSlug) {
+                window.alert("Something was wrong with the link, make sure it matches the example!")
+                return;
+            }
             const importedTeams = await getStartGGTeams(eventSlug);
             const newTeams = importedTeams.map((team) => ({
                 id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
@@ -116,7 +111,7 @@ export default function TeamDashboard() {
             const updatedTeams = [...teams, ...newTeams];
             setTeams(updatedTeams);
             localStorage.setItem("myLocalTeams", JSON.stringify(updatedTeams));
-            setEventSlug("");
+            setEventURL("");
         } catch (err) {
             setError("Failed to import teams. Please try again.");
         } finally {
@@ -137,11 +132,11 @@ export default function TeamDashboard() {
                 <CardContent>
                     <div className="flex space-x-2">
                         <Input
-                            placeholder="Enter start.gg event slug (e.g. tournament/abcd/event/efgh)"
-                            value={eventSlug}
-                            onChange={(e) => setEventSlug(e.target.value)}
+                            placeholder="Paste start.gg event URL here (e.g. https://www.start.gg/tournament/deadlock-collegiate-series/event/dcs-season-0/overview)"
+                            value={eventURL}
+                            onChange={(e) => setEventURL(e.target.value)}
                         />
-                        <Button onClick={importTeams} disabled={isImporting || !eventSlug}>
+                        <Button onClick={importTeams} disabled={isImporting || !eventURL}>
                             {isImporting ? "Importing..." : "Import"}
                         </Button>
                     </div>

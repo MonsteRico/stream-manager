@@ -42,7 +42,7 @@ function SingleCamCastersOverlay() {
 
 
     return (
-        <BorderAnimation clippath={`polygon(0% 0%, 0% 100%, 10% 100%, 10% 10%, 90% 10%, 90% 90%, 10% 90%, 10% 100%, 100% 100%, 100% 0%)`}>
+        <BorderAnimation clippath={`polygon(0% 0%, 0% 100%, 3% 100%, 3% 3%, 97% 3%, 97% 97%, 3% 97%, 3% 100%, 100% 100%, 100% 0%)`}>
             <div className="flex flex-col items-center justify-center my-auto w-full h-full">
                 <div className="flex h-full w-full z-30 flex-col items-center my-auto relative overflow-hidden">
                     <div className="flex flex-row inset-0 absolute h-full justify-between items-end">

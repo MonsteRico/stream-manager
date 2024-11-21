@@ -29,6 +29,19 @@ export function getGameLogoSrc(game: string | null) {
     }
 }
 
+export function extractSlug(url: string): string | null {
+    // Regular expression to match the slug pattern
+    const slugRegex = /https?:\/\/(?:www\.)?start\.gg(\/tournament\/[^\/]+\/event\/[^\/]+)/;
+
+    // Try to match the regex against the URL
+    const match = url.match(slugRegex);
+
+    // If a match is found, return the captured group (the slug)
+    // Otherwise, return null
+    return match ? match[1] : null;
+}
+
+
 export function useUpdateSessionMutation(sessionId: string, options?: UseMutationOptions<unknown, unknown, NewSession>) {
     const queryClient = useQueryClient();
 
