@@ -39,7 +39,7 @@ function SessionDashboard() {
     const { mutate, mutateAsync } = useUpdateSessionMutation(sessionId, {
         onMutate: (variables) => {
             setSession({ ...session, ...variables });
-            console.log("THE SSSION UPDATED")
+            console.log("THE SSSION UPDATED");
         },
     });
 
@@ -48,18 +48,17 @@ function SessionDashboard() {
             <div className="space-y-6 container mx-auto p-4">
                 <SessionInfoDash session={session} mutateFn={mutate} />
                 <EditTeamsDash session={session} mutateFn={mutate} mutateAsyncFn={mutateAsync} />
+
+                {session.game === "Overwatch" && <MatchMapsDashboard sessionId={sessionId} gameMaps={OverwatchMaps} mutateFn={mutate} />}
+                {session.game === "Splatoon" && <MatchMapsDashboard sessionId={sessionId} gameMaps={SplatoonMaps} mutateFn={mutate} />}
+                {session.game === "Valorant" && <MatchMapsDashboard sessionId={sessionId} gameMaps={ValorantMaps} mutateFn={mutate} />}
+                {session.game === "CS" && <MatchMapsDashboard sessionId={sessionId} gameMaps={CSMaps} mutateFn={mutate} />}
+                <CasterDashboard sessionId={sessionId} mutateFn={mutate} />
                 <OverlaysDash
                     sessionId={sessionId}
                     team1DisplayName={session.team1DisplayName}
                     team2DisplayName={session.team2DisplayName}
                 />
-                {session.game === "Overwatch" && <MatchMapsDashboard sessionId={sessionId} gameMaps={OverwatchMaps} mutateFn={mutate} />}
-                {session.game === "Splatoon" && <MatchMapsDashboard sessionId={sessionId} gameMaps={SplatoonMaps} mutateFn={mutate} />}
-                {session.game === "Valorant" && <MatchMapsDashboard sessionId={sessionId} gameMaps={ValorantMaps} mutateFn={mutate}/>}
-                {session.game === "CS" && (
-                    <MatchMapsDashboard sessionId={sessionId} gameMaps={CSMaps} mutateFn={mutate}  />
-                )}
-                <CasterDashboard sessionId={sessionId} mutateFn={mutate} />
             </div>
         </div>
     );
