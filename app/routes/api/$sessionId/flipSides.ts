@@ -5,7 +5,7 @@ import { createAPIFileRoute } from '@tanstack/start/api'
 import { eq } from 'drizzle-orm';
 
 export const Route = createAPIFileRoute('/api/$sessionId/flipSides')({
-  GET: async ({ request, params }) => {
+  POST: async ({ request, params }) => {
         const sessionId = params.sessionId;
         const session = await db.query.sessionsTable.findFirst({
             where: eq(sessionsTable.id, sessionId),
