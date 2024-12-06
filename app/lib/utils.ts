@@ -24,6 +24,8 @@ export function getGameLogoSrc(game: string | null) {
             return "/images/gameLogos/counter-strike-2.webp";
         case "League of Legends":
             return "/images/gameLogos/league-of-legends.png";
+        case "Deadlock":
+            return "/images/gameLogos/deadlock.png";
         default:
             return "/images/gameLogos/overwatch.png";
     }

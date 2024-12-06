@@ -82,6 +82,7 @@ function SessionInfoDash({ session, mutateFn }: { session: Session; mutateFn: Us
                             <SelectItem value="Valorant">Valorant</SelectItem>
                             <SelectItem value="CS">CS</SelectItem>
                             <SelectItem value="League of Legends">League of Legends</SelectItem>
+                            <SelectItem value="Deadlock">Deadlock</SelectItem>
                         </SelectContent>
                     </Select>
                 </div>

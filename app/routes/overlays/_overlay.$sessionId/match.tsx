@@ -12,6 +12,7 @@ import { LeagueOfLegendsMatchOverlay } from "@/components/matchOverlays/LeagueOf
 import { CSMatchOverlay } from "@/components/matchOverlays/CSMatchOverlay";
 import { SmashMatchOverlay } from "@/components/matchOverlays/SmashMatchOverlay";
 import { OverwatchMatchOverlay } from "@/components/matchOverlays/OverwatchMatchOverlay";
+import { DeadlockMatchOverlay } from "@/components/matchOverlays/DeadlockOverlay";
 
 export const Route = createFileRoute("/overlays/_overlay/$sessionId/match")({
     loader: async ({ params: { sessionId }, context }) => {
@@ -57,6 +58,8 @@ function MatchOverlay() {
             return <CSMatchOverlay route={Route} />;
         case "League of Legends":
             return <LeagueOfLegendsMatchOverlay route={Route} />;
+        case "Deadlock":
+            return <DeadlockMatchOverlay route={Route} />;
         default:
             return <GenericMatchOverlay route={Route} />;
     }

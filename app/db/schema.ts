@@ -41,7 +41,7 @@ export type CasterInfo = {
   instagram: string;
 }
 
-export const gameEnum = pgEnum('game', ["Overwatch", "Splatoon", "Rocket League", "Smash", "Valorant", "CS", "League of Legends"]);
+export const gameEnum = pgEnum('game', ["Overwatch", "Splatoon", "Rocket League", "Smash", "Valorant", "CS", "League of Legends", "Deadlock"]);
 
 export const sessionsTable = createTable("sessions", {
     id: uuid().primaryKey().defaultRandom(),
