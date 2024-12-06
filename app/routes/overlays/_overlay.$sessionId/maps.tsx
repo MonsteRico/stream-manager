@@ -99,7 +99,7 @@ export default function MapOverlay() {
                         }}
                     >
                         {!map.image && <div className="h-full w-full bg-black opacity-75 z-0"></div>}
-                        {!map.image && (
+                        {!map.winner && (
                             <div className="h-full w-full p-16 flex items-center justify-center z-10 absolute top-0 left-0">
                                 <img src="/images/esap.png" alt="Purdue Esports" className="z-10 w-32 h-32" />
                             </div>
@@ -118,15 +118,17 @@ export default function MapOverlay() {
                                 />
                             </div>
                         )}
-                        <div
-                            className={cn(
-                                "absolute bottom-0 left-0 right-0 bg-gray-700 bg-opacity-70 p-2 text-white",
-                                index % 2 == 0 && "bg-gray-800",
-                            )}
-                        >
-                            <h3 className="text-lg font-bold">{map.name || "TBD"}</h3>
-                            {map.mode && <p className="text-sm">{map.mode}</p>}
-                        </div>
+                        {gameHasMaps(session.game) && (
+                            <div
+                                className={cn(
+                                    "absolute bottom-0 left-0 right-0 bg-gray-700 bg-opacity-70 p-2 text-white",
+                                    index % 2 == 0 && "bg-gray-800",
+                                )}
+                            >
+                                <h3 className="text-lg font-bold">{map.name || "TBD"}</h3>
+                                {map.mode && <p className="text-sm">{map.mode}</p>}
+                            </div>
+                        )}
                     </motion.div>
                 ))}
             </div>
@@ -143,4 +145,19 @@ function hexToRgb(hex: string) {
               b: parseInt(result[3], 16),
           }
         : null;
+}
+
+function gameHasMaps(game: string | null) {
+    switch (game) {
+        case "Overwatch":
+            return true;
+        case "Splatoon":
+            return true;
+        case "Valorant":
+            return true;
+        case "CS":
+            return true;
+        default:
+            return false;
+    }
 }

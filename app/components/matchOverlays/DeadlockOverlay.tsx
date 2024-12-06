@@ -23,7 +23,7 @@ export function DeadlockMatchOverlay({ route }: { route: any }) {
     const session = sessionQuery.data;
 
     return (
-        <div className="relative w-full flex flex-row !overflow-hidden">
+        <div className="relative w-full flex flex-row !overflow-hidden justify-end">
             {session.team1First && (
                 <>
                     <TeamInfo
@@ -32,12 +32,14 @@ export function DeadlockMatchOverlay({ route }: { route: any }) {
                         score={session.team1Score}
                         color={session.team1Color}
                         delay={session.animationDelay}
+                        numMaps={session.mapInfo.length}
                     />
                     <TeamInfo
                         name={session.team2DisplayName}
                         icon={session.team2Logo ?? getGameLogoSrc(session.game)}
                         score={session.team2Score}
                         color={session.team2Color}
+                        numMaps={session.mapInfo.length}
                         flipped
                         delay={session.animationDelay}
                     />
@@ -49,6 +51,7 @@ export function DeadlockMatchOverlay({ route }: { route: any }) {
                         name={session.team2DisplayName}
                         icon={session.team2Logo ?? getGameLogoSrc(session.game)}
                         score={session.team2Score}
+                        numMaps={session.mapInfo.length}
                         color={session.team2Color}
                         delay={session.animationDelay}
                     />
@@ -56,6 +59,7 @@ export function DeadlockMatchOverlay({ route }: { route: any }) {
                         name={session.team1DisplayName}
                         icon={session.team1Logo ?? getGameLogoSrc(session.game)}
                         score={session.team1Score}
+                        numMaps={session.mapInfo.length}
                         color={session.team1Color}
                         flipped
                         delay={session.animationDelay}
@@ -70,6 +74,7 @@ function TeamInfo({
     name,
     icon,
     score,
+    numMaps,
     color,
     delay,
     flipped = false,
@@ -77,21 +82,13 @@ function TeamInfo({
     name: string;
     icon: string;
     score: number;
+    numMaps: number;
     color: string;
     flipped?: boolean;
     delay: number;
 }) {
-    const [scope1, animate1] = useAnimate();
     const [scope2, animate2] = useAnimate();
     useEffect(() => {
-        animate1(
-            scope1.current,
-            { x: "0" },
-            {
-                duration: 0.5,
-                delay: delay ?? 0,
-            },
-        );
         animate2(
             scope2.current,
             { x: "0" },
@@ -100,20 +97,11 @@ function TeamInfo({
                 delay: delay ?? 0,
             },
         );
-    }, [scope1, scope2]);
+    }, [scope2]);
 
     return (
-        <div className={cn("flex flex-row-reverse w-1/2", flipped && "flex-row")}>
-            <motion.div
-                initial={{
-                    x: !flipped ? "-300%" : "500%",
-                }}
-                style={{
-                    backgroundColor: color,
-                }}
-                className={cn("flex items-center gap-4 w-full h-6")}
-                ref={scope1}
-            ></motion.div>
+        <div className={cn("flex flex-row-reverse w-full", flipped && "flex-row")}>
+            <div className="w-[70%]"></div>
             <motion.div
                 initial={{
                     x: !flipped ? "-300%" : "500%",
@@ -122,13 +110,22 @@ function TeamInfo({
                 style={{
                     backgroundColor: color,
                 }}
-                className={cn("flex items-center gap-4 w-[60%] h-16 justify-between pr-4 pl-2", flipped && "flex-row-reverse pl-4 pr-2")}
+                className={cn("flex items-center gap-4 w-[30%] h-32 justify-between pr-4 pl-2", flipped && "flex-row-reverse pl-4 pr-2")}
             >
-                <div className={cn("flex flex-row items-center gap-4", flipped && "flex-row-reverse")}>
-                    {icon && <img src={icon} alt={`${name} logo`} className="h-12 w-auto py-1" />}
-                    <span className="text-3xl">{name} DEADLOCK</span>
+                <div className="flex flex-col items-center w-full justify-center gap-2">
+                    <div className={cn("flex flex-row items-center gap-4 w-full justify-between", flipped && "flex-row-reverse")}>
+                        {icon && <img src={icon} alt={`${name} logo`} className="h-12 w-auto py-1" />}
+                        <span className={cn("text-3xl w-full float-right text-end", flipped && "text-start")}>{name}</span>
+                    </div>
+                    <div className="w-full flex flex-row gap-2 justify-evenly">
+                        {Array.from({ length: score }).map((_, index) => (
+                            <div key={index} className="bg-white h-4 w-4 rounded-full"></div>
+                        ))}
+                        {Array.from({ length: numMaps - score }).map((_, index) => (
+                            <div key={index} className="border-2 border-white h-4 w-4 rounded-full"></div>
+                        ))}
+                    </div>
                 </div>
-                <span className="text-4xl">{score}</span>
             </motion.div>
         </div>
     );

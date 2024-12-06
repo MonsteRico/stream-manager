@@ -4,7 +4,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useState } from "react";
 import MatchMapsDashboard from "@/components/dashboard/MapDashboard";
-import { CSMaps, OverwatchMaps, SplatoonMaps, ValorantMaps } from "@/lib/maps";
+import { CSMaps, DefaultMaps, OverwatchMaps, SplatoonMaps, ValorantMaps } from "@/lib/maps";
 import OverlaysDash from "@/components/dashboard/OverlaysDash";
 import CasterDashboard from "@/components/dashboard/CasterDashboard";
 import { NotFound } from "@/components/NotFound";
@@ -53,6 +53,8 @@ function SessionDashboard() {
                 {session.game === "Splatoon" && <MatchMapsDashboard sessionId={sessionId} gameMaps={SplatoonMaps} mutateFn={mutate} />}
                 {session.game === "Valorant" && <MatchMapsDashboard sessionId={sessionId} gameMaps={ValorantMaps} mutateFn={mutate} />}
                 {session.game === "CS" && <MatchMapsDashboard sessionId={sessionId} gameMaps={CSMaps} mutateFn={mutate} />}
+                {session.game === "League of Legends" && <MatchMapsDashboard sessionId={sessionId} gameMaps={DefaultMaps} mutateFn={mutate} />}
+                {session.game === "Deadlock" && <MatchMapsDashboard sessionId={sessionId} gameMaps={DefaultMaps} mutateFn={mutate} />}
                 <CasterDashboard sessionId={sessionId} mutateFn={mutate} />
                 <OverlaysDash
                     sessionId={sessionId}

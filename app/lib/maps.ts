@@ -367,3 +367,13 @@ export const CSMaps: MapInfo[] = [
         winner: null,
     },
 ];
+
+export const DefaultMaps: MapInfo[] = [
+    {
+        id: 1,
+        name: "No Actual Maps",
+        image: "",
+        mode: null,
+        winner: null,
+    },
+]
