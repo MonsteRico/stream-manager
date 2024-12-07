@@ -66,6 +66,7 @@ export const sessionsTable = createTable("sessions", {
         .array()
         .notNull()
         .default(sql`ARRAY[]::jsonb[]`),
+    bestOf: boolean().notNull().default(false), // true = best of, false = play all
     casters: jsonb("casters")
         .$type<CasterInfo>()
         .array()

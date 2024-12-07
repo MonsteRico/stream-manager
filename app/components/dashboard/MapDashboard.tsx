@@ -1,10 +1,9 @@
-"use client";
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { sessionQueryOptions } from "@/lib/serverFunctions";
 import { NotFound } from "../NotFound";
@@ -30,6 +29,7 @@ export default function MatchMapsDashboard({ sessionId, gameMaps, mutateFn }: Ma
 
     const [maps, setMaps] = useState<MapInfo[]>(session.mapInfo as MapInfo[]);
     const [hasChanges, setHasChanges] = useState(false);
+    const [isBestOf, setIsBestOf] = useState(session.bestOf);
 
     const updateNumberOfMaps = (numberOfMaps: number) => {
         const newMaps: MapInfo[] = Array.from({ length: numberOfMaps }, (_, index) => ({
@@ -55,6 +55,7 @@ export default function MatchMapsDashboard({ sessionId, gameMaps, mutateFn }: Ma
     const handleSave = () => {
         mutateFn({
             mapInfo: maps,
+            bestOf: isBestOf,
         });
         setHasChanges(false);
     };
@@ -66,20 +67,29 @@ export default function MatchMapsDashboard({ sessionId, gameMaps, mutateFn }: Ma
             </CardHeader>
             <CardContent>
                 <form className="space-y-6">
-                    <div className="flex justify-between items-center">
-                        <Label htmlFor="numberOfMaps">Number of Maps</Label>
-                        <Select value={maps.length.toString()} onValueChange={(value) => updateNumberOfMaps(parseInt(value))}>
-                            <SelectTrigger id="numberOfMaps" className="w-[180px] bg-gray-600 border-gray-500">
-                                <SelectValue placeholder="Select number of maps" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {[1, 2, 3, 4, 5, 6, 7].map((num) => (
-                                    <SelectItem key={num} value={num.toString()}>
-                                        {num}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0 md:space-x-4">
+                        <div className="flex items-center space-x-2">
+                            <Label htmlFor="numberOfMaps">Number of Maps</Label>
+                            <Select value={maps.length.toString()} onValueChange={(value) => updateNumberOfMaps(parseInt(value))}>
+                                <SelectTrigger id="numberOfMaps" className="w-[120px] bg-gray-600 border-gray-500">
+                                    <SelectValue placeholder="Select" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {[1, 2, 3, 4, 5, 6, 7].map((num) => (
+                                        <SelectItem key={num} value={num.toString()}>
+                                            {num}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <Switch id="best-of-toggle" checked={isBestOf} onCheckedChange={() => {
+                                setIsBestOf(!isBestOf);
+                                setHasChanges(true);
+                            }} />
+                            <Label htmlFor="best-of-toggle">{isBestOf ? `Best of ${maps.length}` : "Play all"}</Label>
+                        </div>
                     </div>
                     {maps.map((map, index) => (
                         <div key={map.id} className="space-y-4 p-4 bg-gray-700 rounded-lg">

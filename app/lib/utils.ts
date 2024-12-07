@@ -68,7 +68,8 @@ export function useUpdateSessionMutation(sessionId: string, options?: UseMutatio
             team2Record,
             team1Rank,
             team2Rank,
-            animationDelay
+            animationDelay,
+            casters
         }: NewSession) => {
             await updateSession({
                 id: sessionId,
@@ -90,7 +91,8 @@ export function useUpdateSessionMutation(sessionId: string, options?: UseMutatio
                 team2Record,
                 team1Rank,
                 team2Rank,
-                animationDelay
+                animationDelay,
+                casters
             });
         },
 

@@ -7,6 +7,8 @@ import CasterInfoCard from "@/components/overlay/CasterInfoCard";
 import type { CasterInfo } from "@/db/schema";
 import BorderAnimation from "@/components/overlay/BorderAnimation";
 import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+
 
 export const Route = createFileRoute("/overlays/_overlay/$sessionId/casters")({
     loader: async ({ params: { sessionId }, context }) => {
@@ -72,34 +74,36 @@ function CastersOverlay() {
     const cameraWidth = window.innerWidth * 0.33;
     const cameraHeight = window.innerHeight * 0.7;
 
+    const numCasters = casters.length;
+
     return (
         <>
             <BorderAnimation clippath={clipPath}>
                 <div className="flex flex-col items-center justify-center my-auto">
                     <div className="flex h-full w-full z-30 flex-row items-baseline gap-8">
-                        {casters.map((caster: CasterInfo, index) => (
+                        {Array.from({ length: numCasters }).map((_, index) => (
                             <div className="flex flex-col items-center" key={index}>
-                                <div
-                                    className={`bg-secondary mb-2 rounded-lg overflow-hidden`}
-                                    ref={index == 0 ? placeholderOneRef : placeholderTwoRef}
-                                    style={{
-                                        width: cameraWidth,
-                                        height: cameraHeight,
-                                    }}
-                                >
-                                    {/* Placeholder for camera feed */}
-                                    <div className="w-full h-full flex items-center justify-center text-secondary-foreground">
-                                        Camera Feed
-                                    </div>
-                                </div>
+                                    <motion.div
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        className={`bg-secondary mb-2 rounded-lg overflow-hidden`}
+                                        ref={index == 0 ? placeholderOneRef : placeholderTwoRef}
+                                        style={{
+                                            width: cameraWidth,
+                                            height: cameraHeight,
+                                        }}
+                                    >
+                                        {/* Placeholder for camera feed */}
+                                        <div className="w-full h-full flex items-center justify-center text-secondary-foreground">
+                                            Camera Feed
+                                        </div>
+                                    </motion.div>
+                                <CasterInfoCard {...casters[index]} delay={session.animationDelay} />
                             </div>
                         ))}
                     </div>
                 </div>
             </BorderAnimation>
-            {casters.map((caster) => (
-                <CasterInfoCard {...caster} delay={session.animationDelay} />
-            ))}
         </>
     );
 }

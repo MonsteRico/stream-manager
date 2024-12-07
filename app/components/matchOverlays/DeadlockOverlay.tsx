@@ -32,6 +32,7 @@ export function DeadlockMatchOverlay({ route }: { route: any }) {
                         score={session.team1Score}
                         color={session.team1Color}
                         delay={session.animationDelay}
+                        bestOf={session.bestOf}
                         numMaps={session.mapInfo.length}
                     />
                     <TeamInfo
@@ -41,6 +42,7 @@ export function DeadlockMatchOverlay({ route }: { route: any }) {
                         color={session.team2Color}
                         numMaps={session.mapInfo.length}
                         flipped
+                        bestOf={session.bestOf}
                         delay={session.animationDelay}
                     />
                 </>
@@ -53,6 +55,7 @@ export function DeadlockMatchOverlay({ route }: { route: any }) {
                         score={session.team2Score}
                         numMaps={session.mapInfo.length}
                         color={session.team2Color}
+                        bestOf={session.bestOf}
                         delay={session.animationDelay}
                     />
                     <TeamInfo
@@ -62,6 +65,7 @@ export function DeadlockMatchOverlay({ route }: { route: any }) {
                         numMaps={session.mapInfo.length}
                         color={session.team1Color}
                         flipped
+                        bestOf={session.bestOf}
                         delay={session.animationDelay}
                     />
                 </>
@@ -78,6 +82,7 @@ function TeamInfo({
     color,
     delay,
     flipped = false,
+    bestOf,
 }: {
     name: string;
     icon: string;
@@ -86,6 +91,7 @@ function TeamInfo({
     color: string;
     flipped?: boolean;
     delay: number;
+    bestOf: boolean;
 }) {
     const [scope2, animate2] = useAnimate();
     useEffect(() => {
@@ -98,6 +104,8 @@ function TeamInfo({
             },
         );
     }, [scope2]);
+
+    console.log(bestOf);
 
     return (
         <div className={cn("flex flex-row-reverse w-full", flipped && "flex-row")}>
@@ -121,7 +129,7 @@ function TeamInfo({
                         {Array.from({ length: score }).map((_, index) => (
                             <div key={index} className="bg-white h-4 w-4 rounded-full"></div>
                         ))}
-                        {Array.from({ length: numMaps - score }).map((_, index) => (
+                        {Array.from({ length: (bestOf ? Math.round(numMaps / 2)  : numMaps) - score }).map((_, index) => (
                             <div key={index} className="border-2 border-white h-4 w-4 rounded-full"></div>
                         ))}
                     </div>
