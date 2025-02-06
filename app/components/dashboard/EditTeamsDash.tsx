@@ -58,6 +58,14 @@ function EditTeamsDash({
         mutateFn(formState);
     };
 
+    function resetLogos() {
+        setFormState((prev) => ({
+            ...prev,
+            team1Logo: null,
+            team2Logo: null,
+        }));
+    }
+
     return (
         <Card className="bg-gradient-to-r from-gray-800 to-gray-900 text-white">
             <CardHeader>
@@ -65,6 +73,7 @@ function EditTeamsDash({
                 <div className="flex flex-row gap-2">
                     <Button onClick={flipSides}>Flip Teams</Button>
                     <ChoosePresetTeams sessionId={session.id} mutateFunction={mutateAsyncFn} />
+                    <Button onClick={resetLogos}>Reset Logos</Button>
                 </div>
             </CardHeader>
             <CardContent>
