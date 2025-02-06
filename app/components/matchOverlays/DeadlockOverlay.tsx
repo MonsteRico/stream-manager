@@ -123,7 +123,7 @@ function TeamInfo({
                 <div className="flex flex-col items-center w-full justify-center gap-2">
                     <div className={cn("flex flex-row items-center gap-4 w-full justify-between", flipped && "flex-row-reverse")}>
                         {icon && <img src={icon} alt={`${name} logo`} className="h-12 w-auto py-1" />}
-                        <span className={cn("text-3xl w-full float-right text-end", flipped && "text-start")}>{name}</span>
+                        <span className={cn("text-3xl w-full float-right text-center")}>{name}</span>
                     </div>
                     <div className="w-full flex flex-row gap-2 justify-evenly">
                         {Array.from({ length: score }).map((_, index) => (
