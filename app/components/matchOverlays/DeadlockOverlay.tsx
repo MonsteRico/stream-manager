@@ -105,7 +105,7 @@ function TeamInfo({
         );
     }, [scope2]);
 
-    console.log(bestOf);
+    console.log(score);
 
     return (
         <div className={cn("flex flex-row-reverse w-full", flipped && "flex-row")}>

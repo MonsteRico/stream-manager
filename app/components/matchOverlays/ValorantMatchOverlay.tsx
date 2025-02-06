@@ -30,15 +30,19 @@ export function ValorantMatchOverlay({ route }: { route: any }) {
                         name={session.team1DisplayName}
                         icon={session.team1Logo ?? getGameLogoSrc(session.game)}
                         score={session.team1Score}
+                        bestOf={session.bestOf}
                         color={session.team1Color}
                         delay={session.animationDelay}
+                        numMaps={session.mapInfo.length}
                     />
                     <TeamInfo
                         name={session.team2DisplayName}
                         icon={session.team2Logo ?? getGameLogoSrc(session.game)}
                         score={session.team2Score}
+                        bestOf={session.bestOf}
                         color={session.team2Color}
                         flipped
+                        numMaps={session.mapInfo.length}
                         delay={session.animationDelay}
                     />
                 </>
@@ -50,6 +54,8 @@ export function ValorantMatchOverlay({ route }: { route: any }) {
                         icon={session.team2Logo ?? getGameLogoSrc(session.game)}
                         score={session.team2Score}
                         color={session.team2Color}
+                        bestOf={session.bestOf}
+                        numMaps={session.mapInfo.length}
                         delay={session.animationDelay}
                     />
                     <TeamInfo
@@ -57,6 +63,8 @@ export function ValorantMatchOverlay({ route }: { route: any }) {
                         icon={session.team1Logo ?? getGameLogoSrc(session.game)}
                         score={session.team1Score}
                         color={session.team1Color}
+                        numMaps={session.mapInfo.length}
+                        bestOf={session.bestOf}
                         flipped
                         delay={session.animationDelay}
                     />
@@ -72,13 +80,17 @@ function TeamInfo({
     score,
     color,
     delay,
+    bestOf,
     flipped = false,
+    numMaps
 }: {
     name: string;
     icon: string;
     score: number;
     color: string;
     flipped?: boolean;
+    bestOf: boolean;
+    numMaps: number;
     delay: number;
 }) {
     const [scope1, animate1] = useAnimate();
@@ -128,8 +140,12 @@ function TeamInfo({
                     {icon && <img src={icon} alt={`${name} logo`} className="h-12 w-auto py-1" />}
                     <span className="text-3xl">{name}</span>
                 </div>
-                <span className="text-4xl">{score}</span>
-            </motion.div>
+                        {Array.from({ length: score }).map((_, index) => (
+                            <div key={index} className="bg-white h-4 w-4 rounded-full"></div>
+                        ))}
+                        {Array.from({ length: (bestOf ? Math.round(numMaps / 2)  : numMaps) - score }).map((_, index) => (
+                            <div key={index} className="border-2 border-white h-4 w-4 rounded-full"></div>
+                        ))}            </motion.div>
         </div>
     );
 }

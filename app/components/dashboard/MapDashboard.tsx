@@ -84,11 +84,12 @@ export default function MatchMapsDashboard({ sessionId, gameMaps, mutateFn }: Ma
                             </Select>
                         </div>
                         <div className="flex items-center space-x-2">
-                            <Switch id="best-of-toggle" checked={isBestOf} onCheckedChange={() => {
-                                setIsBestOf(!isBestOf);
+                            <Label htmlFor="best-of-toggle">Play all</Label> 
+                            <Switch id="best-of-toggle" checked={isBestOf} onCheckedChange={(checked) => {
+                                setIsBestOf(checked);
                                 setHasChanges(true);
                             }} />
-                            <Label htmlFor="best-of-toggle">{isBestOf ? `Best of ${maps.length}` : "Play all"}</Label>
+                            <Label htmlFor="best-of-toggle">Best of {maps.length}</Label>
                         </div>
                     </div>
                     {maps.map((map, index) => (
