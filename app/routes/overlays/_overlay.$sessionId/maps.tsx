@@ -99,7 +99,7 @@ export default function MapOverlay() {
                         }}
                     >
                         {!map.image && <div className="h-full w-full bg-black opacity-75 z-0"></div>}
-                        {!map.winner && (
+                        {!map.winner && !map.image && (
                             <div className="h-full w-full p-16 flex items-center justify-center z-10 absolute top-0 left-0">
                                 <img src="/images/esap.png" alt="Purdue Esports" className="z-10 w-32 h-32" />
                             </div>
