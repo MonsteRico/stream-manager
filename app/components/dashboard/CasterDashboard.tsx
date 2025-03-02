@@ -11,6 +11,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { sessionQueryOptions } from "@/lib/serverFunctions";
 import { NotFound } from "../NotFound";
 import type { UseMutateFunction } from "@tanstack/react-query";
+import { useKey } from "@/lib/useKey";
 
 interface CasterDashboardProps {
     sessionId: string;
@@ -64,6 +65,9 @@ export default function CasterDashboard({ sessionId, mutateFn }: CasterDashboard
         });
         setHasChanges(false);
     };
+
+    useKey("ctrls", handleSave);
+
 
     return (
         <Card className="bg-gradient-to-r from-gray-800 to-gray-900 text-white">
