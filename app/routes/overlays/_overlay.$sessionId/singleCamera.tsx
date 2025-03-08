@@ -46,14 +46,16 @@ function SingleCamOverlay() {
     const session = sessionQuery.data;
 
     return (
+        <>
         <BorderAnimation clippath={`polygon(0% 0%, 0% 100%, 3% 100%, 3% 3%, 97% 3%, 97% 97%, 3% 97%, 3% 100%, 100% 100%, 100% 0%)`}>
             <div className="flex flex-col items-center justify-center my-auto w-full h-full">
                 <div className="flex h-full w-full z-30 flex-col items-baseline relative overflow-hidden">
-                    <div className="flex flex-row inset-0 absolute h-full justify-between items-end">
-                        {text.length > 0 && <CasterInfoCard name={text} showSocials={false} delay={session.animationDelay} />}
-                    </div>
+                    
                 </div>
             </div>
         </BorderAnimation>
+        <div className="flex flex-row inset-0 z-10 absolute h-full justify-between items-end">
+                        {text.length > 0 && <CasterInfoCard name={text} showSocials={false} delay={session.animationDelay} />}
+                    </div></>
     );
 }
