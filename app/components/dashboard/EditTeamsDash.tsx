@@ -57,7 +57,7 @@ function EditTeamsDash({
 			team2Logo: tempTeam1Stuff.logo,
 			team2Rank: tempTeam1Stuff.rank,
 			team2Record: tempTeam1Stuff.record,
-			team1First: !formState.team1First,
+			team1First: true,
 		};
 		setFormState(newFormState);
 		setHasChanges(true);
