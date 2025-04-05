@@ -4,7 +4,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useState } from "react";
 import MatchMapsDashboard from "@/components/dashboard/MapDashboard";
-import { CSMaps, DefaultMaps, OverwatchMaps, SplatoonMaps, ValorantMaps } from "@/lib/maps";
+import { CSMaps, DefaultMaps, MarvelRivalsMaps, OverwatchMaps, SplatoonMaps, ValorantMaps } from "@/lib/maps";
 import OverlaysDash from "@/components/dashboard/OverlaysDash";
 import CasterDashboard from "@/components/dashboard/CasterDashboard";
 import { NotFound } from "@/components/NotFound";
@@ -61,6 +61,9 @@ function SessionDashboard() {
 				{session.game === "CS" && <MatchMapsDashboard sessionId={sessionId} gameMaps={[{ id: 0, name: "TBD", image: "", mode: null, winner: null }, ...CSMaps]} mutateFn={mutate} />}
 				{session.game === "League of Legends" && (
 					<MatchMapsDashboard sessionId={sessionId} gameMaps={[{ id: 0, name: "TBD", image: "", mode: null, winner: null }, ...DefaultMaps]} mutateFn={mutate} />
+				)}
+				{session.game === "Marvel Rivals" && (
+					<MatchMapsDashboard sessionId={sessionId} gameMaps={[{ id: 0, name: "TBD", image: "", mode: null, winner: null }, ...MarvelRivalsMaps]} mutateFn={mutate} />
 				)}
 				{session.game === "Deadlock" && <MatchMapsDashboard sessionId={sessionId} gameMaps={[{ id: 0, name: "TBD", image: "", mode: null, winner: null }, ...DefaultMaps]} mutateFn={mutate} />}
 				<CasterDashboard sessionId={sessionId} mutateFn={mutate} />

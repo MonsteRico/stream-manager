@@ -22,12 +22,13 @@ export const createTable = pgTableCreator((name) => `stream-manager_${name}`);
 
 type OverwatchModes = "Control" | "Flashpoint" | "Escort" | "Hybrid" | "Push" | "Clash";
 type SplatoonModes = "Splatzones" | "Tower Control" | "Rainmaker" | "Clam Blitz";
+type RivalsModes = "Convoy" | "Convergence" | "Domination" | "Conquest";
 
 export type MapInfo = {
     id: number;
     name: string;
     image: string;
-    mode: OverwatchModes | SplatoonModes | null;
+    mode: OverwatchModes | SplatoonModes | RivalsModes | null;
     winner: "team1" | "team2" | null;
 }
 
@@ -41,7 +42,7 @@ export type CasterInfo = {
   instagram: string;
 }
 
-export const gameEnum = pgEnum('game', ["Overwatch", "Splatoon", "Rocket League", "Smash", "Valorant", "CS", "League of Legends", "Deadlock"]);
+export const gameEnum = pgEnum('game', ["Overwatch", "Splatoon", "Rocket League", "Smash", "Valorant", "CS", "League of Legends", "Deadlock", "Marvel Rivals"]);
 
 export const sessionsTable = createTable("sessions", {
     id: uuid().primaryKey().defaultRandom(),

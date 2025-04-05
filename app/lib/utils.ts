@@ -26,6 +26,8 @@ export function getGameLogoSrc(game: string | null) {
             return "/images/gameLogos/league-of-legends.png";
         case "Deadlock":
             return "/images/gameLogos/deadlock.png";
+        case "Marvel Rivals":
+            return "/images/gameLogos/rivals.jpg"
         default:
             return "/images/gameLogos/overwatch.png";
     }

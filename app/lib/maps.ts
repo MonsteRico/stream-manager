@@ -377,3 +377,85 @@ export const DefaultMaps: MapInfo[] = [
         winner: null,
     },
 ]
+
+
+
+export const MarvelRivalsMaps: MapInfo[] = [
+  {
+    id: 1,
+    name: 'Yggdrasill Path',
+    image: `/mapImages/rivals/yggdrasillPath.webp`,
+    mode: 'Convoy',
+    winner: null,
+  },
+  {
+    id: 2,
+    name: 'Royal Palace',
+    image: `/mapImages/rivals/royalPalace.webp`,
+    mode: 'Domination',
+    winner: null,
+  },
+  {
+    id: 3,
+    name: 'Shin-Shibuya',
+    image: `/mapImages/rivals/shinShibuya.webp`,
+    mode: 'Convergence',
+    winner: null,
+  },
+  {
+    id: 4,
+    name: 'Spider-Islands',
+    image: `/mapImages/rivals/spiderIslands.webp`,
+    mode: 'Convoy',
+    winner: null,
+  },
+  {
+    id: 5,
+    name: 'Hall of Djalia',
+    image: `/mapImages/rivals/hallOfDjalia.webp`,
+    mode: 'Convergence',
+    winner: null,
+  },
+  {
+    id: 6,
+    name: "Birnin T'Challa",
+    image: `/mapImages/rivals/birninTchalla.webp`,
+    mode: 'Domination',
+    winner: null,
+  },
+  {
+    id: 7,
+    name: "Hell's Heaven",
+    image: `/mapImages/rivals/hellsHeaven.webp`,
+    mode: 'Domination',
+    winner: null,
+  },
+  {
+    id: 8,
+    name: 'Symbiotic Surface',
+    image: `/mapImages/rivals/symbioticSurface.webp`,
+    mode: 'Convergence',
+    winner: null,
+  },
+  {
+    id: 12,
+    name: 'Midtown',
+    image: `/mapImages/rivals/midtown.webp`,
+    mode: 'Convoy',
+    winner: null,
+  },
+  {
+    id: 14,
+    name: 'Central Park',
+    image: `/mapImages/rivals/centralPark.webp`,
+    mode: 'Convergence',
+    winner: null,
+  },
+  {
+    id: 15,
+    name: 'Krakoa',
+    image: `/mapImages/rivals/krakoa.webp`,
+    mode: 'Domination',
+    winner: null,
+  },
+];
