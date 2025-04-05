@@ -157,6 +157,8 @@ function gameHasMaps(game: string | null) {
             return true;
         case "CS":
             return true;
+        case "Marvel Rivals":
+            return true;
         default:
             return false;
     }
