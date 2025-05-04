@@ -180,7 +180,7 @@ export const OverwatchMaps: MapInfo[] = [
         id: 26,
         name: "Runasapi",
         image: "/mapImages/overwatch/runasapi.jpg",
-        mode: "Control",
+        mode: "Push",
         winner: null,
     },
     {
@@ -201,7 +201,7 @@ export const OverwatchMaps: MapInfo[] = [
         id: 29,
         name: "Suravasa",
         image: "/mapImages/overwatch/suravasa.jpg",
-        mode: "Push",
+        mode: "Flashpoint",
         winner: null,
     },
     {
