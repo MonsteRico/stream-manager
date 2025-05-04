@@ -23,8 +23,8 @@ function ImageAndTextOverlay({
         <BorderAnimation>
             <div className="flex flex-col items-center justify-center my-auto">
                 <div className="justify-center items-center flex h-full w-full z-30 flex-col">
-                    <img src={centerImage} alt={centerAlt} className={cn("w-64", centerImageClassName)} />
-                    <p className={cn("text-black text-3xl font-bold bg-[#cfb991] px-4 py-1 rounded-lg", textClassName)}>{text}</p>
+                    {centerImage != "" && <img src={centerImage} alt={centerAlt} className={cn("w-64", centerImageClassName)} />}
+                    {text != "" && <p className={cn("text-black text-3xl font-bold bg-[#cfb991] px-4 py-1 rounded-lg", textClassName)}>{text}</p>}
                 </div>
                 <MovingDots
                     backgroundColor="#d1d3d4"
