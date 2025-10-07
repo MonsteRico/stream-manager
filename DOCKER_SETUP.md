@@ -56,7 +56,7 @@ APP_PORT=5001
 
     ```bash
     # Run migrations manually
-    docker-compose exec app npm run db:migrate:docker
+    docker-compose exec app bun run db:migrate:docker
 
     # Or use the migration service
     docker-compose --profile migrate up migrate
@@ -133,13 +133,13 @@ docker-compose up -d app
 docker-compose exec postgres psql -U stream_manager -d stream_manager
 
 # Run database migrations manually
-docker-compose exec app npm run db:migrate:docker
+docker-compose exec app bun run db:migrate:docker
 
 # Generate new migrations (run locally during development)
-npm run db:generate
+bun run db:generate
 
 # Open Drizzle Studio (database GUI)
-docker-compose exec app npm run db:studio
+docker-compose exec app bun run db:studio
 ```
 
 ## Production Considerations

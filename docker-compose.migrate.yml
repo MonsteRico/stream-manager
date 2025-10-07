@@ -12,6 +12,6 @@ services:
         depends_on:
             postgres:
                 condition: service_healthy
-        command: ["node", "scripts/migrate.js"]
+        command: ["bun", "scripts/migrate.js"]
         profiles:
             - migrate

@@ -14,7 +14,7 @@ When you modify your database schema in `app/db/schema.ts`:
 
 ```bash
 # Generate a new migration file
-npm run db:generate
+bun run db:generate
 ```
 
 This creates a new migration file in the `drizzle/` directory with a timestamp prefix.
@@ -23,7 +23,7 @@ This creates a new migration file in the `drizzle/` directory with a timestamp p
 
 ```bash
 # Apply migrations to your local database
-npm run db:migrate
+bun run db:migrate
 ```
 
 ### 3. Development with Push (Quick Iteration)
@@ -32,7 +32,7 @@ For rapid development, you can still use the push command:
 
 ```bash
 # Push schema changes directly (development only)
-npm run db:push
+bun run db:push
 ```
 
 ## Production Deployment
@@ -55,7 +55,7 @@ The application will:
 
 ```bash
 # Run migrations manually in Docker
-docker-compose exec app npm run db:migrate:docker
+docker-compose exec app bun run db:migrate:docker
 
 # Or use the dedicated migration service
 docker-compose --profile migrate up migrate
@@ -78,7 +78,7 @@ drizzle/
 
 ```bash
 # After modifying schema.ts
-npm run db:generate
+bun run db:generate
 ```
 
 ### 2. Review Migration Files
@@ -89,7 +89,7 @@ Always review the generated migration files before applying them to ensure they'
 
 ```bash
 # Test migrations on a copy of production data
-npm run db:migrate
+bun run db:migrate
 ```
 
 ### 4. Backup Before Major Migrations
@@ -114,7 +114,7 @@ If a migration fails:
 2. Fix the migration file or schema
 3. Regenerate if needed:
     ```bash
-    npm run db:generate
+    bun run db:generate
     ```
 
 ### Database Out of Sync
@@ -135,7 +135,7 @@ If migration files are missing:
 1. Generate initial migration:
 
     ```bash
-    npm run db:generate
+    bun run db:generate
     ```
 
 2. The Docker build will automatically generate migrations if none exist
@@ -144,11 +144,11 @@ If migration files are missing:
 
 | Command                     | Purpose                  | Environment      |
 | --------------------------- | ------------------------ | ---------------- |
-| `npm run db:generate`       | Generate migration files | Development      |
-| `npm run db:migrate`        | Apply migrations         | Development      |
-| `npm run db:push`           | Push schema directly     | Development only |
-| `npm run db:migrate:docker` | Run migrations in Docker | Production       |
-| `npm run db:studio`         | Open Drizzle Studio      | Any              |
+| `bun run db:generate`       | Generate migration files | Development      |
+| `bun run db:migrate`        | Apply migrations         | Development      |
+| `bun run db:push`           | Push schema directly     | Development only |
+| `bun run db:migrate:docker` | Run migrations in Docker | Production       |
+| `bun run db:studio`         | Open Drizzle Studio      | Any              |
 
 ## Migration vs Push
 
