@@ -7,14 +7,14 @@ This document provides instructions for setting up the Stream Manager applicatio
 For router port forwarding, you need to open the following ports:
 
 -   **Port 3000** (or custom `APP_PORT`): Main application (HTTP)
--   **Port 5432** (or custom `DB_PORT`): PostgreSQL database (optional - only if you need external database access)
+
+**Note**: The PostgreSQL database is NOT exposed to the public internet for security reasons. It's only accessible within the Docker network.
 
 ### Port Configuration
 
 You can customize the external ports by setting environment variables:
 
 -   `APP_PORT`: External port for the web application (default: 3000)
--   `DB_PORT`: External port for the database (default: 5432)
 
 **Example**: To use port 5001 for your application:
 
@@ -64,7 +64,7 @@ APP_PORT=5001
 
 5. **Access the application**
     - Main application: http://localhost:${APP_PORT:-3000}
-    - Database (if needed): localhost:${DB_PORT:-5432}
+    - Database: Only accessible within Docker network (not exposed to host)
 
 ## Services
 
@@ -76,12 +76,12 @@ APP_PORT=5001
 -   **Internal Port**: Always 3000
 -   **Health Check**: HTTP endpoint check every 30 seconds
 
-### Database (Configurable Port)
+### Database (Internal Only)
 
 -   **Container**: `stream-manager-db`
 -   **Purpose**: PostgreSQL database for storing sessions and teams
--   **External Port**: Configurable via `DB_PORT` (default: 5432)
--   **Internal Port**: Always 5432
+-   **External Port**: **NOT EXPOSED** (security)
+-   **Internal Port**: 5432 (only accessible within Docker network)
 -   **Health Check**: PostgreSQL connection check every 10 seconds
 
 ## Environment Variables
@@ -92,7 +92,6 @@ APP_PORT=5001
 | `STARTGG_API_TOKEN` | Start.gg API token | Yes      | -                         |
 | `UPLOADTHING_TOKEN` | UploadThing token  | Yes      | -                         |
 | `APP_PORT`          | External app port  | No       | `3000`                    |
-| `DB_PORT`           | External DB port   | No       | `5432`                    |
 
 ## Useful Commands
 
@@ -169,7 +168,6 @@ docker-compose exec app bun run db:studio
 -   Change ports using environment variables in `.env`:
     ```bash
     APP_PORT=5001
-    DB_PORT=5433
     ```
 -   Update router port forwarding accordingly
 -   Restart containers after changing ports:
