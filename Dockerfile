@@ -22,7 +22,7 @@ RUN if [ ! -d "./drizzle" ]; then \
     fi
 
 # Build the application
-RUN bun run build
+RUN bun run build && echo "Build completed, listing contents:" && ls -la && echo "Checking for common output directories:" && ls -la .output/ 2>/dev/null || echo "No .output directory" && ls -la dist/ 2>/dev/null || echo "No dist directory" && ls -la build/ 2>/dev/null || echo "No build directory"
 
 # Production image, copy all the files and run the app
 FROM base AS runner
@@ -37,11 +37,8 @@ RUN adduser --system --uid 1001 appuser --ingroup appgroup
 COPY package.json bun.lockb* ./
 RUN bun install --production --frozen-lockfile
 
-# Copy the built application
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/drizzle ./drizzle
-COPY --from=builder /app/scripts ./scripts
+# Copy the built application and all necessary files
+COPY --from=builder /app ./
 
 # Create a non-root user to run the app
 USER appuser
