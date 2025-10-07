@@ -211,6 +211,13 @@ export const OverwatchMaps: MapInfo[] = [
         mode: "Clash",
         winner: null,
     },
+    {
+        id: 31,
+        name: "Aatlis",
+        image: "/mapImages/overwatch/aatlis.png",
+        mode: "Flashpoint",
+        winner: null,
+    },
 ];
 
 export const SplatoonMaps: MapInfo[] = [];
