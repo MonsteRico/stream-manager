@@ -30,8 +30,8 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
-RUN addgroup --system --gid 1001 bun
-RUN adduser --system --uid 1001 bunuser
+RUN addgroup --system --gid 1001 appgroup
+RUN adduser --system --uid 1001 appuser --ingroup appgroup
 
 # Install only production dependencies
 COPY package.json bun.lockb* ./
@@ -44,7 +44,7 @@ COPY --from=builder /app/drizzle ./drizzle
 COPY --from=builder /app/scripts ./scripts
 
 # Create a non-root user to run the app
-USER bunuser
+USER appuser
 
 EXPOSE 3000
 
