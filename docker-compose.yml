@@ -1,0 +1,52 @@
+version: "3.8"
+
+services:
+    # PostgreSQL Database
+    postgres:
+        image: postgres:15-alpine
+        container_name: stream-manager-db
+        restart: unless-stopped
+        environment:
+            POSTGRES_DB: stream_manager
+            POSTGRES_USER: stream_manager
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-stream_manager_password}
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+            - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+        ports:
+            - "${DB_PORT:-5432}:5432"
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U stream_manager -d stream_manager"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+
+    # Stream Manager Application
+    app:
+        build: .
+        container_name: stream-manager-app
+        restart: unless-stopped
+        environment:
+            NODE_ENV: production
+            DATABASE_URL: postgresql://stream_manager:${POSTGRES_PASSWORD:-stream_manager_password}@postgres:5432/stream_manager
+            STARTGG_API_TOKEN: ${STARTGG_API_TOKEN}
+            UPLOADTHING_TOKEN: ${UPLOADTHING_TOKEN}
+            SKIP_ENV_VALIDATION: 1
+        ports:
+            - "${APP_PORT:-3000}:3000"
+        depends_on:
+            postgres:
+                condition: service_healthy
+        volumes:
+            - ./public:/app/public:ro
+        # Run migrations before starting the app
+        entrypoint: ["sh", "-c", "node scripts/migrate.js && npm start"]
+        healthcheck:
+            test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/"]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+
+volumes:
+    postgres_data:
+        driver: local

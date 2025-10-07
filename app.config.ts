@@ -6,7 +6,11 @@ import viteTsConfigPaths from "vite-tsconfig-paths";
 export default defineConfig({
     vite: {
         plugins: [
-            TanStackRouterVite({ routesDirectory: "./app/routes", enableRouteGeneration: true, generatedRouteTree: "./app/routeTree.gen.ts" }),
+            TanStackRouterVite({
+                routesDirectory: "./app/routes",
+                enableRouteGeneration: true,
+                generatedRouteTree: "./app/routeTree.gen.ts",
+            }),
             // this is the plugin that enables path aliases
             viteTsConfigPaths({
                 projects: ["./tsconfig.json"],
@@ -14,6 +18,6 @@ export default defineConfig({
         ],
     },
     server: {
-      preset:"vercel"
-    }
+        preset: "node-server",
+    },
 });
