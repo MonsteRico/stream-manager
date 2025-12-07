@@ -52,7 +52,7 @@ export const OverwatchMaps: MapInfo[] = [
     },
     {
         id: 8,
-        name: "Esperança",
+        name: "Esperanca",
         image: "/mapImages/overwatch/esperanca.jpg",
         mode: "Push",
         winner: null,
