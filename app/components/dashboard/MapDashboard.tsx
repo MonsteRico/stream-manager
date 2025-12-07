@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -31,6 +31,16 @@ export default function MatchMapsDashboard({ sessionId, gameMaps, mutateFn }: Ma
 	const [maps, setMaps] = useState<MapInfo[]>(session.mapInfo as MapInfo[]);
 	const [hasChanges, setHasChanges] = useState(false);
 	const [isBestOf, setIsBestOf] = useState(session.bestOf);
+	const [previousMaps, setPreviousMaps] = useState<MapInfo[]>(session.mapInfo as MapInfo[]);
+
+	// Sync maps state with query data when it changes (e.g., from API calls)
+	useEffect(() => {
+		if (sessionQuery.data) {
+			setMaps(sessionQuery.data.mapInfo as MapInfo[]);
+			setIsBestOf(sessionQuery.data.bestOf);
+			setPreviousMaps(sessionQuery.data.mapInfo as MapInfo[]);
+		}
+	}, [sessionQuery.data]);
 
 	const updateNumberOfMaps = (numberOfMaps: number) => {
 		const newMaps: MapInfo[] = Array.from({ length: numberOfMaps }, (_, index) => ({
@@ -39,6 +49,8 @@ export default function MatchMapsDashboard({ sessionId, gameMaps, mutateFn }: Ma
 			winner: null,
 			image: "",
 			mode: null,
+			team1Ban: null,
+			team2Ban: null,
 		}));
 		setMaps(newMaps);
 		setHasChanges(true);
@@ -53,7 +65,19 @@ export default function MatchMapsDashboard({ sessionId, gameMaps, mutateFn }: Ma
 					return { ...map, [field]: value, mode: gameMap.mode, image: gameMap.image };
 				}
 				if (field === "winner" && (value === "team1" || value === "team2" || value === null)) {
-					return { ...map, [field]: value as "team1" | "team2" | null };
+					// When setting a winner, save current bans to the map
+					// When clearing a winner, clear the bans from the map
+					if (value === null) {
+						return { ...map, [field]: value as "team1" | "team2" | null, team1Ban: null, team2Ban: null };
+					} else {
+						// Save current session bans to this map
+						return { 
+							...map, 
+							[field]: value as "team1" | "team2" | null,
+							team1Ban: session.team1Ban || null,
+							team2Ban: session.team2Ban || null,
+						};
+					}
 				}
 			}
 			return map;
@@ -65,10 +89,25 @@ export default function MatchMapsDashboard({ sessionId, gameMaps, mutateFn }: Ma
 
 
 	const handleSave = () => {
-		mutateFn({
+		// Check if any map got a new winner (didn't have winner before, has one now with bans)
+		const hasNewWinner = maps.some((map, index) => {
+			const prevMap = previousMaps[index];
+			return !prevMap?.winner && map.winner && (map.team1Ban || map.team2Ban);
+		});
+		
+		const updateData: NewSession = {
 			mapInfo: maps,
 			bestOf: isBestOf,
-		});
+		};
+		
+		// If a map got a new winner and this is Overwatch, clear current session bans
+		if (hasNewWinner && session.game === "Overwatch") {
+			updateData.team1Ban = null;
+			updateData.team2Ban = null;
+		}
+		
+		mutateFn(updateData);
+		setPreviousMaps(maps);
 		setHasChanges(false);
 	};
 

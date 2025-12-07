@@ -1,6 +1,6 @@
 "use client";
 
-import type { NewSession, Session } from "@/db/schema";
+import type { NewSession, Session, MapInfo } from "@/db/schema";
 import type { UseMutateAsyncFunction, UseMutateFunction } from "@tanstack/react-query";
 import { useCallback, useState, useRef, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -40,7 +40,23 @@ function EditTeamsDash({
 			logo: formState.team1Logo,
 			rank: formState.team1Rank,
 			record: formState.team1Record,
+			ban: formState.team1Ban,
 		};
+		
+		// Flip bans and winners in maps - when teams swap, map winners should swap too
+		const maps = (formState.mapInfo || []) as MapInfo[];
+		const flippedMaps = maps.map((map) => ({
+			id: map.id,
+			name: map.name,
+			image: map.image,
+			mode: map.mode,
+			// Flip winner: team1 becomes team2 and vice versa
+			winner: map.winner === "team1" ? "team2" : map.winner === "team2" ? "team1" : null,
+			// Flip bans: team1Ban becomes team2Ban and vice versa
+			team1Ban: map.team2Ban,
+			team2Ban: map.team1Ban,
+		}));
+		
 		const newFormState = {
 			...formState,
 			team1DisplayName: formState.team2DisplayName,
@@ -50,6 +66,7 @@ function EditTeamsDash({
 			team1Logo: formState.team2Logo,
 			team1Rank: formState.team2Rank,
 			team1Record: formState.team2Record,
+			team1Ban: formState.team2Ban,
 			team2DisplayName: tempTeam1Stuff.displayName,
 			team2Score: tempTeam1Stuff.score,
 			team2Abbreviation: tempTeam1Stuff.abbreviation,
@@ -57,7 +74,9 @@ function EditTeamsDash({
 			team2Logo: tempTeam1Stuff.logo,
 			team2Rank: tempTeam1Stuff.rank,
 			team2Record: tempTeam1Stuff.record,
+			team2Ban: tempTeam1Stuff.ban,
 			team1First: true,
+			mapInfo: flippedMaps,
 		};
 		setFormState(newFormState);
 		setHasChanges(true);
@@ -71,10 +90,23 @@ function EditTeamsDash({
 
 	const handleScoreChange = (team: 1 | 2, increment: boolean) => {
 		const scoreKey = `team${team}Score` as "team1Score" | "team2Score";
-		setFormState((prev) => ({
-			...prev,
-			[scoreKey]: Math.max(0, prev[scoreKey]! + (increment ? 1 : -1)),
-		}));
+		const newScore = Math.max(0, formState[scoreKey]! + (increment ? 1 : -1));
+		const scoreChanged = newScore !== formState[scoreKey];
+		
+		setFormState((prev) => {
+			const updated = {
+				...prev,
+				[scoreKey]: newScore,
+			};
+			
+			// If score increased, clear current bans (they will be saved to the map when winner is set)
+			if (increment && scoreChanged && newScore > prev[scoreKey]!) {
+				updated.team1Ban = null;
+				updated.team2Ban = null;
+			}
+			
+			return updated;
+		});
 		setHasChanges(true);
 	};
 

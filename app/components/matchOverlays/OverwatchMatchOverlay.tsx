@@ -5,6 +5,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
 import { useEffect, useMemo } from "react";
 import { motion, useAnimate } from "framer-motion";
+import { OverwatchCharacters } from "@/lib/characters";
 export function OverwatchMatchOverlay({ route }: { route: any }) {
     const router = useRouter();
     const { sessionId } = route.useParams();
@@ -21,6 +22,14 @@ export function OverwatchMatchOverlay({ route }: { route: any }) {
 
     const session = sessionQuery.data;
 
+    // Find banned hero images
+    const team1BanCharacter = session.team1Ban
+        ? OverwatchCharacters.find((char) => char.name === session.team1Ban)
+        : null;
+    const team2BanCharacter = session.team2Ban
+        ? OverwatchCharacters.find((char) => char.name === session.team2Ban)
+        : null;
+
     return (
         <div className="relative w-full flex flex-row justify-between !overflow-hidden">
             {session.team1First && (
@@ -31,6 +40,7 @@ export function OverwatchMatchOverlay({ route }: { route: any }) {
                         score={session.team1Score}
                         color={session.team1Color}
                         delay={session.animationDelay}
+                        banImage={team1BanCharacter?.image}
                     />
                     {session.matchName != "" && (
                         <div className="bg-gray-800 w-[13.6%] h-6 absolute left-[43.2%] top-1 flex items-center justify-center">
@@ -44,6 +54,7 @@ export function OverwatchMatchOverlay({ route }: { route: any }) {
                         color={session.team2Color}
                         flipped
                         delay={session.animationDelay}
+                        banImage={team2BanCharacter?.image}
                     />
                 </>
             )}
@@ -55,6 +66,7 @@ export function OverwatchMatchOverlay({ route }: { route: any }) {
                         score={session.team2Score}
                         color={session.team2Color}
                         delay={session.animationDelay}
+                        banImage={team2BanCharacter?.image}
                     />
                     <TeamInfo
                         name={session.team1DisplayName}
@@ -63,6 +75,7 @@ export function OverwatchMatchOverlay({ route }: { route: any }) {
                         color={session.team1Color}
                         flipped
                         delay={session.animationDelay}
+                        banImage={team1BanCharacter?.image}
                     />
                 </>
             )}
@@ -76,6 +89,7 @@ function TeamInfo({
     color,
     delay,
     flipped = false,
+    banImage,
 }: {
     name: string;
     icon: string;
@@ -83,6 +97,7 @@ function TeamInfo({
     color: string;
     flipped?: boolean;
     delay: number;
+    banImage?: string;
 }) {
     const [scope, animate] = useAnimate();
     useEffect(() => {
@@ -108,6 +123,7 @@ function TeamInfo({
             initial={{ x: !flipped ? "-100%" : "200%" }}
             transition={{ duration: 0.5, delay }}
         >
+            {banImage && <img src={banImage} alt="Banned hero" className="h-10 w-10 object-contain opacity-75" />}
             {icon && <img src={icon} alt={`${name} logo`} className="h-12 w-auto py-1" />}
             <span className="text-5xl font-overwatchOblique">{name}</span>
             <span className="text-5xl font-bold font-overwatch">{score}</span>

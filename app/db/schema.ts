@@ -30,6 +30,8 @@ export type MapInfo = {
     image: string;
     mode: OverwatchModes | SplatoonModes | RivalsModes | null;
     winner: "team1" | "team2" | null;
+    team1Ban?: string | null;
+    team2Ban?: string | null;
 }
 
 export type CasterInfo = {
@@ -76,6 +78,8 @@ export const sessionsTable = createTable("sessions", {
     team1First: boolean().notNull().default(true),
     matchName: varchar({ length: 255 }).default("").notNull(),
     animationDelay: integer().notNull().default(0),
+    team1Ban: varchar({ length: 255 }),
+    team2Ban: varchar({ length: 255 }),
 });
 
 export type Session = typeof sessionsTable.$inferSelect;

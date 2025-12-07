@@ -19,17 +19,20 @@ const sceneNames = [
     "Casters",
     "Casters Single Camera",
     "Single Camera",
-    "Draft"
+    "Draft",
+    "Bans"
 ];
 
 function OverlaysDash({
     sessionId,
     team1DisplayName,
     team2DisplayName,
+    game,
 }: {
     sessionId: string;
     team1DisplayName: string;
     team2DisplayName: string;
+    game: string | null;
 }) {
     const [postImportInfoOpen, setPostImportInfoOpen] = useState(false);
 
@@ -66,6 +69,7 @@ function OverlaysDash({
                 { name: "Casters Single Camera", url: `${domain}/overlays/${sessionId}/castersSingleCamera`, restartActive: true },
                 { name: "Single Camera", url: `${domain}/overlays/${sessionId}/singleCamera`, restartActive: true },
                 { name: "Draft", url: `${domain}/overlays/${sessionId}/match`, restartActive: true },
+                { name: "Bans", url: `${domain}/overlays/${sessionId}/bans`, restartActive: true },
             ];
 
             // check if scene collection already exists
@@ -89,7 +93,7 @@ function OverlaysDash({
             for (const source of browserSources) {
                 // Create scene
                 await obs.call("CreateScene", { sceneName: `${source.name} - Scene` });
-                console.log(`Scene '${source.name}' created.`);
+                console.log(`Scene '${source.name} - Scene' created.`);
 
                 // Add browser source to the scene
                 await obs.call("CreateInput", {
@@ -98,7 +102,7 @@ function OverlaysDash({
                     inputKind: "browser_source",
                     inputSettings: {
                         url: source.url,
-                        width: 1920, // Set width and height as needed
+                        width: 1920,
                         height: 1080,
                         restart_when_active: source.restartActive,
                     },
@@ -106,157 +110,166 @@ function OverlaysDash({
                 console.log(`Browser source '${source.name}' added to scene.`);
             }
 
-            
+            // Add BARL to Match scene only if game is Rocket League
+            if (game === "Rocket League") {
+                await obs.call("CreateInput", {
+                    sceneName: "Match - Scene",
+                    inputName: "BARL",
+                    inputKind: "browser_source",
+                    inputSettings: {
+                        url: "https://barl-overlay.web.app/",
+                        width: 1920,
+                        height: 1080,
+                    },
+                });
+                console.log("BARL added to Match scene (Rocket League only).");
+            }
+
+            // Add Draft Site to Draft scene only if game is League of Legends or Deadlock
+            if (game === "League of Legends" || game === "Deadlock") {
+                await obs.call("CreateInput", {
+                    sceneName: "Draft - Scene",
+                    inputName: "Draft Site",
+                    inputKind: "browser_source",
+                    inputSettings: {
+                        url: "",
+                        width: 1920,
+                        height: 1080,
+                    },
+                });
+                console.log("Draft Site added to Draft scene (League of Legends/Deadlock only).");
+            }
+
+            // Create Inputs scene to hold all input references
+            await obs.call("CreateScene", { sceneName: "Inputs" });
+            console.log("Inputs scene created.");
+
+            // Create all inputs in the Inputs scene
+            // Game Audio
             await obs.call("CreateInput", {
-                sceneName: "Match - Scene",
-                inputName: "BARL",
-                inputKind: "browser_source",
-                inputSettings: {
-                    url: "https://barl-overlay.web.app/",
-                    width: 1920, // Set width and height as needed
-                    height: 1080,
-                },
-            });
-
-            await obs.call("CreateInput", {
-                sceneName: "Draft - Scene",
-                inputName: "Draft Site",
-                inputKind: "browser_source",
-                inputSettings: {
-                    url: "",
-                    width: 1920, // Set width and height as needed
-                    height: 1080,
-                },
-            });
-
-            const { inputUuid: camInputId } = await obs.call("CreateInput", {
-                sceneName: "Casters Single Camera - Scene",
-                inputName: "Cam",
-                inputKind: "dshow_input",
-                inputSettings: {
-                    video_device_id:
-                        "Cam Link 4K:\\\\?\\usb#22vid_0fd9&pid_0066&mi_00#226&38faf89f&1&0000#22{65e8773d-8f56-11d0-a3b9-00a0c9223196}\\global",
-                    last_video_device_id:
-                        "Cam Link 4K:\\\\?\\usb#22vid_0fd9&pid_0066&mi_00#226&38faf89f&1&0000#22{65e8773d-8f56-11d0-a3b9-00a0c9223196}\\global",
-                },
-            });
-            await obs.call("CreateSourceFilter", {
-                sourceName: "Cam",
-                filterName: "compressor_filter",
-                filterKind: "compressor_filter",
-                filterSettings: {
-                    ratio: 3.0,
-                    attack_time: 1,
-                },
-            });
-
-            await obs.call("CreateSourceFilter", {
-                sourceName: "Cam",
-                filterName: "noise_gate_filter",
-                filterKind: "noise_gate_filter",
-                filterSettings: {
-                    close_threshold: -45.0,
-                    open_threshold: -32.0,
-                },
-            });
-
-            await obs.call("CreateSourceFilter", {
-                sourceName: "Cam",
-                filterName: "gain_filter",
-                filterKind: "gain_filter",
-            });
-
-            await obs.call("CreateSourceFilter", {
-                sourceName: "Cam",
-                filterName: "noise_suppress_filter",
-                filterKind: "noise_suppress_filter",
-            });
-
-            const { sceneItemId: camMicSceneItemId } = await obs.call("CreateInput", {
-                sceneName: "Match - Scene",
-                inputName: "Cam Mic",
-                inputKind: "wasapi_input_capture",
-                inputSettings: {
-                    device_id: "{0.0.1.00000000}.{485035ab-9fff-40f1-82fe-b5dc60d1facf}",
-                },
-            });
-
-            await obs.call("CreateSourceFilter", {
-                sourceName: "Cam Mic",
-                filterName: "compressor_filter",
-                filterKind: "compressor_filter",
-                filterSettings: {
-                    ratio: 3.0,
-                    attack_time: 1,
-                },
-            });
-
-            await obs.call("CreateSourceFilter", {
-                sourceName: "Cam Mic",
-                filterName: "noise_gate_filter",
-                filterKind: "noise_gate_filter",
-                filterSettings: {
-                    close_threshold: -45.0,
-                    open_threshold: -32.0,
-                },
-            });
-
-            await obs.call("CreateSourceFilter", {
-                sourceName: "Cam Mic",
-                filterName: "gain_filter",
-                filterKind: "gain_filter",
-            });
-
-            await obs.call("CreateSourceFilter", {
-                sourceName: "Cam Mic",
-                filterName: "noise_suppress_filter",
-                filterKind: "noise_suppress_filter",
-            });
-
-            await obs.call("DuplicateSceneItem", {
-                sceneName: "Match - Scene",
-                sceneItemId: camMicSceneItemId,
-                destinationSceneName: "Victory Team 1 - Scene",
-            });
-
-            await obs.call("DuplicateSceneItem", {
-                sceneName: "Match - Scene",
-                sceneItemId: camMicSceneItemId,
-                destinationSceneName: "Victory Team 2 - Scene",
-            });
-
-            await obs.call("DuplicateSceneItem", {
-                sceneName: "Match - Scene",
-                sceneItemId: camMicSceneItemId,
-                destinationSceneName: "Maps - Scene",
-            });
-
-            const { inputUuid: gameAudioInputId } = await obs.call("CreateInput", {
-                sceneName: "Match - Scene",
+                sceneName: "Inputs",
                 inputName: "Game Audio",
                 inputKind: "wasapi_process_output_capture",
                 inputSettings: {
                     window: "Videos - File Explorer:CabinetWClass:explorer.exe",
                 },
             });
+            console.log("Game Audio input created in Inputs scene.");
 
-            const { inputUuid: gameCaptureInputId, sceneItemId: gameCaptureSceneItemId } = await obs.call("CreateInput", {
-                sceneName: "Match - Scene",
+            // Game Capture
+            await obs.call("CreateInput", {
+                sceneName: "Inputs",
                 inputName: "Game Capture",
                 inputKind: "game_capture",
             });
+            console.log("Game Capture input created in Inputs scene.");
 
-            await obs.call("DuplicateSceneItem", {
-                sceneName: "Match - Scene",
-                sceneItemId: gameCaptureSceneItemId,
-                destinationSceneName: "Victory Team 1 - Scene",
+            // Caster Audio Input (audio output capture for Discord or audio device output)
+            await obs.call("CreateInput", {
+                sceneName: "Inputs",
+                inputName: "Caster Audio Input",
+                inputKind: "wasapi_output_capture",
             });
+            console.log("Caster Audio Input created in Inputs scene (audio output capture).");
 
-            await obs.call("DuplicateSceneItem", {
-                sceneName: "Match - Scene",
-                sceneItemId: gameCaptureSceneItemId,
-                destinationSceneName: "Victory Team 2 - Scene",
+            // Producer Mic Input (will be muted and hidden by default)
+            await obs.call("CreateInput", {
+                sceneName: "Inputs",
+                inputName: "Producer Mic Input",
+                inputKind: "wasapi_input_capture",
             });
+            // Mute Producer Mic globally by default
+            await obs.call("SetInputMute", {
+                inputName: "Producer Mic Input",
+                inputMuted: true,
+            });
+            console.log("Producer Mic Input created in Inputs scene (muted by default).");
+
+            // Waiting Music Audio Input
+            await obs.call("CreateInput", {
+                sceneName: "Inputs",
+                inputName: "Waiting Music Audio Input",
+                inputKind: "wasapi_input_capture",
+            });
+            console.log("Waiting Music Audio Input created in Inputs scene.");
+
+            // Reference inputs in appropriate scenes
+            // Game Audio: Match, Victory Team 1, Victory Team 2, Bans, Maps
+            const gameAudioScenes = ["Match - Scene", "Victory Team 1 - Scene", "Victory Team 2 - Scene", "Bans - Scene", "Maps - Scene"];
+            for (const sceneName of gameAudioScenes) {
+                await obs.call("CreateSceneItem", {
+                    sceneName: sceneName,
+                    sourceName: "Game Audio",
+                });
+                console.log(`Game Audio referenced in ${sceneName}.`);
+            }
+
+            // Game Capture: Match, Victory Team 1, Victory Team 2
+            const gameCaptureScenes = ["Match - Scene", "Victory Team 1 - Scene", "Victory Team 2 - Scene"];
+            for (const sceneName of gameCaptureScenes) {
+                await obs.call("CreateSceneItem", {
+                    sceneName: sceneName,
+                    sourceName: "Game Capture",
+                });
+                console.log(`Game Capture referenced in ${sceneName}.`);
+            }
+
+            // Caster Audio Input: Maps, Victory Team 1, Victory Team 2, Match, Casters, Casters Single Camera, Single Camera, Draft, Bans
+            const casterAudioScenes = [
+                "Maps - Scene",
+                "Victory Team 1 - Scene",
+                "Victory Team 2 - Scene",
+                "Match - Scene",
+                "Casters - Scene",
+                "Casters Single Camera - Scene",
+                "Single Camera - Scene",
+                "Draft - Scene",
+                "Bans - Scene",
+            ];
+            for (const sceneName of casterAudioScenes) {
+                await obs.call("CreateSceneItem", {
+                    sceneName: sceneName,
+                    sourceName: "Caster Audio Input",
+                });
+                console.log(`Caster Audio Input referenced in ${sceneName}.`);
+            }
+
+            // Producer Mic Input: Maps, Victory Team 1, Victory Team 2, Match, Casters, Casters Single Camera, Single Camera, Draft, Bans
+            // Note: Producer Mic is muted globally by default. To enable it, unmute it in the Inputs scene or use SetInputMute API.
+            const producerMicScenes = [
+                "Maps - Scene",
+                "Victory Team 1 - Scene",
+                "Victory Team 2 - Scene",
+                "Match - Scene",
+                "Casters - Scene",
+                "Casters Single Camera - Scene",
+                "Single Camera - Scene",
+                "Draft - Scene",
+                "Bans - Scene",
+            ];
+            for (const sceneName of producerMicScenes) {
+                const { sceneItemId } = await obs.call("CreateSceneItem", {
+                    sceneName: sceneName,
+                    sourceName: "Producer Mic Input",
+                });
+                // Hide Producer Mic in each scene by default (muted globally, but also hidden for visual clarity)
+                await obs.call("SetSceneItemEnabled", {
+                    sceneName: sceneName,
+                    sceneItemId: sceneItemId,
+                    sceneItemEnabled: false,
+                });
+                console.log(`Producer Mic Input referenced in ${sceneName} (hidden by default).`);
+            }
+
+            // Waiting Music Audio Input: BRB, Waiting for Next, Starting Soon, Thanks
+            const waitingMusicScenes = ["BRB - Scene", "Waiting for Next - Scene", "Starting Soon - Scene", "Thanks - Scene"];
+            for (const sceneName of waitingMusicScenes) {
+                await obs.call("CreateSceneItem", {
+                    sceneName: sceneName,
+                    sourceName: "Waiting Music Audio Input",
+                });
+                console.log(`Waiting Music Audio Input referenced in ${sceneName}.`);
+            }
 
             // set scene to starting soon
             await obs.call("SetCurrentProgramScene", { sceneName: "Starting Soon - Scene" });
@@ -345,6 +358,15 @@ function OverlaysDash({
                             file and use that as the path. Set the Transition Point to 1000ms. Set the Animation Delay on here to 2 seconds.
                         </p>
                         <p>You will also need to set any game inputs and audio inputs to the correct settings!</p>
+                        <p>
+                            <strong>Important:</strong> Go to the "Inputs" scene and configure all audio inputs:
+                            <ul className="list-disc list-inside mt-2 space-y-1">
+                                <li><strong>Game Audio:</strong> Set to capture game audio output</li>
+                                <li><strong>Caster Audio Input:</strong> Set to capture Discord or your caster audio output channel</li>
+                                <li><strong>Producer Mic Input:</strong> Set to your producer microphone. It is muted and hidden by default. To enable it, go to the Inputs scene, show the Producer Mic Input, and unmute it. This will enable it across all scenes.</li>
+                                <li><strong>Waiting Music Audio Input:</strong> Set to capture your waiting music audio source</li>
+                            </ul>
+                        </p>
                         <p>After disconnecting from OBS, you can delete the scene collection and all scenes and sources.</p>
                         <p>DRAG THE BROWSER SOURCES ABOVE THE GAME AND CAMERAS PLEASE</p>
                     </DialogDescription>
@@ -452,6 +474,11 @@ function Links({
             <Button>
                 <Link target="_blank" to={`/overlays/${sessionId}/match`}>
                     Draft (same as Match overlay)
+                </Link>
+            </Button>
+            <Button>
+                <Link target="_blank" to={`/overlays/${sessionId}/bans`}>
+                    Bans
                 </Link>
             </Button>
         </>

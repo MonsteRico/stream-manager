@@ -27,7 +27,7 @@ export const getSession = createServerFn("GET", async (id: string): Promise<Sess
 
 export const sessionQueryOptions = (id: string) =>
     queryOptions({
-        queryKey: ["session"],
+        queryKey: ["session", id],
         queryFn: () => getSession(id),
     });
 
@@ -57,6 +57,8 @@ export const updateSession = createServerFn(
         team1Rank,
         team2Rank,
         animationDelay,
+        team1Ban,
+        team2Ban,
     }: NewSession & { id: string }) => {
         const session = await db.query.sessionsTable.findFirst({
             where: eq(sessionsTable.id, id),
@@ -94,7 +96,9 @@ export const updateSession = createServerFn(
                 matchName,
                 team1Rank,
                 team2Rank,
-                animationDelay
+                animationDelay,
+                team1Ban,
+                team2Ban,
             })
             .where(eq(sessionsTable.id, id))
             .returning();

@@ -8,6 +8,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { redirect } from "@tanstack/react-router";
 import { cn, getGameLogoSrc } from "@/lib/utils";
 import BigScore from "@/components/overlay/BigScore";
+import { OverwatchCharacters } from "@/lib/characters";
 
 const placeholderImage = "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png";
 
@@ -121,12 +122,40 @@ export default function MapOverlay() {
                         {gameHasMaps(session.game) && (
                             <div
                                 className={cn(
-                                    "absolute bottom-0 left-0 right-0 bg-gray-700 bg-opacity-70 p-2 text-white",
+                                    "absolute bottom-0 left-0 right-0 bg-gray-700 bg-opacity-70 p-2 text-white flex items-center justify-between",
                                     index % 2 == 0 && "bg-gray-800",
                                 )}
                             >
-                                <h3 className="text-lg font-bold">{map.name || "TBD"}</h3>
-                                {map.mode && <p className="text-sm">{map.mode}</p>}
+                                <div>
+                                    <h3 className="text-lg font-bold">{map.name || "TBD"}</h3>
+                                    {map.mode && <p className="text-sm">{map.mode}</p>}
+                                </div>
+                                {session.game === "Overwatch" && (map.team1Ban || map.team2Ban) && (
+                                    <div className="flex items-center gap-3">
+                                        {map.team1Ban && (() => {
+                                            const banChar = OverwatchCharacters.find((char) => char.name === map.team1Ban);
+                                            return banChar ? (
+                                                <img
+                                                    src={banChar.image}
+                                                    alt={map.team1Ban}
+                                                    className="h-12 w-12 object-contain opacity-75"
+                                                    title={`${session.team1DisplayName} banned ${map.team1Ban}`}
+                                                />
+                                            ) : null;
+                                        })()}
+                                        {map.team2Ban && (() => {
+                                            const banChar = OverwatchCharacters.find((char) => char.name === map.team2Ban);
+                                            return banChar ? (
+                                                <img
+                                                    src={banChar.image}
+                                                    alt={map.team2Ban}
+                                                    className="h-12 w-12 object-contain opacity-75"
+                                                    title={`${session.team2DisplayName} banned ${map.team2Ban}`}
+                                                />
+                                            ) : null;
+                                        })()}
+                                    </div>
+                                )}
                             </div>
                         )}
                     </motion.div>

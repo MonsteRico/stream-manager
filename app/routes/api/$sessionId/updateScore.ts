@@ -32,8 +32,20 @@ export const Route = createAPIFileRoute("/api/$sessionId/updateScore")({
             const lastMap = maps[lastMapIndex];
             if (lastMap) {
                 lastMap.winner = `team${team}` as "team1" | "team2";
+                // Save current bans to this map when it gets a winner
+                lastMap.team1Ban = session.team1Ban || null;
+                lastMap.team2Ban = session.team2Ban || null;
                 await db.update(sessionsTable).set({ mapInfo: maps }).where(eq(sessionsTable.id, sessionId)).execute();
             }
+            // Clear current bans after saving them to the map
+            await db
+                .update(sessionsTable)
+                .set({
+                    team1Ban: null,
+                    team2Ban: null,
+                })
+                .where(eq(sessionsTable.id, sessionId))
+                .execute();
         }
         if (changeBy < 0) {
             const maps = session.mapInfo as MapInfo[];
@@ -42,6 +54,9 @@ export const Route = createAPIFileRoute("/api/$sessionId/updateScore")({
             const lastMap = maps[lastMapIndex];
             if (lastMap) {
                 lastMap.winner = null;
+                // Clear bans when undoing a map win
+                lastMap.team1Ban = null;
+                lastMap.team2Ban = null;
                 await db.update(sessionsTable).set({ mapInfo: maps }).where(eq(sessionsTable.id, sessionId)).execute();
             }
         }

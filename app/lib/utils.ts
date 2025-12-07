@@ -72,7 +72,9 @@ export function useUpdateSessionMutation(sessionId: string, options?: UseMutatio
             team1Rank,
             team2Rank,
             animationDelay,
-            casters
+            casters,
+            team1Ban,
+            team2Ban,
         }: NewSession) => {
             await updateSession({
                 id: sessionId,
@@ -96,14 +98,16 @@ export function useUpdateSessionMutation(sessionId: string, options?: UseMutatio
                 team1Rank,
                 team2Rank,
                 animationDelay,
-                casters
+                casters,
+                team1Ban,
+                team2Ban,
             });
         },
 
         onSettled: (data, error, variables, context) => {
             options?.onSettled?.(data, error, variables, context);
             queryClient.invalidateQueries({
-                queryKey: ["session"],
+                queryKey: ["session", sessionId],
             });
         },
         ...options,

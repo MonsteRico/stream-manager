@@ -28,6 +28,8 @@ import { Route as OverlaysOverlaySessionIdMapsImport } from './routes/overlays/_
 import { Route as OverlaysOverlaySessionIdCastersSingleCameraImport } from './routes/overlays/_overlay.$sessionId/castersSingleCamera'
 import { Route as OverlaysOverlaySessionIdCastersImport } from './routes/overlays/_overlay.$sessionId/casters'
 import { Route as OverlaysOverlaySessionIdBrbImport } from './routes/overlays/_overlay.$sessionId/brb'
+import { Route as OverlaysOverlaySessionIdBlankImport } from './routes/overlays/_overlay.$sessionId/blank'
+import { Route as OverlaysOverlaySessionIdBansImport } from './routes/overlays/_overlay.$sessionId/bans'
 import { Route as OverlaysOverlaySessionIdVictoryWinnerImport } from './routes/overlays/_overlay.$sessionId/victory.$winner'
 
 // Create Virtual Routes
@@ -125,6 +127,18 @@ const OverlaysOverlaySessionIdBrbRoute =
     getParentRoute: () => OverlaysOverlayRoute,
   } as any)
 
+const OverlaysOverlaySessionIdBlankRoute =
+  OverlaysOverlaySessionIdBlankImport.update({
+    path: '/$sessionId/blank',
+    getParentRoute: () => OverlaysOverlayRoute,
+  } as any)
+
+const OverlaysOverlaySessionIdBansRoute =
+  OverlaysOverlaySessionIdBansImport.update({
+    path: '/$sessionId/bans',
+    getParentRoute: () => OverlaysOverlayRoute,
+  } as any)
+
 const OverlaysOverlaySessionIdVictoryWinnerRoute =
   OverlaysOverlaySessionIdVictoryWinnerImport.update({
     path: '/$sessionId/victory/$winner',
@@ -183,6 +197,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/session/$sessionId'
       preLoaderRoute: typeof DashboardSessionSessionIdImport
       parentRoute: typeof DashboardImport
+    }
+    '/overlays/_overlay/$sessionId/bans': {
+      id: '/overlays/_overlay/$sessionId/bans'
+      path: '/$sessionId/bans'
+      fullPath: '/overlays/$sessionId/bans'
+      preLoaderRoute: typeof OverlaysOverlaySessionIdBansImport
+      parentRoute: typeof OverlaysOverlayImport
+    }
+    '/overlays/_overlay/$sessionId/blank': {
+      id: '/overlays/_overlay/$sessionId/blank'
+      path: '/$sessionId/blank'
+      fullPath: '/overlays/$sessionId/blank'
+      preLoaderRoute: typeof OverlaysOverlaySessionIdBlankImport
+      parentRoute: typeof OverlaysOverlayImport
     }
     '/overlays/_overlay/$sessionId/brb': {
       id: '/overlays/_overlay/$sessionId/brb'
@@ -274,6 +302,8 @@ const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
 )
 
 interface OverlaysOverlayRouteChildren {
+  OverlaysOverlaySessionIdBansRoute: typeof OverlaysOverlaySessionIdBansRoute
+  OverlaysOverlaySessionIdBlankRoute: typeof OverlaysOverlaySessionIdBlankRoute
   OverlaysOverlaySessionIdBrbRoute: typeof OverlaysOverlaySessionIdBrbRoute
   OverlaysOverlaySessionIdCastersRoute: typeof OverlaysOverlaySessionIdCastersRoute
   OverlaysOverlaySessionIdCastersSingleCameraRoute: typeof OverlaysOverlaySessionIdCastersSingleCameraRoute
@@ -287,6 +317,8 @@ interface OverlaysOverlayRouteChildren {
 }
 
 const OverlaysOverlayRouteChildren: OverlaysOverlayRouteChildren = {
+  OverlaysOverlaySessionIdBansRoute: OverlaysOverlaySessionIdBansRoute,
+  OverlaysOverlaySessionIdBlankRoute: OverlaysOverlaySessionIdBlankRoute,
   OverlaysOverlaySessionIdBrbRoute: OverlaysOverlaySessionIdBrbRoute,
   OverlaysOverlaySessionIdCastersRoute: OverlaysOverlaySessionIdCastersRoute,
   OverlaysOverlaySessionIdCastersSingleCameraRoute:
@@ -327,6 +359,8 @@ export interface FileRoutesByFullPath {
   '/manageTeams': typeof DashboardManageTeamsRoute
   '/overlays': typeof OverlaysOverlayRouteWithChildren
   '/session/$sessionId': typeof DashboardSessionSessionIdRoute
+  '/overlays/$sessionId/bans': typeof OverlaysOverlaySessionIdBansRoute
+  '/overlays/$sessionId/blank': typeof OverlaysOverlaySessionIdBlankRoute
   '/overlays/$sessionId/brb': typeof OverlaysOverlaySessionIdBrbRoute
   '/overlays/$sessionId/casters': typeof OverlaysOverlaySessionIdCastersRoute
   '/overlays/$sessionId/castersSingleCamera': typeof OverlaysOverlaySessionIdCastersSingleCameraRoute
@@ -346,6 +380,8 @@ export interface FileRoutesByTo {
   '/manageTeams': typeof DashboardManageTeamsRoute
   '/overlays': typeof OverlaysOverlayRouteWithChildren
   '/session/$sessionId': typeof DashboardSessionSessionIdRoute
+  '/overlays/$sessionId/bans': typeof OverlaysOverlaySessionIdBansRoute
+  '/overlays/$sessionId/blank': typeof OverlaysOverlaySessionIdBlankRoute
   '/overlays/$sessionId/brb': typeof OverlaysOverlaySessionIdBrbRoute
   '/overlays/$sessionId/casters': typeof OverlaysOverlaySessionIdCastersRoute
   '/overlays/$sessionId/castersSingleCamera': typeof OverlaysOverlaySessionIdCastersSingleCameraRoute
@@ -367,6 +403,8 @@ export interface FileRoutesById {
   '/overlays': typeof OverlaysRouteWithChildren
   '/overlays/_overlay': typeof OverlaysOverlayRouteWithChildren
   '/_dashboard/session/$sessionId': typeof DashboardSessionSessionIdRoute
+  '/overlays/_overlay/$sessionId/bans': typeof OverlaysOverlaySessionIdBansRoute
+  '/overlays/_overlay/$sessionId/blank': typeof OverlaysOverlaySessionIdBlankRoute
   '/overlays/_overlay/$sessionId/brb': typeof OverlaysOverlaySessionIdBrbRoute
   '/overlays/_overlay/$sessionId/casters': typeof OverlaysOverlaySessionIdCastersRoute
   '/overlays/_overlay/$sessionId/castersSingleCamera': typeof OverlaysOverlaySessionIdCastersSingleCameraRoute
@@ -388,6 +426,8 @@ export interface FileRouteTypes {
     | '/manageTeams'
     | '/overlays'
     | '/session/$sessionId'
+    | '/overlays/$sessionId/bans'
+    | '/overlays/$sessionId/blank'
     | '/overlays/$sessionId/brb'
     | '/overlays/$sessionId/casters'
     | '/overlays/$sessionId/castersSingleCamera'
@@ -406,6 +446,8 @@ export interface FileRouteTypes {
     | '/manageTeams'
     | '/overlays'
     | '/session/$sessionId'
+    | '/overlays/$sessionId/bans'
+    | '/overlays/$sessionId/blank'
     | '/overlays/$sessionId/brb'
     | '/overlays/$sessionId/casters'
     | '/overlays/$sessionId/castersSingleCamera'
@@ -425,6 +467,8 @@ export interface FileRouteTypes {
     | '/overlays'
     | '/overlays/_overlay'
     | '/_dashboard/session/$sessionId'
+    | '/overlays/_overlay/$sessionId/bans'
+    | '/overlays/_overlay/$sessionId/blank'
     | '/overlays/_overlay/$sessionId/brb'
     | '/overlays/_overlay/$sessionId/casters'
     | '/overlays/_overlay/$sessionId/castersSingleCamera'
@@ -497,6 +541,8 @@ export const routeTree = rootRoute
       "filePath": "overlays/_overlay.tsx",
       "parent": "/overlays",
       "children": [
+        "/overlays/_overlay/$sessionId/bans",
+        "/overlays/_overlay/$sessionId/blank",
         "/overlays/_overlay/$sessionId/brb",
         "/overlays/_overlay/$sessionId/casters",
         "/overlays/_overlay/$sessionId/castersSingleCamera",
@@ -512,6 +558,14 @@ export const routeTree = rootRoute
     "/_dashboard/session/$sessionId": {
       "filePath": "_dashboard/session.$sessionId.tsx",
       "parent": "/_dashboard"
+    },
+    "/overlays/_overlay/$sessionId/bans": {
+      "filePath": "overlays/_overlay.$sessionId/bans.tsx",
+      "parent": "/overlays/_overlay"
+    },
+    "/overlays/_overlay/$sessionId/blank": {
+      "filePath": "overlays/_overlay.$sessionId/blank.tsx",
+      "parent": "/overlays/_overlay"
     },
     "/overlays/_overlay/$sessionId/brb": {
       "filePath": "overlays/_overlay.$sessionId/brb.tsx",
