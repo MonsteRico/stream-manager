@@ -1,0 +1,2454 @@
+{
+    "settings": {
+        "language": "en_us",
+        "windows-startup": "false",
+        "auto-updates": "true",
+        "dev-mode": "false",
+        "flask-debug": "true",
+        "optimized-usage-display": "false",
+        "gpu_method": "AMD",
+        "show-console": "false",
+        "open-settings-in-integrated-browser": "false",
+        "data-transfer-method": "http",
+        "automatic-firewall-bypass": "false",
+        "fix-stop-soundboard": "false",
+        "ear-soundboard": "true",
+        "spotify-api": {
+            "CLIENT_ID": "",
+            "CLIENT_SECRET": "",
+            "USERNAME": ""
+        },
+        "soundboard": {
+            "enabled": "false",
+            "mic_input_device": "",
+            "vbcable": ""
+        },
+        "obs": {
+            "host": "localhost",
+            "port": "4455",
+            "password": ""
+        }
+    },
+    "front": {
+        "background": [
+            "#141414"
+        ],
+        "computer-usage-reload-time": "3000",
+        "edit-buttons-color": "false",
+        "buttons-color": "",
+        "names-color": "#b3b3b3",
+        "show-names": "true",
+        "portrait-rotate": "90",
+        "theme": "default_theme.css",
+        "themes": [
+            "default_theme.css"
+        ],
+        "height": "4",
+        "width": "8",
+        "black-theme": "true",
+        "buttons": {
+            "index": [
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "image": "**uploaded/OBS_Studio_Logo.svg.png",
+                    "image_size": "70",
+                    "message": "/folder OBS",
+                    "name": "Open folder"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "image": "settings2.png",
+                    "image_size": "75%",
+                    "message": "/open-config ",
+                    "name": "Settings"
+                },
+                {
+                    "image": "fullscreen2.png",
+                    "image_size": "50%",
+                    "message": "/fullscreen",
+                    "name": "Fullscreen"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                }
+            ],
+            "OBS": [
+                {
+                    "image": "folder.png",
+                    "image_size": "70%",
+                    "message": "/folder index",
+                    "name": "back to index"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "image": "folder.png",
+                    "image_size": "70%",
+                    "message": "/folder teamLeftBans",
+                    "name": "Team Left Ban"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "image": "folder.png",
+                    "image_size": "70%",
+                    "message": "/folder teamRightBans",
+                    "name": "Team Right Ban"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "image": "folder.png",
+                    "image_size": "70%",
+                    "message": "/folder maps",
+                    "name": "Maps"
+                },
+                {
+                    "image": "folder.png",
+                    "image_size": "70%",
+                    "message": "/folder management",
+                    "name": "Management"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "image": "obs_logo2.svg",
+                    "image_size": "70%",
+                    "message": "/obs_scene Match - Scene",
+                    "name": "Match"
+                },
+                {
+                    "image": "obs_logo2.svg",
+                    "image_size": "70%",
+                    "message": "/obs_scene Maps - Scene",
+                    "name": "Maps"
+                },
+                {
+                    "image": "obs_logo2.svg",
+                    "image_size": "70%",
+                    "message": "/obs_scene Bans - Scene",
+                    "name": "Bans"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "image": "obs_logo2.svg",
+                    "image_size": "70%",
+                    "message": "/obs_scene Victory Team 1 - Scene",
+                    "name": "Victory Team Left"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "image": "obs_logo2.svg",
+                    "image_size": "70%",
+                    "message": "/obs_scene Victory Team 2 - Scene",
+                    "name": "Victory Team Right"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "image": "obs_logo2.svg",
+                    "image_size": "70%",
+                    "message": "/obs_scene Starting Soon - Scene",
+                    "name": "Starting Soon"
+                },
+                {
+                    "image": "obs_logo2.svg",
+                    "image_size": "70%",
+                    "message": "/obs_scene BRB - Scene",
+                    "name": "BRB"
+                },
+                {
+                    "image": "obs_logo2.svg",
+                    "image_size": "70%",
+                    "message": "/obs_scene Waiting for Next - Scene",
+                    "name": "Waiting for Next"
+                },
+                {
+                    "image": "obs_logo2.svg",
+                    "image_size": "70%",
+                    "message": "/obs_scene Thanks - Scene",
+                    "name": "Thanks"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "image": "obs_logo2.svg",
+                    "image_size": "70%",
+                    "message": "/obs_scene Casters - Scene",
+                    "name": "Casters"
+                },
+                {
+                    "VOID": "VOID"
+                }
+            ],
+            "spotify": [
+                {
+                    "image": "back10.svg",
+                    "image_size": "110%",
+                    "message": "/folder index",
+                    "name": "Back"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "background-color": "#1ed664",
+                    "image": "skip-start-fill.svg",
+                    "image_size": "100%",
+                    "message": "/mediacontrol previous",
+                    "name": "Previous"
+                },
+                {
+                    "background-color": "#1ed664",
+                    "image": "playpause2.png",
+                    "image_size": "98%",
+                    "message": "/mediacontrol playpause",
+                    "name": "Play/Pause"
+                },
+                {
+                    "background-color": "#1ed664",
+                    "image": "skip-end-fill.svg",
+                    "image_size": "100%",
+                    "message": "/mediacontrol next",
+                    "name": "Next"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "background-color": "#1ed664",
+                    "image": "volume-mute.svg",
+                    "image_size": "75%",
+                    "message": "/soundcontrol mute ",
+                    "name": "Mute"
+                }
+            ],
+            "teamLeftBans": [
+                {
+                    "image": "back10.svg",
+                    "image_size": "110%",
+                    "message": "/folder OBS",
+                    "name": "back to OBS"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "image": "**uploaded/damage.svg",
+                    "image_size": "70",
+                    "message": "/folder teamLeftDamage",
+                    "name": "DPS"
+                },
+                {
+                    "image": "**uploaded/support.svg",
+                    "image_size": "70",
+                    "message": "/folder teamLeftSupport",
+                    "name": "Support"
+                },
+                {
+                    "image": "**uploaded/tank.svg",
+                    "image_size": "70",
+                    "message": "/folder teamLeftTank",
+                    "name": "Tank"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                }
+            ],
+            "teamLeftDamage": [
+                {
+                    "image": "back10.svg",
+                    "image_size": "110%",
+                    "message": "/folder teamLeftBans",
+                    "name": "Team Left Ban"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "image": "**uploaded/ashe.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_ashe.py",
+                    "name": "Ashe"
+                },
+                {
+                    "image": "**uploaded/bastion.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_bastion.py",
+                    "name": "Bastion"
+                },
+                {
+                    "image": "**uploaded/cassidy.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_cassidy.py",
+                    "name": "Cassidy"
+                },
+                {
+                    "image": "**uploaded/echo.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_echo.py",
+                    "name": "Echo"
+                },
+                {
+                    "image": "**uploaded/genji.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_genji.py",
+                    "name": "Genji"
+                },
+                {
+                    "image": "**uploaded/hanzo.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_hanzo.py",
+                    "name": "Hanzo"
+                },
+                {
+                    "image": "**uploaded/junkrat.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_junkrat.py",
+                    "name": "Junkrat"
+                },
+                {
+                    "image": "**uploaded/mei.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_mei.py",
+                    "name": "Mei"
+                },
+                {
+                    "image": "**uploaded/pharah.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_pharah.py",
+                    "name": "Pharah"
+                },
+                {
+                    "image": "**uploaded/reaper.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_reaper.py",
+                    "name": "Reaper"
+                },
+                {
+                    "image": "**uploaded/sojourn.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_sojourn.py",
+                    "name": "Sojourn"
+                },
+                {
+                    "image": "**uploaded/soldier_76.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_soldier_76.py",
+                    "name": "Soldier: 76"
+                },
+                {
+                    "image": "**uploaded/sombra.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_sombra.py",
+                    "name": "Sombra"
+                },
+                {
+                    "image": "**uploaded/symmetra.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_symmetra.py",
+                    "name": "Symmetra"
+                },
+                {
+                    "image": "**uploaded/torbjorn.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_torbjorn.py",
+                    "name": "Torbj\u00f6rn"
+                },
+                {
+                    "image": "**uploaded/tracer.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_tracer.py",
+                    "name": "Tracer"
+                },
+                {
+                    "image": "**uploaded/venture.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_venture.py",
+                    "name": "Venture"
+                },
+                {
+                    "image": "**uploaded/widowmaker.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_widowmaker.py",
+                    "name": "Widowmaker"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                }
+            ],
+            "teamLeftSupport": [
+                {
+                    "image": "back10.svg",
+                    "image_size": "110%",
+                    "message": "/folder teamLeftBans",
+                    "name": "Team Left Ban"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "image": "**uploaded/ana.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_ana.py",
+                    "name": "Ana"
+                },
+                {
+                    "image": "**uploaded/baptiste.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_baptiste.py",
+                    "name": "Baptiste"
+                },
+                {
+                    "image": "**uploaded/brigitte.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_brigitte.py",
+                    "name": "Brigitte"
+                },
+                {
+                    "image": "**uploaded/freja.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_freja.py",
+                    "name": "Freja"
+                },
+                {
+                    "image": "**uploaded/illari.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_illari.py",
+                    "name": "Illari"
+                },
+                {
+                    "image": "**uploaded/juno.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_juno.py",
+                    "name": "Juno"
+                },
+                {
+                    "image": "**uploaded/kiriko.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_kiriko.py",
+                    "name": "Kiriko"
+                },
+                {
+                    "image": "**uploaded/lifeweaver.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_lifeweaver.py",
+                    "name": "Lifeweaver"
+                },
+                {
+                    "image": "**uploaded/lucio.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_lucio.py",
+                    "name": "Lucio"
+                },
+                {
+                    "image": "**uploaded/mercy.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_mercy.py",
+                    "name": "Mercy"
+                },
+                {
+                    "image": "**uploaded/moira.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_moira.py",
+                    "name": "Moira"
+                },
+                {
+                    "image": "**uploaded/wuyang.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_wuyang.py",
+                    "name": "Wuyang"
+                },
+                {
+                    "image": "**uploaded/zenyatta.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_zenyatta.py",
+                    "name": "Zenyatta"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                }
+            ],
+            "teamLeftTank": [
+                {
+                    "image": "back10.svg",
+                    "image_size": "110%",
+                    "message": "/folder teamLeftBans",
+                    "name": "Team Left Ban"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "image": "**uploaded/dva.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_dva.py",
+                    "name": "D.Va"
+                },
+                {
+                    "image": "**uploaded/doomfist.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_doomfist.py",
+                    "name": "Doomfist"
+                },
+                {
+                    "image": "**uploaded/junker_queen.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_junker_queen.py",
+                    "name": "Junker Queen"
+                },
+                {
+                    "image": "**uploaded/mauga.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_mauga.py",
+                    "name": "Mauga"
+                },
+                {
+                    "image": "**uploaded/orisa.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_orisa.py",
+                    "name": "Orisa"
+                },
+                {
+                    "image": "**uploaded/ramattra.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_ramattra.py",
+                    "name": "Ramattra"
+                },
+                {
+                    "image": "**uploaded/reinhardt.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_reinhardt.py",
+                    "name": "Reinhardt"
+                },
+                {
+                    "image": "**uploaded/roadhog.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_roadhog.py",
+                    "name": "Roadhog"
+                },
+                {
+                    "image": "**uploaded/sigma.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_sigma.py",
+                    "name": "Sigma"
+                },
+                {
+                    "image": "**uploaded/winston.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_winston.py",
+                    "name": "Winston"
+                },
+                {
+                    "image": "**uploaded/wrecking_ball.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_wrecking_ball.py",
+                    "name": "Wrecking Ball"
+                },
+                {
+                    "image": "**uploaded/zarya.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_zarya.py",
+                    "name": "Zarya"
+                },
+                {
+                    "image": "**uploaded/hazard.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamLeft_bans\\ban_hazard.py",
+                    "name": "Hazard"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                }
+            ],
+            "teamRightBans": [
+                {
+                    "image": "back10.svg",
+                    "image_size": "110%",
+                    "message": "/folder OBS",
+                    "name": "back to OBS"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "image": "**uploaded/damage.svg",
+                    "image_size": "70",
+                    "message": "/folder teamRightDamage",
+                    "name": "DPS"
+                },
+                {
+                    "image": "**uploaded/support.svg",
+                    "image_size": "70",
+                    "message": "/folder teamRightSupport",
+                    "name": "Support"
+                },
+                {
+                    "image": "**uploaded/tank.svg",
+                    "image_size": "70",
+                    "message": "/folder teamRightTank",
+                    "name": "Tank"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                }
+            ],
+            "teamRightDamage": [
+                {
+                    "image": "back10.svg",
+                    "image_size": "110%",
+                    "message": "/folder teamRightBans",
+                    "name": "Team Right Ban"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "image": "**uploaded/ashe.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_ashe.py",
+                    "name": "Ashe"
+                },
+                {
+                    "image": "**uploaded/bastion.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_bastion.py",
+                    "name": "Bastion"
+                },
+                {
+                    "image": "**uploaded/cassidy.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_cassidy.py",
+                    "name": "Cassidy"
+                },
+                {
+                    "image": "**uploaded/echo.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_echo.py",
+                    "name": "Echo"
+                },
+                {
+                    "image": "**uploaded/genji.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_genji.py",
+                    "name": "Genji"
+                },
+                {
+                    "image": "**uploaded/hanzo.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_hanzo.py",
+                    "name": "Hanzo"
+                },
+                {
+                    "image": "**uploaded/junkrat.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_junkrat.py",
+                    "name": "Junkrat"
+                },
+                {
+                    "image": "**uploaded/mei.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_mei.py",
+                    "name": "Mei"
+                },
+                {
+                    "image": "**uploaded/pharah.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_pharah.py",
+                    "name": "Pharah"
+                },
+                {
+                    "image": "**uploaded/reaper.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_reaper.py",
+                    "name": "Reaper"
+                },
+                {
+                    "image": "**uploaded/sojourn.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_sojourn.py",
+                    "name": "Sojourn"
+                },
+                {
+                    "image": "**uploaded/soldier_76.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_soldier_76.py",
+                    "name": "Soldier: 76"
+                },
+                {
+                    "image": "**uploaded/sombra.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_sombra.py",
+                    "name": "Sombra"
+                },
+                {
+                    "image": "**uploaded/symmetra.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_symmetra.py",
+                    "name": "Symmetra"
+                },
+                {
+                    "image": "**uploaded/torbjorn.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_torbjorn.py",
+                    "name": "Torbj\u00f6rn"
+                },
+                {
+                    "image": "**uploaded/tracer.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_tracer.py",
+                    "name": "Tracer"
+                },
+                {
+                    "image": "**uploaded/venture.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_venture.py",
+                    "name": "Venture"
+                },
+                {
+                    "image": "**uploaded/widowmaker.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_widowmaker.py",
+                    "name": "Widowmaker"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                }
+            ],
+            "teamRightSupport": [
+                {
+                    "image": "back10.svg",
+                    "image_size": "110%",
+                    "message": "/folder teamRightBans",
+                    "name": "Team Right Ban"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "image": "**uploaded/ana.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_ana.py",
+                    "name": "Ana"
+                },
+                {
+                    "image": "**uploaded/baptiste.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_baptiste.py",
+                    "name": "Baptiste"
+                },
+                {
+                    "image": "**uploaded/brigitte.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_brigitte.py",
+                    "name": "Brigitte"
+                },
+                {
+                    "image": "**uploaded/freja.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_freja.py",
+                    "name": "Freja"
+                },
+                {
+                    "image": "**uploaded/illari.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_illari.py",
+                    "name": "Illari"
+                },
+                {
+                    "image": "**uploaded/juno.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_juno.py",
+                    "name": "Juno"
+                },
+                {
+                    "image": "**uploaded/kiriko.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_kiriko.py",
+                    "name": "Kiriko"
+                },
+                {
+                    "image": "**uploaded/lifeweaver.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_lifeweaver.py",
+                    "name": "Lifeweaver"
+                },
+                {
+                    "image": "**uploaded/lucio.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_lucio.py",
+                    "name": "L\u00facio"
+                },
+                {
+                    "image": "**uploaded/mercy.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_mercy.py",
+                    "name": "Mercy"
+                },
+                {
+                    "image": "**uploaded/moira.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_moira.py",
+                    "name": "Moira"
+                },
+                {
+                    "image": "**uploaded/wuyang.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_wuyang.py",
+                    "name": "Wuyang"
+                },
+                {
+                    "image": "**uploaded/zenyatta.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_zenyatta.py",
+                    "name": "Zenyatta"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                }
+            ],
+            "teamRightTank": [
+                {
+                    "image": "back10.svg",
+                    "image_size": "110%",
+                    "message": "/folder teamRightBans",
+                    "name": "Team Right Ban"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "image": "**uploaded/dva.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_dva.py",
+                    "name": "D.Va"
+                },
+                {
+                    "image": "**uploaded/doomfist.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_doomfist.py",
+                    "name": "Doomfist"
+                },
+                {
+                    "image": "**uploaded/junker_queen.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_junker_queen.py",
+                    "name": "Junker Queen"
+                },
+                {
+                    "image": "**uploaded/mauga.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_mauga.py",
+                    "name": "Mauga"
+                },
+                {
+                    "image": "**uploaded/orisa.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_orisa.py",
+                    "name": "Orisa"
+                },
+                {
+                    "image": "**uploaded/ramattra.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_ramattra.py",
+                    "name": "Ramattra"
+                },
+                {
+                    "image": "**uploaded/reinhardt.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_reinhardt.py",
+                    "name": "Reinhardt"
+                },
+                {
+                    "image": "**uploaded/roadhog.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_roadhog.py",
+                    "name": "Roadhog"
+                },
+                {
+                    "image": "**uploaded/sigma.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_sigma.py",
+                    "name": "Sigma"
+                },
+                {
+                    "image": "**uploaded/winston.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_winston.py",
+                    "name": "Winston"
+                },
+                {
+                    "image": "**uploaded/wrecking_ball.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_wrecking_ball.py",
+                    "name": "Wrecking Ball"
+                },
+                {
+                    "image": "**uploaded/zarya.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_zarya.py",
+                    "name": "Zarya"
+                },
+                {
+                    "image": "**uploaded/hazard.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\teamRight_bans\\ban_hazard.py",
+                    "name": "Hazard"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                }
+            ],
+            "maps": [
+                {
+                    "image": "folder.png",
+                    "image_size": "70%",
+                    "message": "/folder OBS",
+                    "name": "back to OBS"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "image": "**uploaded/antarctic.png",
+                    "image_size": "70",
+                    "message": "/folder mapsControl",
+                    "name": "Control"
+                },
+                {
+                    "image": "**uploaded/blizzardWorld.jpg",
+                    "image_size": "70",
+                    "message": "/folder mapsHybrid",
+                    "name": "Hybrid"
+                },
+                {
+                    "image": "**uploaded/circuit.jpg",
+                    "image_size": "70",
+                    "message": "/folder mapsEscort",
+                    "name": "Escort"
+                },
+                {
+                    "image": "**uploaded/collosseo.png",
+                    "image_size": "70",
+                    "message": "/folder mapsPush",
+                    "name": "Push"
+                },
+                {
+                    "image": "**uploaded/newJunkCity.jpg",
+                    "image_size": "70",
+                    "message": "/folder mapsFlashpoint",
+                    "name": "Flashpoint"
+                },
+                {
+                    "image": "**uploaded/hanaoka.jpg",
+                    "image_size": "70",
+                    "message": "/folder mapsClash",
+                    "name": "Clash"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                }
+            ],
+            "mapsControl": [
+                {
+                    "image": "back10.svg",
+                    "image_size": "110%",
+                    "message": "/folder maps",
+                    "name": "back to maps"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "image": "**uploaded/antarctic.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\maps\\set_antarctic_peninsula.py",
+                    "name": "Antarctic Peninsula"
+                },
+                {
+                    "image": "**uploaded/busan.jpg",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\maps\\set_busan.py",
+                    "name": "Busan"
+                },
+                {
+                    "image": "**uploaded/ilios.jpg",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\maps\\set_ilios.py",
+                    "name": "Ilios"
+                },
+                {
+                    "image": "**uploaded/lijiangTower.jpg",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\maps\\set_lijiang_tower.py",
+                    "name": "Lijiang Tower"
+                },
+                {
+                    "image": "**uploaded/nepal.jpg",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\maps\\set_nepal.py",
+                    "name": "Nepal"
+                },
+                {
+                    "image": "**uploaded/oasis.jpg",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\maps\\set_oasis.py",
+                    "name": "Oasis"
+                },
+                {
+                    "image": "**uploaded/samoa.jpg",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\maps\\set_samoa.py",
+                    "name": "Samoa"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                }
+            ],
+            "mapsHybrid": [
+                {
+                    "image": "back10.svg",
+                    "image_size": "110%",
+                    "message": "/folder maps",
+                    "name": "back to maps"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "image": "**uploaded/blizzardWorld.jpg",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\maps\\set_blizzard_world.py",
+                    "name": "Blizzard World"
+                },
+                {
+                    "image": "**uploaded/eichenwalde.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\maps\\set_eichenwalde.py",
+                    "name": "Eichenwalde"
+                },
+                {
+                    "image": "**uploaded/hollywood.jpg",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\maps\\set_hollywood.py",
+                    "name": "Hollywood"
+                },
+                {
+                    "image": "**uploaded/kingsRow.jpg",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\maps\\set_kings_row.py",
+                    "name": "King's Row"
+                },
+                {
+                    "image": "**uploaded/midtown.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\maps\\set_midtown.py",
+                    "name": "Midtown"
+                },
+                {
+                    "image": "**uploaded/numbani.jpg",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\maps\\set_numbani.py",
+                    "name": "Numbani"
+                },
+                {
+                    "image": "**uploaded/paraiso.jpg",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\maps\\set_paraiso.py",
+                    "name": "Paraiso"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                }
+            ],
+            "mapsEscort": [
+                {
+                    "image": "back10.svg",
+                    "image_size": "110%",
+                    "message": "/folder maps",
+                    "name": "back to maps"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "image": "**uploaded/circuit.jpg",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\maps\\set_circuit_royale.py",
+                    "name": "Circuit Royale"
+                },
+                {
+                    "image": "**uploaded/dorado.jpg",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\maps\\set_dorado.py",
+                    "name": "Dorado"
+                },
+                {
+                    "image": "**uploaded/gibraltar.jpg",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\maps\\set_gibraltar.py",
+                    "name": "Gibraltar"
+                },
+                {
+                    "image": "**uploaded/havana.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\maps\\set_havana.py",
+                    "name": "Havana"
+                },
+                {
+                    "image": "**uploaded/junkertown.jpg",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\maps\\set_junkertown.py",
+                    "name": "Junkertown"
+                },
+                {
+                    "image": "**uploaded/rialto.jpg",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\maps\\set_rialto.py",
+                    "name": "Rialto"
+                },
+                {
+                    "image": "**uploaded/route66.jpg",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\maps\\set_route_66.py",
+                    "name": "Route 66"
+                },
+                {
+                    "image": "**uploaded/shambali.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\maps\\set_shambali_monastery.py",
+                    "name": "Shambali Monastery"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                }
+            ],
+            "mapsPush": [
+                {
+                    "image": "back10.svg",
+                    "image_size": "110%",
+                    "message": "/folder maps",
+                    "name": "back to maps"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "image": "**uploaded/collosseo.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\maps\\set_colosseo.py",
+                    "name": "Colosseo"
+                },
+                {
+                    "image": "**uploaded/esperanca.jpg",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\maps\\set_esperanca.py",
+                    "name": "Esperan\u00e7a"
+                },
+                {
+                    "image": "**uploaded/newQueensStreet.jpg",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\maps\\set_new_queen_street.py",
+                    "name": "New Queen Street"
+                },
+                {
+                    "image": "**uploaded/runasapi.jpg",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\maps\\set_runasapi.py",
+                    "name": "Runasapi"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                }
+            ],
+            "mapsFlashpoint": [
+                {
+                    "image": "back10.svg",
+                    "image_size": "110%",
+                    "message": "/folder maps",
+                    "name": "back to maps"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "image": "**uploaded/newJunkCity.jpg",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\maps\\set_new_junk_city.py",
+                    "name": "New Junk City"
+                },
+                {
+                    "image": "**uploaded/suravasa.jpg",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\maps\\set_suravasa.py",
+                    "name": "Suravasa"
+                },
+                {
+                    "image": "**uploaded/aatlis.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\maps\\set_aatlis.py",
+                    "name": "Aatlis"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                }
+            ],
+            "mapsClash": [
+                {
+                    "image": "back10.svg",
+                    "image_size": "110%",
+                    "message": "/folder maps",
+                    "name": "back to maps"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "image": "**uploaded/hanaoka.jpg",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\maps\\set_hanaoka.py",
+                    "name": "Hanaoka"
+                },
+                {
+                    "image": "**uploaded/throneOfAnubsi.png",
+                    "image_size": "70",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\maps\\set_throne_of_anubis.py",
+                    "name": "Throne of Anubis"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                }
+            ],
+            "management": [
+                {
+                    "image": "back10.svg",
+                    "image_size": "110%",
+                    "message": "/folder OBS",
+                    "name": "back to OBS"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "image": "execpython.png",
+                    "image_size": "70%",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\increaseScore_teamLeft.py",
+                    "name": "Team Left +1"
+                },
+                {
+                    "image": "execpython.png",
+                    "image_size": "70%",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\decreaseScore_teamLeft.py",
+                    "name": "Team Left -1"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "image": "execpython.png",
+                    "image_size": "70%",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\increaseScore_teamRight.py",
+                    "name": "Team Right +1"
+                },
+                {
+                    "image": "execpython.png",
+                    "image_size": "70%",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\decreaseScore_teamRight.py",
+                    "name": "Team Right -1"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "image": "execpython.png",
+                    "image_size": "70%",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\flipSides.py",
+                    "name": "Flip Sides"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "image": "execpython.png",
+                    "image_size": "70%",
+                    "message": "/exec type:file_path<|\u00a7|>.\\static\\files\\uploaded\\pythonScripts\\reset.py",
+                    "name": "Reset"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                },
+                {
+                    "VOID": "VOID"
+                }
+            ]
+        }
+    },
+    "url": {
+        "ip": "0.0.0.0",
+        "port": 5000
+    },
+    "allowed_networks": []
+}
