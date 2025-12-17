@@ -6,6 +6,7 @@ import OBSWebSocket, { type OBSRequestTypes } from "obs-websocket-js";
 import { Dialog, DialogDescription, DialogHeader, DialogTrigger, DialogContent } from "../ui/dialog";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
+import { Loader2 } from "lucide-react";
 
 const sceneNames = [
     "Match",
@@ -35,6 +36,7 @@ function OverlaysDash({
     game: string | null;
 }) {
     const [postImportInfoOpen, setPostImportInfoOpen] = useState(false);
+    const [isDownloadingZip, setIsDownloadingZip] = useState(false);
 
     const [connectedToObs, setConnectedToObs] = useState(false);
     const [obsUrl, setObsUrl] = useState("");
@@ -303,6 +305,44 @@ function OverlaysDash({
                 <CardDescription>
                     Click the links below to {connectedToObs ? "switch to the corresponding scene." : "open the overlay in a new tab."}
                 </CardDescription>
+                <div className="flex gap-2 justify-center mt-2">
+                    <Button
+                        onClick={async () => {
+                            setIsDownloadingZip(true);
+                            try {
+                                const response = await fetch(`/api/${sessionId}/download-webdeck-zip`);
+                                if (!response.ok) {
+                                    throw new Error("Failed to download zip file");
+                                }
+                                const blob = await response.blob();
+                                const url = window.URL.createObjectURL(blob);
+                                const link = document.createElement("a");
+                                link.href = url;
+                                link.download = `WebDeck-${sessionId}.zip`;
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
+                                window.URL.revokeObjectURL(url);
+                            } catch (error) {
+                                console.error("Error downloading zip:", error);
+                                alert("Failed to download zip file. Please try again.");
+                            } finally {
+                                setIsDownloadingZip(false);
+                            }
+                        }}
+                        variant="outline"
+                        disabled={isDownloadingZip}
+                    >
+                        {isDownloadingZip ? (
+                            <>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                Generating Zip...
+                            </>
+                        ) : (
+                            "Download WebDeck Zip"
+                        )}
+                    </Button>
+                </div>
                 {connectedToObs && <Button onClick={disconnectFromObs}>Disconnect</Button>}
                 {!connectedToObs && (
                     <Dialog>

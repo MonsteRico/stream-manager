@@ -273,5 +273,11 @@ export const OverwatchCharacters: CharacterInfo[] = [
         image: "/characterImages/overwatch/zenyatta.png",
         role: "Support",
     },
+    {
+        id: 45,
+        name: "Vendetta",
+        image: "/characterImages/overwatch/vendetta.png",
+        role: "Damage",
+    },
 ];
 

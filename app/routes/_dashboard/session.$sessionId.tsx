@@ -32,7 +32,7 @@ function SessionDashboard() {
 	const { sessionId } = Route.useParams();
 	const sessionQuery = useSuspenseQuery({
 		...sessionQueryOptions(sessionId),
-		refetchInterval: 1000,
+		refetchInterval: 30000,
 		refetchOnWindowFocus: true,
 		refetchIntervalInBackground: true,
 	});
