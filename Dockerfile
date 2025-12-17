@@ -21,6 +21,9 @@ RUN if [ ! -d "./drizzle" ]; then \
       bun run db:generate || echo "No schema changes to migrate"; \
     fi
 
+# Generate Python scripts from TypeScript data files
+RUN bun run generate:python-scripts
+
 # Build the application
 RUN bun run build && echo "Build completed, listing contents:" && ls -la && echo "Checking for common output directories:" && ls -la .output/ 2>/dev/null || echo "No .output directory" && ls -la dist/ 2>/dev/null || echo "No dist directory" && ls -la build/ 2>/dev/null || echo "No build directory"
 

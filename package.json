@@ -11,7 +11,8 @@
         "db:generate": "drizzle-kit generate",
         "db:migrate": "drizzle-kit migrate",
         "db:drop": "drizzle-kit drop",
-        "db:migrate:docker": "bun scripts/migrate.js"
+        "db:migrate:docker": "bun scripts/migrate.js",
+        "generate:python-scripts": "bun scripts/generate-python-scripts.ts"
     },
     "devDependencies": {
         "@tanstack/router-devtools": "^1.70.0",
