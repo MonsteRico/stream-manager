@@ -7,6 +7,8 @@ import { Dialog, DialogDescription, DialogHeader, DialogTrigger, DialogContent }
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Loader2 } from "lucide-react";
+import type { NewSession } from "@/db/schema";
+import type { UseMutateFunction } from "@tanstack/react-query";
 
 const sceneNames = [
     "Match",
@@ -29,11 +31,13 @@ function OverlaysDash({
     team1DisplayName,
     team2DisplayName,
     game,
+    mutateFn,
 }: {
     sessionId: string;
     team1DisplayName: string;
     team2DisplayName: string;
     game: string | null;
+     mutateFn: UseMutateFunction<unknown, unknown, NewSession, unknown>
 }) {
     const [postImportInfoOpen, setPostImportInfoOpen] = useState(false);
     const [isDownloadingZip, setIsDownloadingZip] = useState(false);
@@ -285,6 +289,10 @@ function OverlaysDash({
             await obs.call("RemoveScene", { sceneName: "Scene" });
 
 
+            mutateFn({
+                animationDelay: 2,
+            });
+
             setPostImportInfoOpen(true);
 
             setConnectedToObs(true);
@@ -303,9 +311,48 @@ function OverlaysDash({
             <CardHeader>
                 <CardTitle className="text-2xl font-bold text-center">Overlays</CardTitle>
                 <CardDescription>
-                    Click the links below to {connectedToObs ? "switch to the corresponding scene." : "open the overlay in a new tab."}
+                    Setup OBS
                 </CardDescription>
-                <div className="flex gap-2 justify-center mt-2">
+
+                {connectedToObs && <Button onClick={disconnectFromObs}>Disconnect</Button>}
+                {!connectedToObs && (
+                    <Dialog>
+                        <DialogTrigger asChild>
+                            <Button>Connect to OBS</Button>
+                        </DialogTrigger>
+
+                        <DialogContent className="flex flex-col gap-4">
+                            <DialogHeader>Connect to OBS</DialogHeader>
+                            <DialogDescription>
+                                Set the URL of your OBS instance below. You can find this in Tools -&gt; WebSocket Server Settings. -&gt;
+                                Show Connect Info. Use the server IP, port, and password shown (if no authentication enabled leave password
+                                blank. This is the recommended approach).
+                            </DialogDescription>
+                            <div className="flex flex-row items-center gap-4">
+                                <Label htmlFor="obs-url">OBS URL</Label>
+                                <Input id="obs-url" value={obsUrl} onChange={(e) => setObsUrl(e.target.value)} placeholder="localhost" />
+                            </div>
+                            <div className="flex flex-row items-center gap-4">
+                                <Label htmlFor="obs-port">OBS Port</Label>
+                                <Input id="obs-port" placeholder="4455" onChange={(e) => setObsPort(e.target.value)} value={obsPort} />
+                            </div>
+                            <div className="flex flex-row items-center gap-4">
+                                <Label htmlFor="obs-password">OBS Password</Label>
+                                <Input
+                                    id="obs-password"
+                                    value={obsPassword}
+                                    onChange={(e) => setObsPassword(e.target.value)}
+                                    placeholder="*********"
+                                />
+                            </div>
+                            <Button onClick={connectToObs}>Connect</Button>
+                        </DialogContent>
+                    </Dialog>
+                )}
+            </CardHeader>
+            <CardContent className="flex flex-wrap justify-center gap-4">
+                {!connectedToObs && <Links sessionId={sessionId} team1DisplayName={team1DisplayName} team2DisplayName={team2DisplayName} />}
+                {connectedToObs && <div className="flex gap-2 justify-center mt-2">
                     <Button
                         onClick={async () => {
                             setIsDownloadingZip(true);
@@ -342,73 +389,20 @@ function OverlaysDash({
                             "Download WebDeck Zip"
                         )}
                     </Button>
-                </div>
-                {connectedToObs && <Button onClick={disconnectFromObs}>Disconnect</Button>}
-                {!connectedToObs && (
-                    <Dialog>
-                        <DialogTrigger asChild>
-                            <Button>Connect to OBS</Button>
-                        </DialogTrigger>
-
-                        <DialogContent className="flex flex-col gap-4">
-                            <DialogHeader>Connect to OBS</DialogHeader>
-                            <DialogDescription>
-                                Set the URL of your OBS instance below. You can find this in Tools -&gt; WebSocket Server Settings. -&gt;
-                                Show Connect Info. Use the server IP, port, and password shown (if no authentication enabled leave password
-                                blank).
-                            </DialogDescription>
-                            <div className="flex flex-row items-center gap-4">
-                                <Label htmlFor="obs-url">OBS URL</Label>
-                                <Input id="obs-url" value={obsUrl} onChange={(e) => setObsUrl(e.target.value)} placeholder="localhost" />
-                            </div>
-                            <div className="flex flex-row items-center gap-4">
-                                <Label htmlFor="obs-port">OBS Port</Label>
-                                <Input id="obs-port" placeholder="4455" onChange={(e) => setObsPort(e.target.value)} value={obsPort} />
-                            </div>
-                            <div className="flex flex-row items-center gap-4">
-                                <Label htmlFor="obs-password">OBS Password</Label>
-                                <Input
-                                    id="obs-password"
-                                    value={obsPassword}
-                                    onChange={(e) => setObsPassword(e.target.value)}
-                                    placeholder="*********"
-                                />
-                            </div>
-                            <Button onClick={connectToObs}>Connect</Button>
-                        </DialogContent>
-                    </Dialog>
-                )}
-            </CardHeader>
-            <CardContent className="flex flex-wrap justify-center gap-4">
-                {!connectedToObs && <Links sessionId={sessionId} team1DisplayName={team1DisplayName} team2DisplayName={team2DisplayName} />}
-                {connectedToObs && (
-                    <OBSButtons sessionId={sessionId} team1DisplayName={team1DisplayName} team2DisplayName={team2DisplayName} obs={obs} />
-                )}
+                </div>}
             </CardContent>
             <Dialog open={postImportInfoOpen} onOpenChange={setPostImportInfoOpen}>
                 <DialogContent>
-                    <DialogHeader>Post Import Information</DialogHeader>
+                    <DialogHeader>Next Steps</DialogHeader>
                     <DialogDescription>
-                        <p>
-                            After importing the scenes, you will need to set the transitions to Stinger. Click the + under the transitions,
-                            choose Stinger. Download the{" "}
-                            <a href="/Stinger.webm" className="text-blue-500" download={true}>
-                                Stinger.webm
-                            </a>{" "}
-                            file and use that as the path. Set the Transition Point to 1000ms. Set the Animation Delay on here to 2 seconds.
-                        </p>
-                        <p>You will also need to set any game inputs and audio inputs to the correct settings!</p>
-                        <p>
-                            <strong>Important:</strong> Go to the "Inputs" scene and configure all audio inputs:
-                            <ul className="list-disc list-inside mt-2 space-y-1">
-                                <li><strong>Game Audio:</strong> Set to capture game audio output</li>
-                                <li><strong>Caster Audio Input:</strong> Set to capture Discord or your caster audio output channel</li>
-                                <li><strong>Producer Mic Input:</strong> Set to your producer microphone. It is muted and hidden by default. To enable it, go to the Inputs scene, show the Producer Mic Input, and unmute it. This will enable it across all scenes.</li>
-                                <li><strong>Waiting Music Audio Input:</strong> Set to capture your waiting music audio source</li>
-                            </ul>
-                        </p>
-                        <p>After disconnecting from OBS, you can delete the scene collection and all scenes and sources.</p>
-                        <p>DRAG THE BROWSER SOURCES ABOVE THE GAME AND CAMERAS PLEASE</p>
+                        <ul className="list-disc list-inside mt-2 space-y-1 text-white text-xl">
+                            <li>Download the WebDeck zip file (you will see it when closing this dialog)</li>
+                            <li>Unzip the file wherever you want WebDeck to live</li>
+                            <li>In your OBS, the scenes have already been imported</li>
+                            <li>In OBS, set the transitions to Stinger. Click the + under the transitions, choose Stinger. Use the Stinger.webm file from the WebDeck zip as the path. Set the Transition Point to 1000ms.</li>
+                            <li>In OBS, go to the "Inputs" scene and configure all your audio, game, video inputs etc.</li>
+                            <li className="font-bold">Lastly, in OBS make sure you drag the browser sources in each scene above the game or camera sources so they actually are visible</li>
+                        </ul>
                     </DialogDescription>
                 </DialogContent>
             </Dialog>

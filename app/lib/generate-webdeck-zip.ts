@@ -341,6 +341,15 @@ export async function generateWebDeckZip(sessionId: string): Promise<Buffer> {
         console.warn("Warning: Could not read map images directory:", error);
     }
 
+    // Copy Stinger.webm to WebDeck root directory
+    try {
+        const stingerPath = join(publicDir, "Stinger.webm");
+        const stingerContent = await readFile(stingerPath);
+        zip.file("WebDeck/Stinger.webm", stingerContent);
+    } catch (error) {
+        console.warn("Warning: Could not read Stinger.webm:", error);
+    }
+
     // Read all Python scripts recursively
     const pythonFiles = await readDirectoryRecursive(pythonScriptsDir, pythonScriptsDir);
 
