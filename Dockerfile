@@ -12,7 +12,7 @@ WORKDIR /app
 # npm ci includes dev dependencies by default, but requires package-lock.json
 # Fall back to npm install if package-lock.json doesn't exist
 COPY package.json bun.lockb* ./
-RUN npm install-clean || npm install
+RUN npm ci
 
 # Rebuild the source code only when needed
 FROM base AS builder
