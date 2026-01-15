@@ -1,13 +1,19 @@
-# Use Bun as base image
-FROM oven/bun:1-alpine AS base
+# Use Node.js for build (to avoid Bun AVX issues) and Bun for runtime
+FROM node:20-alpine AS base
+
+# Install Bun in base image for runtime use
+RUN apk add --no-cache curl unzip && \
+    curl -fsSL https://bun.sh/install | bash && \
+    mv /root/.bun/bin/bun /usr/local/bin/bun && \
+    chmod +x /usr/local/bin/bun
 
 # Install dependencies only when needed
 FROM base AS deps
 WORKDIR /app
 
-# Install dependencies using Bun
+# Install dependencies using npm (more reliable for build, avoids Bun AVX issues)
 COPY package.json bun.lockb* ./
-RUN bun install --frozen-lockfile
+RUN npm ci --include=dev || npm install --include=dev
 
 # Rebuild the source code only when needed
 FROM base AS builder
@@ -23,14 +29,14 @@ COPY . .
 # Generate initial migration if drizzle directory doesn't exist
 RUN if [ ! -d "./drizzle" ]; then \
       echo "No migrations found, creating initial migration..." && \
-      bun run db:generate || echo "No schema changes to migrate"; \
+      npx drizzle-kit generate || echo "No schema changes to migrate"; \
     fi
 
 # Generate Python scripts from TypeScript data files
-RUN bun run generate:python-scripts
+RUN npx tsx scripts/generate-python-scripts.ts
 
-# Build the application
-RUN bun run build || (echo "Build failed!" && exit 1)
+# Build the application using Node.js (vinxi works with Node.js, avoids Bun AVX crash)
+RUN npx vinxi build || (echo "Build failed!" && exit 1)
 RUN echo "Build completed, verifying output:" && \
     ls -la .output/ 2>/dev/null || (echo "ERROR: .output directory not found!" && exit 1) && \
     ls -la .output/server/ 2>/dev/null || (echo "ERROR: .output/server directory not found!" && exit 1) && \
@@ -46,12 +52,12 @@ ENV NODE_ENV=production
 RUN addgroup --system --gid 1001 appgroup
 RUN adduser --system --uid 1001 appuser --ingroup appgroup
 
-# Install only production dependencies
-COPY package.json bun.lockb* ./
-RUN bun install --production --frozen-lockfile
-
 # Copy the built application and all necessary files
 COPY --from=builder /app ./
+
+# Install only production dependencies (use npm to avoid Bun AVX issues)
+# This will update node_modules to production-only, removing dev dependencies
+RUN npm ci --omit=dev || npm install --production
 
 # Verify that the build output exists
 RUN test -f .output/server/index.mjs || (echo "ERROR: .output/server/index.mjs missing in final image!" && ls -la .output/ 2>/dev/null || echo "ERROR: .output directory missing!" && exit 1) && \
