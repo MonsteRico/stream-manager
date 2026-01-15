@@ -11,7 +11,7 @@ WORKDIR /app
 # Install dependencies using npm
 # npm ci includes dev dependencies by default, but requires package-lock.json
 # Fall back to npm install if package-lock.json doesn't exist
-COPY package.json bun.lockb* ./
+COPY package.json package-lock.json ./
 RUN npm ci
 
 # Rebuild the source code only when needed
