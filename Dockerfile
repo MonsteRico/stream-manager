@@ -1,5 +1,8 @@
-# Use Node.js for build and runtime
-FROM node:20-alpine AS base
+# Use Node.js 24.12 for build and runtime
+FROM node:24.12-alpine AS base
+
+# Install npm 11.6 (ensure specific version)
+RUN npm install -g npm@11.6
 
 # Install dependencies only when needed
 FROM base AS deps
