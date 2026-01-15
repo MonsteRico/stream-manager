@@ -1,17 +1,11 @@
-# Use Node.js for build (to avoid Bun AVX issues) and Bun for runtime
+# Use Node.js for build and runtime
 FROM node:20-alpine AS base
-
-# Install Bun in base image for runtime use
-RUN apk add --no-cache curl unzip && \
-    curl -fsSL https://bun.sh/install | bash && \
-    mv /root/.bun/bin/bun /usr/local/bin/bun && \
-    chmod +x /usr/local/bin/bun
 
 # Install dependencies only when needed
 FROM base AS deps
 WORKDIR /app
 
-# Install dependencies using npm (more reliable for build, avoids Bun AVX issues)
+# Install dependencies using npm
 COPY package.json bun.lockb* ./
 RUN npm ci --include=dev || npm install --include=dev
 
@@ -35,7 +29,7 @@ RUN if [ ! -d "./drizzle" ]; then \
 # Generate Python scripts from TypeScript data files
 RUN npx tsx scripts/generate-python-scripts.ts
 
-# Build the application using Node.js (vinxi works with Node.js, avoids Bun AVX crash)
+# Build the application using Node.js
 RUN npx vinxi build || (echo "Build failed!" && exit 1)
 RUN echo "Build completed, verifying output:" && \
     ls -la .output/ 2>/dev/null || (echo "ERROR: .output directory not found!" && exit 1) && \
@@ -55,7 +49,7 @@ RUN adduser --system --uid 1001 appuser --ingroup appgroup
 # Copy the built application and all necessary files
 COPY --from=builder /app ./
 
-# Install only production dependencies (use npm to avoid Bun AVX issues)
+# Install only production dependencies
 # This will update node_modules to production-only, removing dev dependencies
 RUN npm ci --omit=dev || npm install --production
 
@@ -72,4 +66,4 @@ ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
 # Start the application
-CMD ["bun", "start"]
+CMD ["npm", "start"]
