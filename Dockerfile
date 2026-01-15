@@ -12,6 +12,11 @@ RUN bun install --frozen-lockfile
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
+
+# Set environment variables for build (skip validation during build)
+ENV SKIP_ENV_VALIDATION=1
+ENV NODE_ENV=production
+
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
@@ -25,7 +30,12 @@ RUN if [ ! -d "./drizzle" ]; then \
 RUN bun run generate:python-scripts
 
 # Build the application
-RUN bun run build && echo "Build completed, listing contents:" && ls -la && echo "Checking for common output directories:" && ls -la .output/ 2>/dev/null || echo "No .output directory" && ls -la dist/ 2>/dev/null || echo "No dist directory" && ls -la build/ 2>/dev/null || echo "No build directory"
+RUN bun run build || (echo "Build failed!" && exit 1)
+RUN echo "Build completed, verifying output:" && \
+    ls -la .output/ 2>/dev/null || (echo "ERROR: .output directory not found!" && exit 1) && \
+    ls -la .output/server/ 2>/dev/null || (echo "ERROR: .output/server directory not found!" && exit 1) && \
+    test -f .output/server/index.mjs || (echo "ERROR: .output/server/index.mjs not found!" && exit 1) && \
+    echo "Build output verified successfully"
 
 # Production image, copy all the files and run the app
 FROM base AS runner
@@ -42,6 +52,10 @@ RUN bun install --production --frozen-lockfile
 
 # Copy the built application and all necessary files
 COPY --from=builder /app ./
+
+# Verify that the build output exists
+RUN test -f .output/server/index.mjs || (echo "ERROR: .output/server/index.mjs missing in final image!" && ls -la .output/ 2>/dev/null || echo "ERROR: .output directory missing!" && exit 1) && \
+    echo "Build output verified in final image"
 
 # Create a non-root user to run the app
 USER appuser
