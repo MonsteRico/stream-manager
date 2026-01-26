@@ -11,8 +11,7 @@
     "@stream-manager/shared": "workspace:*",
     "drizzle-orm": "^0.38.0",
     "jszip": "^3.10.1",
-    "postgres": "^3.4.5",
-    "uploadthing": "^7.0.0"
+    "postgres": "^3.4.5"
   },
   "devDependencies": {
     "@types/bun": "latest",

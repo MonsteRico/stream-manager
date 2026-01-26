@@ -12,5 +12,4 @@ export const env = {
   NODE_ENV: getEnv("NODE_ENV", false) || "development",
   PORT: parseInt(getEnv("PORT", false) || "3000", 10),
   STARTGG_API_TOKEN: getEnv("STARTGG_API_TOKEN", false),
-  UPLOADTHING_TOKEN: getEnv("UPLOADTHING_TOKEN", false),
 };

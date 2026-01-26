@@ -253,3 +253,26 @@ export async function healthCheck(): Promise<{ status: string; timestamp: string
   if (!res.ok) throw new Error("Health check failed");
   return res.json();
 }
+
+// ============================================
+// File Upload API
+// ============================================
+
+/**
+ * Upload a file to the server
+ * @param file The file to upload
+ * @returns The URL of the uploaded file
+ */
+export async function uploadFile(file: File): Promise<{ url: string }> {
+  const formData = new FormData();
+  formData.append("file", file);
+  const res = await fetch(`${API_BASE}/upload`, {
+    method: "POST",
+    body: formData,
+  });
+  if (!res.ok) {
+    const error = await res.json().catch(() => ({ error: "Upload failed" }));
+    throw new Error(error.error || "Upload failed");
+  }
+  return res.json();
+}

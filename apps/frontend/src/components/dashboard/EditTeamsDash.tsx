@@ -11,7 +11,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { UploadButton } from "@/lib/uploadthing";
+import { FileUpload } from "@/components/ui/file-upload";
 
 interface EditTeamsDashProps {
   session: Session;
@@ -345,10 +345,8 @@ function LogoEdit({
             <Button onClick={() => handleLogoChange(team)}>
               <Link className="mr-2 h-4 w-4" /> URL
             </Button>
-            <UploadButton
-              className="ut-button:bg-primary ut-button:text-primary-foreground ut-button:hover:bg-primary/90"
-              endpoint="imageUploader"
-              onClientUploadComplete={([{ url }]) => {
+            <FileUpload
+              onUploadComplete={(url) => {
                 setFormState((prev) => ({
                   ...prev,
                   [`team${team}Logo`]: url,

@@ -24,7 +24,6 @@ cp .env.example .env
 # Edit .env with your configuration:
 # - DATABASE_URL: PostgreSQL connection string
 # - STARTGG_API_TOKEN: (optional) start.gg API token
-# - UPLOADTHING_TOKEN: (optional) UploadThing token
 
 # Push database schema (creates tables)
 bun run db:push
@@ -65,9 +64,11 @@ bun run dev:frontend  # Frontend at http://localhost:5173
 ### Start.gg Integration
 - `GET /api/startgg/teams?eventSlug=...` - Get teams from a start.gg event
 
-### File Upload (UploadThing)
-- `GET /api/uploadthing` - UploadThing route handler
-- `POST /api/uploadthing` - UploadThing route handler
+### File Upload
+- `POST /api/upload` - Upload an image file (max 5MB, jpg/jpeg/png/gif/webp)
+- `GET /uploads/:filename` - Serve uploaded files
+
+**Note:** Uploaded files are temporary and auto-deleted after 24 hours. When files are deleted, any team/session logo references are automatically cleared.
 
 ### Health Check
 - `GET /api/health` - Health check endpoint
@@ -98,4 +99,3 @@ import { type Session, OverwatchMaps } from "@stream-manager/shared";
 | `PORT` | No | Server port (default: 3000) |
 | `NODE_ENV` | No | Environment (development/production) |
 | `STARTGG_API_TOKEN` | No | Start.gg API token for team imports |
-| `UPLOADTHING_TOKEN` | No | UploadThing token for file uploads |

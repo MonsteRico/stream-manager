@@ -36,7 +36,6 @@ services:
       NODE_ENV: production
       # Optional: Add your API tokens here or use a .env file
       # STARTGG_API_TOKEN: ${STARTGG_API_TOKEN}
-      # UPLOADTHING_TOKEN: ${UPLOADTHING_TOKEN}
     depends_on:
       db:
         condition: service_healthy

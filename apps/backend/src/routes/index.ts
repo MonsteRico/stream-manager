@@ -11,4 +11,4 @@ export { getStartGGTeams } from "./startgg";
 
 export { downloadWebDeckZip, generateWebDeckZip } from "./webdeck";
 
-export { uploadRouter, type UploadRouter } from "./uploadthing";
+export { handleUpload, serveUpload } from "./upload";

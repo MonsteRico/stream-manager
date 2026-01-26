@@ -2,7 +2,6 @@ import { db } from "./db";
 import { sessions, teams } from "./db/schema";
 import { env } from "./env";
 import { eq } from "drizzle-orm";
-import { createRouteHandler } from "uploadthing/server";
 
 // Route handlers
 import {
@@ -15,10 +14,14 @@ import {
 } from "./routes/sessions";
 import { getStartGGTeams } from "./routes/startgg";
 import { downloadWebDeckZip } from "./routes/webdeck";
-import { uploadRouter } from "./routes/uploadthing";
+import { handleUpload, serveUpload, ensureUploadsDir } from "./routes/upload";
+import { startCleanupJob } from "./services/uploadCleanup";
 
-// Create uploadthing handler
-const uploadthingHandlers = createRouteHandler({ router: uploadRouter });
+// Ensure uploads directory exists on startup
+ensureUploadsDir();
+
+// Start the upload cleanup job (runs every hour, deletes files older than 24 hours)
+startCleanupJob();
 
 const server = Bun.serve({
   port: env.PORT,
@@ -31,7 +34,7 @@ const server = Bun.serve({
     const headers = {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type, x-uploadthing-version, x-uploadthing-package, x-uploadthing-be-adapter",
+      "Access-Control-Allow-Headers": "Content-Type",
       "Content-Type": "application/json",
     };
 
@@ -41,11 +44,17 @@ const server = Bun.serve({
     }
 
     // ============================================
-    // Uploadthing routes
+    // File upload routes
     // ============================================
-    if (pathname === "/api/uploadthing") {
-      // Uploadthing handles both GET and POST
-      return uploadthingHandlers(req);
+    if (pathname === "/api/upload" && method === "POST") {
+      return handleUpload(req);
+    }
+
+    // Serve uploaded files
+    const uploadMatch = pathname.match(/^\/uploads\/([^\/]+)$/);
+    if (uploadMatch && method === "GET") {
+      const filename = uploadMatch[1];
+      return serveUpload(filename);
     }
 
     // ============================================

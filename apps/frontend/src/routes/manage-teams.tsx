@@ -25,7 +25,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { getStartGGTeams } from "@/api/client";
-import { UploadButton } from "@/lib/uploadthing";
+import { FileUpload } from "@/components/ui/file-upload";
 import { extractSlug } from "@stream-manager/shared";
 
 export function ManageTeamsPage() {
@@ -186,16 +186,11 @@ export function ManageTeamsPage() {
                   onChange={handleInputChange}
                   placeholder="Enter logo URL"
                 />
-                <Label htmlFor="file-upload" className="cursor-pointer">
-                  <UploadButton
-                    className="ut-button:bg-primary ut-button:text-primary-foreground ut-button:hover:bg-primary/90"
-                    endpoint="imageUploader"
-                    onClientUploadComplete={([{ url }]) => {
-                      setNewTeam((prev) => ({ ...prev, logo: url }));
-                      alert("Logo uploaded successfully!");
-                    }}
-                  />
-                </Label>
+                <FileUpload
+                  onUploadComplete={(url) => {
+                    setNewTeam((prev) => ({ ...prev, logo: url }));
+                  }}
+                />
               </div>
             </div>
             <div className="space-y-2">
