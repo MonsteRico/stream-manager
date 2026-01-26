@@ -1,4 +1,4 @@
-import type { CharacterInfo } from "./types";
+import type { CharacterInfo } from "./types.js";
 
 export const OverwatchCharacters: CharacterInfo[] = [
   // Tank heroes

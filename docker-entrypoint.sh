@@ -24,4 +24,4 @@ node /app/backend/scripts/migrate.js
 echo ""
 echo "Starting backend server on port ${PORT:-3000}..."
 cd /app
-exec node --import tsx backend/src/index.ts
+exec node backend/dist/index.js

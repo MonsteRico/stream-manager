@@ -1,8 +1,8 @@
 // Re-export all types
-export * from "./types";
+export * from "./types.js";
 
 // Re-export characters
-export { OverwatchCharacters } from "./characters";
+export { OverwatchCharacters } from "./characters.js";
 
 // Re-export maps
 export {
@@ -12,7 +12,7 @@ export {
   CSMaps,
   DefaultMaps,
   MarvelRivalsMaps,
-} from "./maps";
+} from "./maps.js";
 
 // Re-export utils
 export {
@@ -20,4 +20,4 @@ export {
   extractSlug,
   createEmptyMaps,
   DEFAULT_SESSION_VALUES,
-} from "./utils";
+} from "./utils.js";

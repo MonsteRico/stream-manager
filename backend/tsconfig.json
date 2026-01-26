@@ -8,12 +8,9 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "outDir": "./dist",
-    "types": ["node"],
-    "paths": {
-      "@stream-manager/shared": ["../shared/src/index.ts"],
-      "@stream-manager/shared/*": ["../shared/src/*"]
-    }
+    "rootDir": "./src",
+    "types": ["node"]
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "dist"]
 }

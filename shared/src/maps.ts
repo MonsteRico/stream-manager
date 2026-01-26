@@ -1,4 +1,4 @@
-import type { MapInfo } from "./types";
+import type { MapInfo } from "./types.js";
 
 export const OverwatchMaps: MapInfo[] = [
   {

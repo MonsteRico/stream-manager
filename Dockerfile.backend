@@ -16,10 +16,14 @@ FROM base AS install-dev
 # Copy shared package first (needed for file: dependency resolution)
 COPY shared ./shared
 
+# Install shared package devDependencies (typescript needed for build)
+WORKDIR /app/shared
+RUN pnpm install
+
 # Copy backend package files
 COPY backend/package.json backend/pnpm-lock.yaml ./backend/
 
-# Install dev dependencies
+# Install backend dependencies (includes devDependencies for build)
 WORKDIR /app/backend
 RUN pnpm install
 
@@ -39,12 +43,13 @@ WORKDIR /app/backend
 RUN pnpm install --prod
 
 # =============================================================================
-# Stage 4: Builder - Generate Python scripts
+# Stage 4: Builder - Build TypeScript and generate Python scripts
 # =============================================================================
 FROM base AS builder
 
 # Copy node_modules from dev install
 COPY --from=install-dev /app/backend/node_modules ./backend/node_modules
+COPY --from=install-dev /app/shared/node_modules ./shared/node_modules
 
 # Add node_modules/.bin to PATH for any binaries
 ENV PATH="/app/backend/node_modules/.bin:$PATH"
@@ -53,6 +58,14 @@ ENV PATH="/app/backend/node_modules/.bin:$PATH"
 COPY shared ./shared
 COPY backend ./backend
 COPY frontend/public ./public
+
+# Build shared package first (backend depends on it)
+WORKDIR /app/shared
+RUN pnpm build
+
+# Build backend TypeScript
+WORKDIR /app/backend
+RUN pnpm build
 
 # Generate Python scripts (creates backend/pythonScripts/ directory)
 # WORKDIR /app
@@ -78,14 +91,13 @@ COPY shared/package.json ./shared/
 # Copy production node_modules from install-prod stage
 COPY --from=install-prod /app/backend/node_modules ./backend/node_modules
 
-# Copy shared package source (needed at runtime for imports)
-COPY shared ./shared
+# Copy built shared package (needed at runtime for imports)
+COPY --from=builder /app/shared ./shared
 
-# Copy backend source and migrations
-COPY backend/src ./backend/src
+# Copy built backend and migrations
+COPY --from=builder /app/backend/dist ./backend/dist
 COPY backend/scripts ./backend/scripts
 COPY backend/drizzle ./backend/drizzle
-COPY backend/tsconfig.json ./backend/
 
 # Copy generated Python scripts from builder
 COPY --from=builder /app/backend/pythonScripts ./pythonScripts
