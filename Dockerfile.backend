@@ -36,7 +36,7 @@ COPY backend/package.json backend/pnpm-lock.yaml ./backend/
 
 # Install production dependencies only
 WORKDIR /app/backend
-RUN pnpm install --frozen-lockfile --prod
+RUN pnpm install --prod
 
 # =============================================================================
 # Stage 4: Builder - Generate Python scripts
