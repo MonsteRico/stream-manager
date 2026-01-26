@@ -17,8 +17,8 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
-      "@stream-manager/shared": ["../../packages/shared/src/index.ts"],
-      "@stream-manager/shared/*": ["../../packages/shared/src/*"],
+      "@stream-manager/shared": ["../shared/src/index.ts"],
+      "@stream-manager/shared/*": ["../shared/src/*"],
       "@/*": ["./src/*"]
     }
   },

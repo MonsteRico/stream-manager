@@ -17,11 +17,11 @@ echo "PostgreSQL is ready!"
 # Note: migrate.js uses __dirname for paths, so we can run from anywhere
 echo ""
 echo "Running database migrations..."
-bun run /app/apps/backend/scripts/migrate.js
+bun run /app/backend/scripts/migrate.js
 
 # Start the backend server from /app so process.cwd() resolves correctly
 # for WebDeck downloads (pythonScripts/, WebDeck/, public/ are at /app)
 echo ""
 echo "Starting backend server on port ${PORT:-3000}..."
 cd /app
-exec bun run apps/backend/src/index.ts
+exec bun run backend/src/index.ts

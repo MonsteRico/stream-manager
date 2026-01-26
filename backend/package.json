@@ -8,7 +8,7 @@
     "db:push": "drizzle-kit push"
   },
   "dependencies": {
-    "@stream-manager/shared": "workspace:*",
+    "@stream-manager/shared": "file:../shared",
     "drizzle-orm": "^0.38.0",
     "jszip": "^3.10.1",
     "postgres": "^3.4.5"

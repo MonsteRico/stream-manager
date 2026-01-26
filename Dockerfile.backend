@@ -1,6 +1,5 @@
 # Backend Dockerfile for Stream Manager
 # Multi-stage build with Bun
-# Uses workaround for bun lockfile bug: https://github.com/oven-sh/bun/issues/5792
 
 # =============================================================================
 # Stage 1: Base image
@@ -13,16 +12,30 @@ WORKDIR /app
 # =============================================================================
 FROM base AS install-dev
 RUN mkdir -p /temp/dev
-COPY . /temp/dev
-RUN cd /temp/dev && bun install --frozen-lockfile
+
+# Copy shared package first (needed for file: dependency resolution)
+COPY shared /temp/dev/shared
+
+# Copy backend package files
+COPY backend/package.json backend/bun.lock /temp/dev/backend/
+
+# Install dev dependencies
+RUN cd /temp/dev/backend && bun install --frozen-lockfile
 
 # =============================================================================
 # Stage 3: Install dependencies (production only)
 # =============================================================================
 FROM base AS install-prod
 RUN mkdir -p /temp/prod
-COPY . /temp/prod
-RUN cd /temp/prod && bun install --frozen-lockfile --production
+
+# Copy shared package first (needed for file: dependency resolution)
+COPY shared /temp/prod/shared
+
+# Copy backend package files
+COPY backend/package.json backend/bun.lock /temp/prod/backend/
+
+# Install production dependencies only
+RUN cd /temp/prod/backend && bun install --frozen-lockfile --production
 
 # =============================================================================
 # Stage 4: Builder - Generate Python scripts
@@ -30,19 +43,18 @@ RUN cd /temp/prod && bun install --frozen-lockfile --production
 FROM base AS builder
 
 # Copy node_modules from dev install
-COPY --from=install-dev /temp/dev/node_modules node_modules
+COPY --from=install-dev /temp/dev/backend/node_modules ./backend/node_modules
 
 # Add node_modules/.bin to PATH for any binaries
-ENV PATH="/app/node_modules/.bin:$PATH"
+ENV PATH="/app/backend/node_modules/.bin:$PATH"
 
 # Copy source code
-COPY packages/shared ./packages/shared
-COPY apps/backend ./apps/backend
-COPY apps/frontend/public ./public
-COPY package.json bun.lock ./
+COPY shared ./shared
+COPY backend ./backend
+COPY frontend/public ./public
 
-# Generate Python scripts (creates apps/backend/pythonScripts/ directory)
-RUN bun run apps/backend/scripts/generate-python-scripts.ts
+# Generate Python scripts (creates backend/pythonScripts/ directory)
+RUN bun run backend/scripts/generate-python-scripts.ts
 
 # =============================================================================
 # Stage 5: Runtime - Slim image with only what's needed to run
@@ -55,27 +67,26 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y postgresql-client && rm -rf /var/lib/apt/lists/*
 
 # Copy package files
-COPY package.json bun.lock ./
-COPY apps/backend/package.json ./apps/backend/
-COPY packages/shared/package.json ./packages/shared/
+COPY backend/package.json backend/bun.lock ./backend/
+COPY shared/package.json ./shared/
 
 # Copy production node_modules from install-prod stage
-COPY --from=install-prod /temp/prod/node_modules node_modules
+COPY --from=install-prod /temp/prod/backend/node_modules ./backend/node_modules
 
 # Copy shared package source (needed at runtime for imports)
-COPY packages/shared ./packages/shared
+COPY shared ./shared
 
 # Copy backend source and migrations
-COPY apps/backend/src ./apps/backend/src
-COPY apps/backend/scripts ./apps/backend/scripts
-COPY apps/backend/drizzle ./apps/backend/drizzle
-COPY apps/backend/tsconfig.json ./apps/backend/
+COPY backend/src ./backend/src
+COPY backend/scripts ./backend/scripts
+COPY backend/drizzle ./backend/drizzle
+COPY backend/tsconfig.json ./backend/
 
 # Copy generated Python scripts from builder
-COPY --from=builder /app/apps/backend/pythonScripts ./pythonScripts
+COPY --from=builder /app/backend/pythonScripts ./pythonScripts
 
-# Copy WebDeck assets from builder (located in apps/backend/WebDeck)
-COPY --from=builder /app/apps/backend/WebDeck ./WebDeck
+# Copy WebDeck assets from builder (located in backend/WebDeck)
+COPY --from=builder /app/backend/WebDeck ./WebDeck
 
 # Copy public assets (character images, map images, etc.) from builder
 COPY --from=builder /app/public ./public

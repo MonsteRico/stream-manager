@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
-      "@stream-manager/shared": resolve(__dirname, "../../packages/shared/src"),
+      "@stream-manager/shared": resolve(__dirname, "../shared/src"),
       "@": resolve(__dirname, "./src"),
     },
   },
