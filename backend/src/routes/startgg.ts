@@ -1,36 +1,21 @@
-import { env } from "../env";
+import { Request, Response } from "express";
+import { env } from "../env.js";
 import type { StartGGTeam } from "@stream-manager/shared";
 
-type RouteHandler = (
-  req: Request,
-  params: Record<string, string>
-) => Promise<Response>;
-
-// CORS headers helper
-const headers = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type",
-  "Content-Type": "application/json",
-};
-
 // GET /api/startgg/teams?eventSlug=... - Get teams from start.gg event
-export const getStartGGTeams: RouteHandler = async (req, params) => {
-  const url = new URL(req.url);
-  const eventSlug = url.searchParams.get("eventSlug");
+export const getStartGGTeams = async (req: Request, res: Response) => {
+  const eventSlug = req.query.eventSlug as string | undefined;
 
   if (!eventSlug) {
-    return Response.json(
-      { error: "eventSlug query parameter is required" },
-      { headers, status: 400 }
-    );
+    return res.status(400).json({
+      error: "eventSlug query parameter is required",
+    });
   }
 
   if (!env.STARTGG_API_TOKEN) {
-    return Response.json(
-      { error: "STARTGG_API_TOKEN is not configured" },
-      { headers, status: 500 }
-    );
+    return res.status(500).json({
+      error: "STARTGG_API_TOKEN is not configured",
+    });
   }
 
   try {
@@ -56,13 +41,10 @@ export const getStartGGTeams: RouteHandler = async (req, params) => {
       }),
     });
 
-    const eventIdData = await eventIdResponse.json();
-    
+    const eventIdData = (await eventIdResponse.json()) as any;
+
     if (!eventIdData.data?.event?.id) {
-      return Response.json(
-        { error: "Event not found" },
-        { headers, status: 404 }
-      );
+      return res.status(404).json({ error: "Event not found" });
     }
 
     const eventId = eventIdData.data.event.id;
@@ -111,7 +93,7 @@ export const getStartGGTeams: RouteHandler = async (req, params) => {
         }),
       });
 
-      const teamsData = await teamsResponse.json();
+      const teamsData = (await teamsResponse.json()) as any;
       const fetchedTeams = teamsData.data?.event?.entrants?.nodes || [];
 
       if (fetchedTeams.length > 0) {
@@ -129,12 +111,11 @@ export const getStartGGTeams: RouteHandler = async (req, params) => {
       }
     }
 
-    return Response.json(teams, { headers });
+    res.json(teams);
   } catch (error: any) {
     console.error("Error fetching start.gg teams:", error);
-    return Response.json(
-      { error: `Failed to fetch teams: ${error.message}` },
-      { headers, status: 500 }
-    );
+    res.status(500).json({
+      error: `Failed to fetch teams: ${error.message}`,
+    });
   }
 };

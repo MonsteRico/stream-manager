@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "outDir": "./dist",
-    "types": ["bun-types"],
+    "types": ["node"],
     "paths": {
       "@stream-manager/shared": ["../shared/src/index.ts"],
       "@stream-manager/shared/*": ["../shared/src/*"]

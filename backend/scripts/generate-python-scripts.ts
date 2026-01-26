@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 
 /**
  * Script to generate Python scripts for maps and character bans
@@ -140,9 +140,11 @@ async function generatePythonScripts() {
 }
 
 // Run if executed directly
-if (import.meta.main) {
+// Check if this module is the entry point
+const isMain = import.meta.url === `file://${process.argv[1].replace(/\\/g, "/")}`;
+if (isMain) {
     generatePythonScripts().catch((error) => {
-        console.error("❌ Error generating Python scripts:", error);
+        console.error("Error generating Python scripts:", error);
         process.exit(1);
     });
 }

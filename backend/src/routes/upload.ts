@@ -1,5 +1,6 @@
+import { Request, Response } from "express";
 import { join } from "path";
-import { mkdir, unlink, readdir, stat } from "fs/promises";
+import { mkdir, unlink, readdir, stat, writeFile, readFile } from "fs/promises";
 import { existsSync } from "fs";
 
 // Uploads directory path
@@ -80,8 +81,7 @@ function getExtension(filename: string): string {
 /**
  * Validate magic bytes to ensure file is actually an image
  */
-function validateMagicBytes(buffer: ArrayBuffer, extension: string): boolean {
-  const bytes = new Uint8Array(buffer);
+function validateMagicBytes(buffer: Buffer, extension: string): boolean {
   const patterns = MAGIC_BYTES[extension];
 
   if (!patterns) return false;
@@ -89,7 +89,7 @@ function validateMagicBytes(buffer: ArrayBuffer, extension: string): boolean {
   for (const pattern of patterns) {
     let matches = true;
     for (let i = 0; i < pattern.length; i++) {
-      if (bytes[i] !== pattern[i]) {
+      if (buffer[i] !== pattern[i]) {
         matches = false;
         break;
       }
@@ -99,7 +99,7 @@ function validateMagicBytes(buffer: ArrayBuffer, extension: string): boolean {
       if (extension === "webp") {
         const webpSignature = [0x57, 0x45, 0x42, 0x50]; // WEBP
         for (let i = 0; i < 4; i++) {
-          if (bytes[8 + i] !== webpSignature[i]) {
+          if (buffer[8 + i] !== webpSignature[i]) {
             return false;
           }
         }
@@ -112,118 +112,96 @@ function validateMagicBytes(buffer: ArrayBuffer, extension: string): boolean {
 }
 
 /**
- * Handle file upload
+ * Handle file upload using multer
  */
-export async function handleUpload(
-  req: Request
-): Promise<Response> {
-  const headers = {
-    "Access-Control-Allow-Origin": "*",
-    "Content-Type": "application/json",
-  };
-
+export async function handleUpload(req: Request, res: Response): Promise<void> {
   try {
     // Ensure uploads directory exists
     await ensureUploadsDir();
 
-    // Parse multipart form data
-    const formData = await req.formData();
-    const file = formData.get("file");
+    // Check if file was uploaded (multer should have processed it)
+    const file = req.file;
 
-    if (!file || !(file instanceof File)) {
-      return Response.json(
-        { error: "No file provided" },
-        { status: 400, headers }
-      );
+    if (!file) {
+      res.status(400).json({ error: "No file provided" });
+      return;
     }
 
     // Validate file size
     if (file.size > MAX_FILE_SIZE) {
-      return Response.json(
-        { error: "File size exceeds 5MB limit" },
-        { status: 400, headers }
-      );
+      res.status(400).json({ error: "File size exceeds 5MB limit" });
+      return;
     }
 
     // Validate file extension
-    const extension = getExtension(file.name);
+    const extension = getExtension(file.originalname);
     if (!ALLOWED_EXTENSIONS.includes(extension)) {
-      return Response.json(
-        { error: `Invalid file type. Allowed: ${ALLOWED_EXTENSIONS.join(", ")}` },
-        { status: 400, headers }
-      );
+      res.status(400).json({
+        error: `Invalid file type. Allowed: ${ALLOWED_EXTENSIONS.join(", ")}`,
+      });
+      return;
     }
 
-    // Read file buffer for magic bytes validation
-    const buffer = await file.arrayBuffer();
-
     // Validate magic bytes
-    if (!validateMagicBytes(buffer, extension)) {
-      return Response.json(
-        { error: "File content does not match image type" },
-        { status: 400, headers }
-      );
+    if (!validateMagicBytes(file.buffer, extension)) {
+      res.status(400).json({
+        error: "File content does not match image type",
+      });
+      return;
     }
 
     // Generate unique filename
     const uuid = crypto.randomUUID();
-    const sanitizedName = sanitizeFilename(file.name);
+    const sanitizedName = sanitizeFilename(file.originalname);
     const filename = `${uuid}-${sanitizedName}`;
     const filepath = join(UPLOADS_DIR, filename);
 
-    // Write file to disk
-    await Bun.write(filepath, buffer);
+    // Write file to disk using Node.js fs
+    await writeFile(filepath, file.buffer);
 
     // Return the URL path
     const url = `/uploads/${filename}`;
 
-    return Response.json({ url }, { status: 201, headers });
+    res.status(201).json({ url });
   } catch (error) {
     console.error("Upload error:", error);
-    return Response.json(
-      { error: "Failed to process upload" },
-      { status: 500, headers }
-    );
+    res.status(500).json({ error: "Failed to process upload" });
   }
 }
 
 /**
  * Serve uploaded files
  */
-export async function serveUpload(
-  filename: string
-): Promise<Response> {
+export async function serveUpload(req: Request, res: Response): Promise<void> {
   try {
+    const filename = req.params.filename;
+    
     // Sanitize filename to prevent path traversal
     const sanitized = filename.replace(/\.\./g, "").replace(/[\/\\]/g, "");
     const filepath = join(UPLOADS_DIR, sanitized);
 
     // Check if file exists
-    const file = Bun.file(filepath);
-    const exists = await file.exists();
-
-    if (!exists) {
-      return new Response("Not found", { status: 404 });
+    if (!existsSync(filepath)) {
+      res.status(404).send("Not found");
+      return;
     }
 
     // Get extension and MIME type
     const extension = getExtension(sanitized);
     const mimeType = MIME_TYPES[extension] || "application/octet-stream";
 
-    // Read and return file
-    const buffer = await file.arrayBuffer();
+    // Read and return file using Node.js fs
+    const buffer = await readFile(filepath);
 
-    return new Response(buffer, {
-      status: 200,
-      headers: {
-        "Content-Type": mimeType,
-        "Cache-Control": "public, max-age=86400", // Cache for 24 hours
-        "Access-Control-Allow-Origin": "*",
-      },
+    res.set({
+      "Content-Type": mimeType,
+      "Cache-Control": "public, max-age=86400", // Cache for 24 hours
     });
+
+    res.send(buffer);
   } catch (error) {
     console.error("Serve upload error:", error);
-    return new Response("Internal server error", { status: 500 });
+    res.status(500).send("Internal server error");
   }
 }
 

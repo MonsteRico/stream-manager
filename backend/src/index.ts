@@ -1,6 +1,8 @@
-import { db } from "./db";
-import { sessions, teams } from "./db/schema";
-import { env } from "./env";
+import express, { Request, Response, NextFunction } from "express";
+import multer from "multer";
+import { db } from "./db/index.js";
+import { sessions, teams } from "./db/schema.js";
+import { env } from "./env.js";
 import { eq } from "drizzle-orm";
 
 // Route handlers
@@ -11,11 +13,34 @@ import {
   updateBan,
   updateMap,
   updateScore,
-} from "./routes/sessions";
-import { getStartGGTeams } from "./routes/startgg";
-import { downloadWebDeckZip } from "./routes/webdeck";
-import { handleUpload, serveUpload, ensureUploadsDir } from "./routes/upload";
-import { startCleanupJob } from "./services/uploadCleanup";
+} from "./routes/sessions.js";
+import { getStartGGTeams } from "./routes/startgg.js";
+import { downloadWebDeckZip } from "./routes/webdeck.js";
+import { handleUpload, serveUpload, ensureUploadsDir } from "./routes/upload.js";
+import { startCleanupJob } from "./services/uploadCleanup.js";
+
+// Configure multer for memory storage (we'll write files ourselves)
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+});
+
+const app = express();
+
+// Middleware
+app.use(express.json());
+
+// CORS middleware
+app.use((req: Request, res: Response, next: NextFunction) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+  
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+  next();
+});
 
 // Ensure uploads directory exists on startup
 ensureUploadsDir();
@@ -23,203 +48,129 @@ ensureUploadsDir();
 // Start the upload cleanup job (runs every hour, deletes files older than 24 hours)
 startCleanupJob();
 
-const server = Bun.serve({
-  port: env.PORT,
-  async fetch(req) {
-    const url = new URL(req.url);
-    const method = req.method;
-    const pathname = url.pathname;
+// ============================================
+// File upload routes
+// ============================================
+app.post("/api/upload", upload.single("file"), handleUpload);
 
-    // CORS headers
-    const headers = {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
-      "Content-Type": "application/json",
-    };
+// Serve uploaded files
+app.get("/uploads/:filename", serveUpload);
 
-    // Handle preflight
-    if (method === "OPTIONS") {
-      return new Response(null, { headers });
-    }
+// ============================================
+// Session-specific API routes (with sessionId param)
+// ============================================
+app.get("/api/sessions/:sessionId/sessionInfo", getSessionInfo);
+app.post("/api/sessions/:sessionId/flipSides", flipSides);
+app.post("/api/sessions/:sessionId/reset", resetSession);
+app.post("/api/sessions/:sessionId/updateBan", updateBan);
+app.post("/api/sessions/:sessionId/updateMap", updateMap);
+app.post("/api/sessions/:sessionId/updateScore", updateScore);
+app.get("/api/sessions/:sessionId/download-webdeck-zip", downloadWebDeckZip);
 
-    // ============================================
-    // File upload routes
-    // ============================================
-    if (pathname === "/api/upload" && method === "POST") {
-      return handleUpload(req);
-    }
+// ============================================
+// Start.gg routes
+// ============================================
+app.get("/api/startgg/teams", getStartGGTeams);
 
-    // Serve uploaded files
-    const uploadMatch = pathname.match(/^\/uploads\/([^\/]+)$/);
-    if (uploadMatch && method === "GET") {
-      const filename = uploadMatch[1];
-      return serveUpload(filename);
-    }
-
-    // ============================================
-    // Session-specific API routes (with sessionId param)
-    // ============================================
-    
-    // Match pattern: /api/sessions/:sessionId/...
-    const sessionActionMatch = pathname.match(/^\/api\/sessions\/([^\/]+)\/(.+)$/);
-    if (sessionActionMatch) {
-      const [, sessionId, action] = sessionActionMatch;
-      const params = { sessionId };
-
-      switch (action) {
-        case "sessionInfo":
-          if (method === "GET") return getSessionInfo(req, params);
-          break;
-        case "flipSides":
-          if (method === "POST") return flipSides(req, params);
-          break;
-        case "reset":
-          if (method === "POST") return resetSession(req, params);
-          break;
-        case "updateBan":
-          if (method === "POST") return updateBan(req, params);
-          break;
-        case "updateMap":
-          if (method === "POST") return updateMap(req, params);
-          break;
-        case "updateScore":
-          if (method === "POST") return updateScore(req, params);
-          break;
-        case "download-webdeck-zip":
-          if (method === "GET") return downloadWebDeckZip(req, params);
-          break;
-      }
-    }
-
-    // ============================================
-    // Start.gg routes
-    // ============================================
-    if (pathname === "/api/startgg/teams" && method === "GET") {
-      return getStartGGTeams(req, {});
-    }
-
-    // ============================================
-    // Sessions CRUD routes
-    // ============================================
-    if (pathname === "/api/sessions") {
-      if (method === "GET") {
-        const allSessions = await db.select().from(sessions);
-        return Response.json(allSessions, { headers });
-      }
-
-      if (method === "POST") {
-        // Create new session with defaults
-        const body = await req.json().catch(() => ({}));
-        const newSession = await db.insert(sessions).values(body).returning();
-        return Response.json(newSession[0], { headers, status: 201 });
-      }
-    }
-
-    // Match pattern: /api/sessions/:sessionId (without action)
-    const sessionMatch = pathname.match(/^\/api\/sessions\/([^\/]+)$/);
-    if (sessionMatch) {
-      const id = sessionMatch[1];
-
-      if (method === "GET") {
-        const session = await db
-          .select()
-          .from(sessions)
-          .where(eq(sessions.id, id));
-        if (!session.length) {
-          return Response.json(
-            { error: "Session not found" },
-            { headers, status: 404 }
-          );
-        }
-        return Response.json(session[0], { headers });
-      }
-
-      if (method === "DELETE") {
-        await db.delete(sessions).where(eq(sessions.id, id));
-        return Response.json({ success: true }, { headers });
-      }
-
-      if (method === "PUT") {
-        const body = await req.json();
-        const updated = await db
-          .update(sessions)
-          .set(body)
-          .where(eq(sessions.id, id))
-          .returning();
-        if (!updated.length) {
-          return Response.json(
-            { error: "Session not found" },
-            { headers, status: 404 }
-          );
-        }
-        return Response.json(updated[0], { headers });
-      }
-    }
-
-    // ============================================
-    // Teams CRUD routes
-    // ============================================
-    if (pathname === "/api/teams") {
-      if (method === "GET") {
-        const allTeams = await db.select().from(teams);
-        return Response.json(allTeams, { headers });
-      }
-
-      if (method === "POST") {
-        const body = await req.json();
-        const newTeam = await db.insert(teams).values(body).returning();
-        return Response.json(newTeam[0], { headers, status: 201 });
-      }
-    }
-
-    // Match pattern: /api/teams/:teamId
-    const teamMatch = pathname.match(/^\/api\/teams\/([^\/]+)$/);
-    if (teamMatch) {
-      const id = teamMatch[1];
-
-      if (method === "GET") {
-        const team = await db.select().from(teams).where(eq(teams.id, id));
-        if (!team.length) {
-          return Response.json(
-            { error: "Team not found" },
-            { headers, status: 404 }
-          );
-        }
-        return Response.json(team[0], { headers });
-      }
-
-      if (method === "DELETE") {
-        await db.delete(teams).where(eq(teams.id, id));
-        return Response.json({ success: true }, { headers });
-      }
-
-      if (method === "PUT") {
-        const body = await req.json();
-        const updated = await db
-          .update(teams)
-          .set(body)
-          .where(eq(teams.id, id))
-          .returning();
-        if (!updated.length) {
-          return Response.json(
-            { error: "Team not found" },
-            { headers, status: 404 }
-          );
-        }
-        return Response.json(updated[0], { headers });
-      }
-    }
-
-    // ============================================
-    // Health check
-    // ============================================
-    if (pathname === "/api/health" && method === "GET") {
-      return Response.json({ status: "ok", timestamp: new Date().toISOString() }, { headers });
-    }
-
-    return Response.json({ error: "Not found" }, { headers, status: 404 });
-  },
+// ============================================
+// Sessions CRUD routes
+// ============================================
+app.get("/api/sessions", async (req: Request, res: Response) => {
+  const allSessions = await db.select().from(sessions);
+  res.json(allSessions);
 });
 
-console.log(`Server running at http://localhost:${env.PORT}`);
+app.post("/api/sessions", async (req: Request, res: Response) => {
+  const body = req.body || {};
+  const newSession = await db.insert(sessions).values(body).returning();
+  res.status(201).json(newSession[0]);
+});
+
+app.get("/api/sessions/:sessionId", async (req: Request, res: Response) => {
+  const id = req.params.sessionId;
+  const session = await db.select().from(sessions).where(eq(sessions.id, id));
+  if (!session.length) {
+    return res.status(404).json({ error: "Session not found" });
+  }
+  res.json(session[0]);
+});
+
+app.delete("/api/sessions/:sessionId", async (req: Request, res: Response) => {
+  const id = req.params.sessionId;
+  await db.delete(sessions).where(eq(sessions.id, id));
+  res.json({ success: true });
+});
+
+app.put("/api/sessions/:sessionId", async (req: Request, res: Response) => {
+  const id = req.params.sessionId;
+  const body = req.body;
+  const updated = await db
+    .update(sessions)
+    .set(body)
+    .where(eq(sessions.id, id))
+    .returning();
+  if (!updated.length) {
+    return res.status(404).json({ error: "Session not found" });
+  }
+  res.json(updated[0]);
+});
+
+// ============================================
+// Teams CRUD routes
+// ============================================
+app.get("/api/teams", async (req: Request, res: Response) => {
+  const allTeams = await db.select().from(teams);
+  res.json(allTeams);
+});
+
+app.post("/api/teams", async (req: Request, res: Response) => {
+  const body = req.body;
+  const newTeam = await db.insert(teams).values(body).returning();
+  res.status(201).json(newTeam[0]);
+});
+
+app.get("/api/teams/:teamId", async (req: Request, res: Response) => {
+  const id = req.params.teamId;
+  const team = await db.select().from(teams).where(eq(teams.id, id));
+  if (!team.length) {
+    return res.status(404).json({ error: "Team not found" });
+  }
+  res.json(team[0]);
+});
+
+app.delete("/api/teams/:teamId", async (req: Request, res: Response) => {
+  const id = req.params.teamId;
+  await db.delete(teams).where(eq(teams.id, id));
+  res.json({ success: true });
+});
+
+app.put("/api/teams/:teamId", async (req: Request, res: Response) => {
+  const id = req.params.teamId;
+  const body = req.body;
+  const updated = await db
+    .update(teams)
+    .set(body)
+    .where(eq(teams.id, id))
+    .returning();
+  if (!updated.length) {
+    return res.status(404).json({ error: "Team not found" });
+  }
+  res.json(updated[0]);
+});
+
+// ============================================
+// Health check
+// ============================================
+app.get("/api/health", (req: Request, res: Response) => {
+  res.json({ status: "ok", timestamp: new Date().toISOString() });
+});
+
+// 404 handler
+app.use((req: Request, res: Response) => {
+  res.status(404).json({ error: "Not found" });
+});
+
+// Start server
+app.listen(env.PORT, () => {
+  console.log(`Server running at http://localhost:${env.PORT}`);
+});

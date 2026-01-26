@@ -1,13 +1,9 @@
+import { Request, Response } from "express";
 import JSZip from "jszip";
 import { readdir, readFile } from "fs/promises";
 import { join, basename } from "path";
 import { OverwatchCharacters, OverwatchMaps } from "@stream-manager/shared";
 import type { CharacterInfo, MapInfo } from "@stream-manager/shared";
-
-type RouteHandler = (
-  req: Request,
-  params: Record<string, string>
-) => Promise<Response>;
 
 /**
  * Recursively read all files from a directory and return them as a map
@@ -416,30 +412,23 @@ export async function generateWebDeckZip(sessionId: string): Promise<Buffer> {
 }
 
 // GET /api/sessions/:sessionId/download-webdeck-zip - Download WebDeck zip
-export const downloadWebDeckZip: RouteHandler = async (req, params) => {
-  const sessionId = params.sessionId;
+export const downloadWebDeckZip = async (req: Request, res: Response) => {
+  const sessionId = req.params.sessionId;
 
   try {
     // Generate the zip file in memory
     const zipBuffer = await generateWebDeckZip(sessionId);
 
-    // Return the zip file directly as a download
-    return new Response(zipBuffer, {
-      headers: {
-        "Content-Type": "application/zip",
-        "Content-Disposition": `attachment; filename="WebDeck-${sessionId}.zip"`,
-        "Content-Length": zipBuffer.length.toString(),
-        "Access-Control-Allow-Origin": "*",
-      },
+    // Set headers and send the zip file
+    res.set({
+      "Content-Type": "application/zip",
+      "Content-Disposition": `attachment; filename="WebDeck-${sessionId}.zip"`,
+      "Content-Length": zipBuffer.length.toString(),
     });
+
+    res.send(zipBuffer);
   } catch (error: any) {
     console.error("Error generating WebDeck zip:", error);
-    return new Response(`Error generating zip file: ${error.message}`, {
-      status: 500,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "text/plain",
-      },
-    });
+    res.status(500).send(`Error generating zip file: ${error.message}`);
   }
 };

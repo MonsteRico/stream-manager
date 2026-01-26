@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 
 /**
  * Migration script for Docker deployment
@@ -56,7 +56,8 @@ async function runMigrations() {
 }
 
 // Run migrations if this script is executed directly
-if (import.meta.url === `file://${process.argv[1]}`) {
+const isMain = import.meta.url === `file://${process.argv[1].replace(/\\/g, "/")}`;
+if (isMain) {
     runMigrations();
 }
 

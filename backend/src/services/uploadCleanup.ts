@@ -1,7 +1,7 @@
-import { db } from "../db";
-import { sessions, teams } from "../db/schema";
+import { db } from "../db/index.js";
+import { sessions, teams } from "../db/schema.js";
 import { like, or } from "drizzle-orm";
-import { getUploadedFiles, deleteUploadFile } from "../routes/upload";
+import { getUploadedFiles, deleteUploadFile } from "../routes/upload.js";
 
 // Cleanup interval: run every hour
 const CLEANUP_INTERVAL = 60 * 60 * 1000; // 1 hour in milliseconds

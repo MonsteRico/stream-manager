@@ -1,41 +1,42 @@
 # Backend Dockerfile for Stream Manager
-# Multi-stage build with Bun
+# Multi-stage build with Node.js and pnpm
 
 # =============================================================================
-# Stage 1: Base image
+# Stage 1: Base image with pnpm
 # =============================================================================
-FROM oven/bun:latest AS base
+FROM node:22-alpine AS base
+RUN corepack enable && corepack prepare pnpm@latest --activate
 WORKDIR /app
 
 # =============================================================================
 # Stage 2: Install dependencies (dev)
 # =============================================================================
 FROM base AS install-dev
-RUN mkdir -p /temp/dev
 
 # Copy shared package first (needed for file: dependency resolution)
-COPY shared /temp/dev/shared
+COPY shared ./shared
 
 # Copy backend package files
-COPY backend/package.json backend/bun.lock /temp/dev/backend/
+COPY backend/package.json backend/pnpm-lock.yaml ./backend/
 
 # Install dev dependencies
-RUN cd /temp/dev/backend && bun install --frozen-lockfile
+WORKDIR /app/backend
+RUN pnpm install --frozen-lockfile
 
 # =============================================================================
 # Stage 3: Install dependencies (production only)
 # =============================================================================
 FROM base AS install-prod
-RUN mkdir -p /temp/prod
 
 # Copy shared package first (needed for file: dependency resolution)
-COPY shared /temp/prod/shared
+COPY shared ./shared
 
 # Copy backend package files
-COPY backend/package.json backend/bun.lock /temp/prod/backend/
+COPY backend/package.json backend/pnpm-lock.yaml ./backend/
 
 # Install production dependencies only
-RUN cd /temp/prod/backend && bun install --frozen-lockfile --production
+WORKDIR /app/backend
+RUN pnpm install --frozen-lockfile --prod
 
 # =============================================================================
 # Stage 4: Builder - Generate Python scripts
@@ -43,7 +44,7 @@ RUN cd /temp/prod/backend && bun install --frozen-lockfile --production
 FROM base AS builder
 
 # Copy node_modules from dev install
-COPY --from=install-dev /temp/dev/backend/node_modules ./backend/node_modules
+COPY --from=install-dev /app/backend/node_modules ./backend/node_modules
 
 # Add node_modules/.bin to PATH for any binaries
 ENV PATH="/app/backend/node_modules/.bin:$PATH"
@@ -54,24 +55,28 @@ COPY backend ./backend
 COPY frontend/public ./public
 
 # Generate Python scripts (creates backend/pythonScripts/ directory)
-RUN bun run backend/scripts/generate-python-scripts.ts
+WORKDIR /app
+RUN node --import tsx backend/scripts/generate-python-scripts.ts
 
 # =============================================================================
 # Stage 5: Runtime - Slim image with only what's needed to run
 # =============================================================================
-FROM oven/bun:1-slim AS runtime
+FROM node:22-alpine AS runtime
+
+# Enable corepack for pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
 
 WORKDIR /app
 
 # Install PostgreSQL client for pg_isready health check
-RUN apt-get update && apt-get install -y postgresql-client && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache postgresql-client
 
 # Copy package files
-COPY backend/package.json backend/bun.lock ./backend/
+COPY backend/package.json backend/pnpm-lock.yaml ./backend/
 COPY shared/package.json ./shared/
 
 # Copy production node_modules from install-prod stage
-COPY --from=install-prod /temp/prod/backend/node_modules ./backend/node_modules
+COPY --from=install-prod /app/backend/node_modules ./backend/node_modules
 
 # Copy shared package source (needed at runtime for imports)
 COPY shared ./shared

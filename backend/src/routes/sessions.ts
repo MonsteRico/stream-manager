@@ -1,5 +1,6 @@
-import { db } from "../db";
-import { sessions, type MapInfo } from "../db/schema";
+import { Request, Response } from "express";
+import { db } from "../db/index.js";
+import { sessions, type MapInfo } from "../db/schema.js";
 import { eq } from "drizzle-orm";
 import {
   OverwatchCharacters,
@@ -8,50 +9,31 @@ import {
   DEFAULT_SESSION_VALUES,
 } from "@stream-manager/shared";
 
-type RouteHandler = (
-  req: Request,
-  params: Record<string, string>
-) => Promise<Response>;
-
-// CORS headers helper
-const headers = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type",
-  "Content-Type": "application/json",
-};
-
-// GET /api/sessions/:sessionId - Get session info
-export const getSessionInfo: RouteHandler = async (req, params) => {
-  const sessionId = params.sessionId;
+// GET /api/sessions/:sessionId/sessionInfo - Get session info
+export const getSessionInfo = async (req: Request, res: Response) => {
+  const sessionId = req.params.sessionId;
   const session = await db
     .select()
     .from(sessions)
     .where(eq(sessions.id, sessionId));
 
   if (!session.length) {
-    return Response.json(
-      { error: "Session not found" },
-      { headers, status: 404 }
-    );
+    return res.status(404).json({ error: "Session not found" });
   }
 
-  return Response.json(session[0], { headers });
+  res.json(session[0]);
 };
 
 // POST /api/sessions/:sessionId/flipSides - Flip team sides
-export const flipSides: RouteHandler = async (req, params) => {
-  const sessionId = params.sessionId;
+export const flipSides = async (req: Request, res: Response) => {
+  const sessionId = req.params.sessionId;
   const session = await db
     .select()
     .from(sessions)
     .where(eq(sessions.id, sessionId));
 
   if (!session.length) {
-    return Response.json(
-      { error: "Session not found" },
-      { headers, status: 404 }
-    );
+    return res.status(404).json({ error: "Session not found" });
   }
 
   const currentSession = session[0];
@@ -110,22 +92,19 @@ export const flipSides: RouteHandler = async (req, params) => {
     })
     .where(eq(sessions.id, sessionId));
 
-  return Response.json({ message: "Sides flipped successfully" }, { headers });
+  res.json({ message: "Sides flipped successfully" });
 };
 
 // POST /api/sessions/:sessionId/reset - Reset session to defaults
-export const resetSession: RouteHandler = async (req, params) => {
-  const sessionId = params.sessionId;
+export const resetSession = async (req: Request, res: Response) => {
+  const sessionId = req.params.sessionId;
   const session = await db
     .select()
     .from(sessions)
     .where(eq(sessions.id, sessionId));
 
   if (!session.length) {
-    return Response.json(
-      { error: "Session not found" },
-      { headers, status: 404 }
-    );
+    return res.status(404).json({ error: "Session not found" });
   }
 
   // Create 5 empty maps
@@ -139,42 +118,35 @@ export const resetSession: RouteHandler = async (req, params) => {
     })
     .where(eq(sessions.id, sessionId));
 
-  return Response.json({ message: "Session reset successfully" }, { headers });
+  res.json({ message: "Session reset successfully" });
 };
 
 // POST /api/sessions/:sessionId/updateBan - Update character ban
-export const updateBan: RouteHandler = async (req, params) => {
-  const sessionId = params.sessionId;
+export const updateBan = async (req: Request, res: Response) => {
+  const sessionId = req.params.sessionId;
   const session = await db
     .select()
     .from(sessions)
     .where(eq(sessions.id, sessionId));
 
   if (!session.length) {
-    return Response.json(
-      { error: "Session not found" },
-      { headers, status: 404 }
-    );
+    return res.status(404).json({ error: "Session not found" });
   }
 
   const currentSession = session[0];
 
   if (currentSession.game !== "Overwatch") {
-    return Response.json(
-      { error: "This endpoint is only available for Overwatch sessions" },
-      { headers, status: 400 }
-    );
+    return res.status(400).json({
+      error: "This endpoint is only available for Overwatch sessions",
+    });
   }
 
-  const body = await req.json();
+  const body = req.body;
   const team = body.team; // Should be "1" or "2"
   const characterName = body.characterName; // Can be null to clear ban
 
   if (team !== "1" && team !== "2") {
-    return Response.json(
-      { error: "Team must be '1' or '2'" },
-      { headers, status: 400 }
-    );
+    return res.status(400).json({ error: "Team must be '1' or '2'" });
   }
 
   // If characterName is provided, validate it exists
@@ -183,10 +155,9 @@ export const updateBan: RouteHandler = async (req, params) => {
       (char) => char.name === characterName
     );
     if (!character) {
-      return Response.json(
-        { error: `Character "${characterName}" not found in Overwatch characters` },
-        { headers, status: 400 }
-      );
+      return res.status(400).json({
+        error: `Character "${characterName}" not found in Overwatch characters`,
+      });
     }
   }
 
@@ -220,43 +191,38 @@ export const updateBan: RouteHandler = async (req, params) => {
     .set(updateData)
     .where(eq(sessions.id, sessionId));
 
-  return Response.json({ message: "Ban updated successfully" }, { headers });
+  res.json({ message: "Ban updated successfully" });
 };
 
 // POST /api/sessions/:sessionId/updateMap - Update current map
-export const updateMap: RouteHandler = async (req, params) => {
-  const sessionId = params.sessionId;
+export const updateMap = async (req: Request, res: Response) => {
+  const sessionId = req.params.sessionId;
   const session = await db
     .select()
     .from(sessions)
     .where(eq(sessions.id, sessionId));
 
   if (!session.length) {
-    return Response.json(
-      { error: "Session not found" },
-      { headers, status: 404 }
-    );
+    return res.status(404).json({ error: "Session not found" });
   }
 
   const currentSession = session[0];
 
   if (currentSession.game !== "Overwatch") {
-    return Response.json(
-      { error: "This endpoint is only available for Overwatch sessions" },
-      { headers, status: 400 }
-    );
+    return res.status(400).json({
+      error: "This endpoint is only available for Overwatch sessions",
+    });
   }
 
-  const body = await req.json();
+  const body = req.body;
   const mapName = body.mapName;
 
   // Find the map in OverwatchMaps
   const overwatchMap = OverwatchMaps.find((map) => map.name === mapName);
   if (!overwatchMap) {
-    return Response.json(
-      { error: `Map "${mapName}" not found in Overwatch maps` },
-      { headers, status: 400 }
-    );
+    return res.status(400).json({
+      error: `Map "${mapName}" not found in Overwatch maps`,
+    });
   }
 
   const maps = currentSession.mapInfo as MapInfo[];
@@ -264,10 +230,9 @@ export const updateMap: RouteHandler = async (req, params) => {
   const selectedMapIndex = maps.findIndex((map) => !map.winner);
 
   if (selectedMapIndex === -1) {
-    return Response.json(
-      { error: "No map available to update (all maps have winners)" },
-      { headers, status: 400 }
-    );
+    return res.status(400).json({
+      error: "No map available to update (all maps have winners)",
+    });
   }
 
   // Update the selected map with the new map info
@@ -286,34 +251,28 @@ export const updateMap: RouteHandler = async (req, params) => {
     .set({ mapInfo: maps })
     .where(eq(sessions.id, sessionId));
 
-  return Response.json({ message: "Map updated successfully" }, { headers });
+  res.json({ message: "Map updated successfully" });
 };
 
 // POST /api/sessions/:sessionId/updateScore - Update team score
-export const updateScore: RouteHandler = async (req, params) => {
-  const sessionId = params.sessionId;
+export const updateScore = async (req: Request, res: Response) => {
+  const sessionId = req.params.sessionId;
   const session = await db
     .select()
     .from(sessions)
     .where(eq(sessions.id, sessionId));
 
   if (!session.length) {
-    return Response.json(
-      { error: "Session not found" },
-      { headers, status: 404 }
-    );
+    return res.status(404).json({ error: "Session not found" });
   }
 
   const currentSession = session[0];
-  const body = await req.json();
+  const body = req.body;
   const team = body.team;
   const changeBy = parseInt(body.changeBy);
 
   if (team !== "1" && team !== "2") {
-    return Response.json(
-      { error: "Team must be '1' or '2'" },
-      { headers, status: 400 }
-    );
+    return res.status(400).json({ error: "Team must be '1' or '2'" });
   }
 
   const scoreField = team === "1" ? "team1Score" : "team2Score";
@@ -368,5 +327,5 @@ export const updateScore: RouteHandler = async (req, params) => {
     }
   }
 
-  return Response.json({ message: "Score updated successfully" }, { headers });
+  res.json({ message: "Score updated successfully" });
 };
