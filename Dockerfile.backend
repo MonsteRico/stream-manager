@@ -22,10 +22,7 @@ COPY packages/shared ./packages/shared
 COPY apps/backend ./apps/backend
 COPY apps/frontend/public ./public
 
-# Copy WebDeck assets (needed for WebDeck download feature)
-COPY WebDeck ./WebDeck
-
-# Generate Python scripts (creates pythonScripts/ directory)
+# Generate Python scripts (creates apps/backend/pythonScripts/ directory)
 RUN bun run apps/backend/scripts/generate-python-scripts.ts
 
 # =============================================================================
@@ -56,10 +53,10 @@ COPY apps/backend/drizzle ./apps/backend/drizzle
 COPY apps/backend/tsconfig.json ./apps/backend/
 
 # Copy generated Python scripts from builder
-COPY --from=builder /app/pythonScripts ./pythonScripts
+COPY --from=builder /app/apps/backend/pythonScripts ./pythonScripts
 
-# Copy WebDeck assets from builder
-COPY --from=builder /app/WebDeck ./WebDeck
+# Copy WebDeck assets from builder (located in apps/backend/WebDeck)
+COPY --from=builder /app/apps/backend/WebDeck ./WebDeck
 
 # Copy public assets (character images, map images, etc.) from builder
 COPY --from=builder /app/public ./public

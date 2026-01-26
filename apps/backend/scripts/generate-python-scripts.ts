@@ -86,8 +86,9 @@ async function cleanDirectory(dirPath: string): Promise<number> {
 }
 
 async function generatePythonScripts() {
-    const projectRoot = join(__dirname, "..");
-    const pythonScriptsDir = join(projectRoot, "pythonScripts");
+    // Go up from apps/backend/scripts to apps/backend
+    const backendRoot = join(__dirname, "..");
+    const pythonScriptsDir = join(backendRoot, "pythonScripts");
     const teamLeftBansDir = join(pythonScriptsDir, "teamLeft_bans");
     const teamRightBansDir = join(pythonScriptsDir, "teamRight_bans");
     const mapsDir = join(pythonScriptsDir, "maps");
