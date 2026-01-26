@@ -1,0 +1,274 @@
+{
+  "id": "8514bcbb-09cf-459f-aeb8-fbe83b318789",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.stream-manager_sessions": {
+      "name": "stream-manager_sessions",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "game": {
+          "name": "game",
+          "type": "game",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'New Session'"
+        },
+        "team1_display_name": {
+          "name": "team1_display_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'Team 1'"
+        },
+        "team2_display_name": {
+          "name": "team2_display_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'Team 2'"
+        },
+        "team1_score": {
+          "name": "team1_score",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "team2_score": {
+          "name": "team2_score",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "team1_color": {
+          "name": "team1_color",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'#8e6f3e'"
+        },
+        "team2_color": {
+          "name": "team2_color",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'#555960'"
+        },
+        "team1_logo": {
+          "name": "team1_logo",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "team2_logo": {
+          "name": "team2_logo",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "team1_record": {
+          "name": "team1_record",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "team2_record": {
+          "name": "team2_record",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "team1_abbreviation": {
+          "name": "team1_abbreviation",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "team2_abbreviation": {
+          "name": "team2_abbreviation",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "team1_rank": {
+          "name": "team1_rank",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "team2_rank": {
+          "name": "team2_rank",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "map_info": {
+          "name": "map_info",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'[]'::jsonb"
+        },
+        "best_of": {
+          "name": "best_of",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "casters": {
+          "name": "casters",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'[]'::jsonb"
+        },
+        "team1_first": {
+          "name": "team1_first",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "match_name": {
+          "name": "match_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "animation_delay": {
+          "name": "animation_delay",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "team1_ban": {
+          "name": "team1_ban",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "team2_ban": {
+          "name": "team2_ban",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.stream-manager_teams": {
+      "name": "stream-manager_teams",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'New Team'"
+        },
+        "color": {
+          "name": "color",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'#000000'"
+        },
+        "logo": {
+          "name": "logo",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "abbreviation": {
+          "name": "abbreviation",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "rank": {
+          "name": "rank",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {
+    "public.game": {
+      "name": "game",
+      "schema": "public",
+      "values": [
+        "Overwatch",
+        "Splatoon",
+        "Rocket League",
+        "Smash",
+        "Valorant",
+        "CS",
+        "League of Legends",
+        "Deadlock",
+        "Marvel Rivals"
+      ]
+    }
+  },
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

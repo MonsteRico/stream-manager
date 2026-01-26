@@ -1,0 +1,55 @@
+# Example Caddyfile for Stream Manager
+# 
+# This configuration assumes:
+# - Docker containers are running on the same host as Caddy
+# - Backend is exposed on port 8200
+# - Frontend is exposed on port 8201
+# - You want to serve everything from a single domain
+#
+# Replace 'stream-manager.example.com' with your actual domain
+
+stream-manager.example.com {
+    # Route API requests to the backend container
+    handle /api/* {
+        reverse_proxy localhost:8200
+    }
+    
+    # Route everything else to the frontend container
+    handle {
+        reverse_proxy localhost:8201
+    }
+    
+    # Optional: Enable access logging
+    log {
+        output file /var/log/caddy/stream-manager.log
+        format json
+    }
+}
+
+# =============================================================================
+# Alternative: Local development without HTTPS
+# =============================================================================
+# Uncomment and use this instead for local testing:
+#
+# :80 {
+#     handle /api/* {
+#         reverse_proxy localhost:8200
+#     }
+#     
+#     handle {
+#         reverse_proxy localhost:8201
+#     }
+# }
+
+# =============================================================================
+# Alternative: Multiple subdomains
+# =============================================================================
+# If you prefer separate subdomains for frontend and API:
+#
+# stream-manager.example.com {
+#     reverse_proxy localhost:8201
+# }
+#
+# api.stream-manager.example.com {
+#     reverse_proxy localhost:8200
+# }

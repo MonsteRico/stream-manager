@@ -1,0 +1,20 @@
+{
+  "name": "@stream-manager/shared",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./characters": "./src/characters.ts",
+    "./maps": "./src/maps.ts",
+    "./types": "./src/types.ts",
+    "./utils": "./src/utils.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

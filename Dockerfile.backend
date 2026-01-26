@@ -1,0 +1,82 @@
+# Backend Dockerfile for Stream Manager
+# Multi-stage build with Bun
+
+# =============================================================================
+# Stage 1: Builder - Install dependencies and generate Python scripts
+# =============================================================================
+FROM oven/bun:1 AS builder
+
+WORKDIR /app
+
+# Copy package files for dependency installation
+COPY package.json bun.lock ./
+COPY apps/backend/package.json ./apps/backend/
+COPY apps/frontend/package.json ./apps/frontend/
+COPY packages/shared/package.json ./packages/shared/
+
+# Install all dependencies (needed for workspace resolution)
+RUN bun install --frozen-lockfile
+
+# Copy source code
+COPY packages/shared ./packages/shared
+COPY apps/backend ./apps/backend
+COPY apps/frontend/public ./public
+
+# Copy WebDeck assets (needed for WebDeck download feature)
+COPY WebDeck ./WebDeck
+
+# Generate Python scripts (creates pythonScripts/ directory)
+RUN bun run apps/backend/scripts/generate-python-scripts.ts
+
+# =============================================================================
+# Stage 2: Runtime - Slim image with only what's needed to run
+# =============================================================================
+FROM oven/bun:1-slim AS runtime
+
+WORKDIR /app
+
+# Install PostgreSQL client for pg_isready health check
+RUN apt-get update && apt-get install -y postgresql-client && rm -rf /var/lib/apt/lists/*
+
+# Copy package files
+COPY package.json bun.lock ./
+COPY apps/backend/package.json ./apps/backend/
+COPY packages/shared/package.json ./packages/shared/
+
+# Install production dependencies only
+RUN bun install --frozen-lockfile --production
+
+# Copy shared package source (needed at runtime for imports)
+COPY packages/shared ./packages/shared
+
+# Copy backend source and migrations
+COPY apps/backend/src ./apps/backend/src
+COPY apps/backend/scripts ./apps/backend/scripts
+COPY apps/backend/drizzle ./apps/backend/drizzle
+COPY apps/backend/tsconfig.json ./apps/backend/
+
+# Copy generated Python scripts from builder
+COPY --from=builder /app/pythonScripts ./pythonScripts
+
+# Copy WebDeck assets from builder
+COPY --from=builder /app/WebDeck ./WebDeck
+
+# Copy public assets (character images, map images, etc.) from builder
+COPY --from=builder /app/public ./public
+
+# Copy entrypoint script
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
+# Set working directory to where the backend expects to run from
+WORKDIR /app
+
+# Expose the backend port
+EXPOSE 3000
+
+# Set default environment variables
+ENV PORT=3000
+ENV NODE_ENV=production
+
+# Use entrypoint script to handle migrations and startup
+ENTRYPOINT ["/docker-entrypoint.sh"]

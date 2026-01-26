@@ -1,0 +1,22 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "bun run --watch src/index.ts",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push"
+  },
+  "dependencies": {
+    "@stream-manager/shared": "workspace:*",
+    "drizzle-orm": "^0.38.0",
+    "jszip": "^3.10.1",
+    "postgres": "^3.4.5",
+    "uploadthing": "^7.0.0"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "drizzle-kit": "^0.30.0",
+    "typescript": "^5.0.0"
+  }
+}
