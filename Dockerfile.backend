@@ -32,6 +32,9 @@ FROM base AS builder
 # Copy node_modules from dev install
 COPY --from=install-dev /temp/dev/node_modules node_modules
 
+# Add node_modules/.bin to PATH for any binaries
+ENV PATH="/app/node_modules/.bin:$PATH"
+
 # Copy source code
 COPY packages/shared ./packages/shared
 COPY apps/backend ./apps/backend

@@ -24,6 +24,9 @@ FROM base AS builder
 # Copy node_modules from install stage
 COPY --from=install /temp/dev/node_modules node_modules
 
+# Add node_modules/.bin to PATH for tsc and other binaries
+ENV PATH="/app/node_modules/.bin:$PATH"
+
 # Copy source code
 COPY packages/shared ./packages/shared
 COPY apps/frontend ./apps/frontend
