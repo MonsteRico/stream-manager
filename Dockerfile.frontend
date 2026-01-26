@@ -21,7 +21,7 @@ COPY frontend/package.json frontend/pnpm-lock.yaml ./frontend/
 
 # Install dependencies
 WORKDIR /app/frontend
-RUN pnpm install --frozen-lockfile
+RUN pnpm install
 
 # =============================================================================
 # Stage 3: Builder - Build production bundle

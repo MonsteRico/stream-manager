@@ -21,7 +21,7 @@ COPY backend/package.json backend/pnpm-lock.yaml ./backend/
 
 # Install dev dependencies
 WORKDIR /app/backend
-RUN pnpm install --frozen-lockfile
+RUN pnpm install
 
 # =============================================================================
 # Stage 3: Install dependencies (production only)
