@@ -1,46 +1,31 @@
-# Use Node.js 24.12 for build and runtime
-FROM node:24.12-alpine AS base
-
-# Install npm 11.6 (ensure specific version)
-RUN npm install -g npm@11.6
+# Use Bun as base image
+FROM oven/bun:1-alpine AS base
 
 # Install dependencies only when needed
 FROM base AS deps
 WORKDIR /app
 
-# Install dependencies using npm
-# npm ci includes dev dependencies by default, but requires package-lock.json
-# Fall back to npm install if package-lock.json doesn't exist
-COPY package.json package-lock.json ./
-RUN npm ci
+# Install dependencies using Bun
+COPY package.json bun.lockb* ./
+RUN bun install --frozen-lockfile
 
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
-
-# Set environment variables for build (skip validation during build)
-ENV SKIP_ENV_VALIDATION=1
-ENV NODE_ENV=production
-
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Generate initial migration if drizzle directory doesn't exist
 RUN if [ ! -d "./drizzle" ]; then \
       echo "No migrations found, creating initial migration..." && \
-      npx drizzle-kit generate || echo "No schema changes to migrate"; \
+      bun run db:generate || echo "No schema changes to migrate"; \
     fi
 
 # Generate Python scripts from TypeScript data files
-RUN npx tsx scripts/generate-python-scripts.ts
+RUN bun run generate:python-scripts
 
-# Build the application using Node.js
-RUN npx vinxi build || (echo "Build failed!" && exit 1)
-RUN echo "Build completed, verifying output:" && \
-    ls -la .output/ 2>/dev/null || (echo "ERROR: .output directory not found!" && exit 1) && \
-    ls -la .output/server/ 2>/dev/null || (echo "ERROR: .output/server directory not found!" && exit 1) && \
-    test -f .output/server/index.mjs || (echo "ERROR: .output/server/index.mjs not found!" && exit 1) && \
-    echo "Build output verified successfully"
+# Build the application
+RUN bun run build && echo "Build completed, listing contents:" && ls -la && echo "Checking for common output directories:" && ls -la .output/ 2>/dev/null || echo "No .output directory" && ls -la dist/ 2>/dev/null || echo "No dist directory" && ls -la build/ 2>/dev/null || echo "No build directory"
 
 # Production image, copy all the files and run the app
 FROM base AS runner
@@ -51,16 +36,12 @@ ENV NODE_ENV=production
 RUN addgroup --system --gid 1001 appgroup
 RUN adduser --system --uid 1001 appuser --ingroup appgroup
 
+# Install only production dependencies
+COPY package.json bun.lockb* ./
+RUN bun install --production --frozen-lockfile
+
 # Copy the built application and all necessary files
 COPY --from=builder /app ./
-
-# Install only production dependencies
-# This will update node_modules to production-only, removing dev dependencies
-RUN npm ci --omit=dev || npm install --production
-
-# Verify that the build output exists
-RUN test -f .output/server/index.mjs || (echo "ERROR: .output/server/index.mjs missing in final image!" && ls -la .output/ 2>/dev/null || echo "ERROR: .output directory missing!" && exit 1) && \
-    echo "Build output verified in final image"
 
 # Create a non-root user to run the app
 USER appuser
@@ -71,4 +52,4 @@ ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
 # Start the application
-CMD ["npm", "start"]
+CMD ["bun", "start"]
