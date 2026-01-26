@@ -55,8 +55,8 @@ COPY backend ./backend
 COPY frontend/public ./public
 
 # Generate Python scripts (creates backend/pythonScripts/ directory)
-WORKDIR /app
-RUN node --import tsx backend/scripts/generate-python-scripts.ts
+# WORKDIR /app
+# RUN node --import tsx backend/scripts/generate-python-scripts.ts
 
 # =============================================================================
 # Stage 5: Runtime - Slim image with only what's needed to run
