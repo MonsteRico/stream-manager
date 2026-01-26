@@ -1,32 +1,48 @@
 # Backend Dockerfile for Stream Manager
 # Multi-stage build with Bun
+# Uses workaround for bun lockfile bug: https://github.com/oven-sh/bun/issues/5792
 
 # =============================================================================
-# Stage 1: Builder - Install dependencies and generate Python scripts
+# Stage 1: Base image
 # =============================================================================
-FROM oven/bun:1 AS builder
-
+FROM oven/bun:1 AS base
 WORKDIR /app
 
-# Copy package files for dependency installation
-COPY package.json bun.lock ./
-COPY apps/backend/package.json ./apps/backend/
-COPY apps/frontend/package.json ./apps/frontend/
-COPY packages/shared/package.json ./packages/shared/
+# =============================================================================
+# Stage 2: Install dependencies (dev)
+# =============================================================================
+FROM base AS install-dev
+RUN mkdir -p /temp/dev
+COPY . /temp/dev
+RUN cd /temp/dev && bun install --frozen-lockfile
 
-# Install all dependencies (needed for workspace resolution)
-RUN bun install --frozen-lockfile
+# =============================================================================
+# Stage 3: Install dependencies (production only)
+# =============================================================================
+FROM base AS install-prod
+RUN mkdir -p /temp/prod
+COPY . /temp/prod
+RUN cd /temp/prod && bun install --frozen-lockfile --production
+
+# =============================================================================
+# Stage 4: Builder - Generate Python scripts
+# =============================================================================
+FROM base AS builder
+
+# Copy node_modules from dev install
+COPY --from=install-dev /temp/dev/node_modules node_modules
 
 # Copy source code
 COPY packages/shared ./packages/shared
 COPY apps/backend ./apps/backend
 COPY apps/frontend/public ./public
+COPY package.json bun.lock ./
 
 # Generate Python scripts (creates apps/backend/pythonScripts/ directory)
 RUN bun run apps/backend/scripts/generate-python-scripts.ts
 
 # =============================================================================
-# Stage 2: Runtime - Slim image with only what's needed to run
+# Stage 5: Runtime - Slim image with only what's needed to run
 # =============================================================================
 FROM oven/bun:1-slim AS runtime
 
@@ -40,8 +56,8 @@ COPY package.json bun.lock ./
 COPY apps/backend/package.json ./apps/backend/
 COPY packages/shared/package.json ./packages/shared/
 
-# Install production dependencies only
-RUN bun install --frozen-lockfile --production
+# Copy production node_modules from install-prod stage
+COPY --from=install-prod /temp/prod/node_modules node_modules
 
 # Copy shared package source (needed at runtime for imports)
 COPY packages/shared ./packages/shared

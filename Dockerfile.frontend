@@ -1,32 +1,40 @@
 # Frontend Dockerfile for Stream Manager
 # Multi-stage build with Vite + nginx
+# Uses workaround for bun lockfile bug: https://github.com/oven-sh/bun/issues/5792
 
 # =============================================================================
-# Stage 1: Builder - Install dependencies and build production bundle
+# Stage 1: Base image
 # =============================================================================
-FROM oven/bun:1 AS builder
-
+FROM oven/bun:1 AS base
 WORKDIR /app
 
-# Copy package files for dependency installation
-COPY package.json bun.lock ./
-COPY apps/frontend/package.json ./apps/frontend/
-COPY apps/backend/package.json ./apps/backend/
-COPY packages/shared/package.json ./packages/shared/
+# =============================================================================
+# Stage 2: Install dependencies
+# =============================================================================
+FROM base AS install
+RUN mkdir -p /temp/dev
+COPY . /temp/dev
+RUN cd /temp/dev && bun install --frozen-lockfile
 
-# Install all dependencies (needed for workspace resolution and build)
-RUN bun install --frozen-lockfile
+# =============================================================================
+# Stage 3: Builder - Build production bundle
+# =============================================================================
+FROM base AS builder
+
+# Copy node_modules from install stage
+COPY --from=install /temp/dev/node_modules node_modules
 
 # Copy source code
 COPY packages/shared ./packages/shared
 COPY apps/frontend ./apps/frontend
+COPY package.json bun.lock ./
 
 # Build the frontend production bundle
 WORKDIR /app/apps/frontend
 RUN bun run build
 
 # =============================================================================
-# Stage 2: Runtime - nginx serving static files
+# Stage 4: Runtime - nginx serving static files
 # =============================================================================
 FROM nginx:alpine AS runtime
 
