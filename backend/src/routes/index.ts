@@ -5,10 +5,10 @@ export {
   updateBan,
   updateMap,
   updateScore,
-} from "./sessions";
+} from "./sessions.js";
 
-export { getStartGGTeams } from "./startgg";
+export { getStartGGTeams } from "./startgg.js";
 
-export { downloadWebDeckZip, generateWebDeckZip } from "./webdeck";
+export { downloadWebDeckZip, generateWebDeckZip } from "./webdeck.js";
 
-export { handleUpload, serveUpload } from "./upload";
+export { handleUpload, serveUpload } from "./upload.js";

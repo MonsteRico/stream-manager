@@ -5,6 +5,12 @@ import { join, basename } from "path";
 import { OverwatchCharacters, OverwatchMaps } from "@stream-manager/shared";
 import type { CharacterInfo, MapInfo } from "@stream-manager/shared";
 
+// Helper to extract string param from Express 5's string | string[] type
+function getStringParam(param: string | string[] | undefined): string {
+  if (Array.isArray(param)) return param[0] || "";
+  return param || "";
+}
+
 /**
  * Recursively read all files from a directory and return them as a map
  * of relative paths to file contents
@@ -123,8 +129,8 @@ function generateConfigJson(originalConfig: any): any {
     role: "Tank" | "Damage" | "Support",
     team: "Left" | "Right"
   ) => {
-    const characters = OverwatchCharacters.filter((c) => c.role === role);
-    const buttons = characters.map((char) =>
+    const characters = OverwatchCharacters.filter((c: CharacterInfo) => c.role === role);
+    const buttons = characters.map((char: CharacterInfo) =>
       createCharacterBanButton(char, team)
     );
     return fillWithVoids(buttons, 30); // Fill to 30 buttons (32 total - 2 for back + VOID)
@@ -133,8 +139,8 @@ function generateConfigJson(originalConfig: any): any {
   // Generate map buttons organized by mode
   // Grid is 8x4 = 32 buttons total, but we have back button + VOID, so fill to 30
   const generateMapModeButtons = (mode: string) => {
-    const maps = OverwatchMaps.filter((m) => m.mode === mode);
-    const buttons = maps.map((map) => createMapButton(map));
+    const maps = OverwatchMaps.filter((m: MapInfo) => m.mode === mode);
+    const buttons = maps.map((map: MapInfo) => createMapButton(map));
     return fillWithVoids(buttons, 30); // Fill to 30 buttons (32 total - 2 for back + VOID)
   };
 
@@ -413,7 +419,7 @@ export async function generateWebDeckZip(sessionId: string): Promise<Buffer> {
 
 // GET /api/sessions/:sessionId/download-webdeck-zip - Download WebDeck zip
 export const downloadWebDeckZip = async (req: Request, res: Response) => {
-  const sessionId = req.params.sessionId;
+  const sessionId = getStringParam(req.params.sessionId);
 
   try {
     // Generate the zip file in memory

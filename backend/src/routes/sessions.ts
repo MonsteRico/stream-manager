@@ -7,11 +7,19 @@ import {
   OverwatchMaps,
   createEmptyMaps,
   DEFAULT_SESSION_VALUES,
+  type CharacterInfo,
+  type MapInfo as SharedMapInfo,
 } from "@stream-manager/shared";
+
+// Helper to extract string param from Express 5's string | string[] type
+function getStringParam(param: string | string[] | undefined): string {
+  if (Array.isArray(param)) return param[0] || "";
+  return param || "";
+}
 
 // GET /api/sessions/:sessionId/sessionInfo - Get session info
 export const getSessionInfo = async (req: Request, res: Response) => {
-  const sessionId = req.params.sessionId;
+  const sessionId = getStringParam(req.params.sessionId);
   const session = await db
     .select()
     .from(sessions)
@@ -26,7 +34,7 @@ export const getSessionInfo = async (req: Request, res: Response) => {
 
 // POST /api/sessions/:sessionId/flipSides - Flip team sides
 export const flipSides = async (req: Request, res: Response) => {
-  const sessionId = req.params.sessionId;
+  const sessionId = getStringParam(req.params.sessionId);
   const session = await db
     .select()
     .from(sessions)
@@ -97,7 +105,7 @@ export const flipSides = async (req: Request, res: Response) => {
 
 // POST /api/sessions/:sessionId/reset - Reset session to defaults
 export const resetSession = async (req: Request, res: Response) => {
-  const sessionId = req.params.sessionId;
+  const sessionId = getStringParam(req.params.sessionId);
   const session = await db
     .select()
     .from(sessions)
@@ -123,7 +131,7 @@ export const resetSession = async (req: Request, res: Response) => {
 
 // POST /api/sessions/:sessionId/updateBan - Update character ban
 export const updateBan = async (req: Request, res: Response) => {
-  const sessionId = req.params.sessionId;
+  const sessionId = getStringParam(req.params.sessionId);
   const session = await db
     .select()
     .from(sessions)
@@ -152,7 +160,7 @@ export const updateBan = async (req: Request, res: Response) => {
   // If characterName is provided, validate it exists
   if (characterName !== null && characterName !== undefined) {
     const character = OverwatchCharacters.find(
-      (char) => char.name === characterName
+      (char: CharacterInfo) => char.name === characterName
     );
     if (!character) {
       return res.status(400).json({
@@ -196,7 +204,7 @@ export const updateBan = async (req: Request, res: Response) => {
 
 // POST /api/sessions/:sessionId/updateMap - Update current map
 export const updateMap = async (req: Request, res: Response) => {
-  const sessionId = req.params.sessionId;
+  const sessionId = getStringParam(req.params.sessionId);
   const session = await db
     .select()
     .from(sessions)
@@ -218,7 +226,7 @@ export const updateMap = async (req: Request, res: Response) => {
   const mapName = body.mapName;
 
   // Find the map in OverwatchMaps
-  const overwatchMap = OverwatchMaps.find((map) => map.name === mapName);
+  const overwatchMap = OverwatchMaps.find((map: SharedMapInfo) => map.name === mapName);
   if (!overwatchMap) {
     return res.status(400).json({
       error: `Map "${mapName}" not found in Overwatch maps`,
@@ -256,7 +264,7 @@ export const updateMap = async (req: Request, res: Response) => {
 
 // POST /api/sessions/:sessionId/updateScore - Update team score
 export const updateScore = async (req: Request, res: Response) => {
-  const sessionId = req.params.sessionId;
+  const sessionId = getStringParam(req.params.sessionId);
   const session = await db
     .select()
     .from(sessions)
@@ -313,7 +321,7 @@ export const updateScore = async (req: Request, res: Response) => {
   if (changeBy < 0) {
     const maps = currentSession.mapInfo as MapInfo[];
     // Find the last map with a winner
-    const lastMapIndex = maps.findLastIndex((map) => map.winner);
+    const lastMapIndex = maps.findLastIndex((map: MapInfo) => map.winner);
     const lastMap = maps[lastMapIndex];
     if (lastMap) {
       lastMap.winner = null;

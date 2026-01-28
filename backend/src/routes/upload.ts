@@ -3,6 +3,12 @@ import { join } from "path";
 import { mkdir, unlink, readdir, stat, writeFile, readFile } from "fs/promises";
 import { existsSync } from "fs";
 
+// Helper to extract string param from Express 5's string | string[] type
+function getStringParam(param: string | string[] | undefined): string {
+  if (Array.isArray(param)) return param[0] || "";
+  return param || "";
+}
+
 // Uploads directory path
 export const UPLOADS_DIR = join(process.cwd(), "uploads");
 
@@ -174,7 +180,7 @@ export async function handleUpload(req: Request, res: Response): Promise<void> {
  */
 export async function serveUpload(req: Request, res: Response): Promise<void> {
   try {
-    const filename = req.params.filename;
+    const filename = getStringParam(req.params.filename);
     
     // Sanitize filename to prevent path traversal
     const sanitized = filename.replace(/\.\./g, "").replace(/[\/\\]/g, "");

@@ -5,6 +5,12 @@ import { sessions, teams } from "./db/schema.js";
 import { env } from "./env.js";
 import { eq } from "drizzle-orm";
 
+// Helper to extract string param from Express 5's string | string[] type
+function getStringParam(param: string | string[] | undefined): string {
+  if (Array.isArray(param)) return param[0] || "";
+  return param || "";
+}
+
 // Route handlers
 import {
   getSessionInfo,
@@ -87,7 +93,7 @@ app.post("/api/sessions", async (req: Request, res: Response) => {
 });
 
 app.get("/api/sessions/:sessionId", async (req: Request, res: Response) => {
-  const id = req.params.sessionId;
+  const id = getStringParam(req.params.sessionId);
   const session = await db.select().from(sessions).where(eq(sessions.id, id));
   if (!session.length) {
     return res.status(404).json({ error: "Session not found" });
@@ -96,13 +102,13 @@ app.get("/api/sessions/:sessionId", async (req: Request, res: Response) => {
 });
 
 app.delete("/api/sessions/:sessionId", async (req: Request, res: Response) => {
-  const id = req.params.sessionId;
+  const id = getStringParam(req.params.sessionId);
   await db.delete(sessions).where(eq(sessions.id, id));
   res.json({ success: true });
 });
 
 app.put("/api/sessions/:sessionId", async (req: Request, res: Response) => {
-  const id = req.params.sessionId;
+  const id = getStringParam(req.params.sessionId);
   const body = req.body;
   const updated = await db
     .update(sessions)
@@ -130,7 +136,7 @@ app.post("/api/teams", async (req: Request, res: Response) => {
 });
 
 app.get("/api/teams/:teamId", async (req: Request, res: Response) => {
-  const id = req.params.teamId;
+  const id = getStringParam(req.params.teamId);
   const team = await db.select().from(teams).where(eq(teams.id, id));
   if (!team.length) {
     return res.status(404).json({ error: "Team not found" });
@@ -139,13 +145,13 @@ app.get("/api/teams/:teamId", async (req: Request, res: Response) => {
 });
 
 app.delete("/api/teams/:teamId", async (req: Request, res: Response) => {
-  const id = req.params.teamId;
+  const id = getStringParam(req.params.teamId);
   await db.delete(teams).where(eq(teams.id, id));
   res.json({ success: true });
 });
 
 app.put("/api/teams/:teamId", async (req: Request, res: Response) => {
-  const id = req.params.teamId;
+  const id = getStringParam(req.params.teamId);
   const body = req.body;
   const updated = await db
     .update(teams)
