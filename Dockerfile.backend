@@ -67,6 +67,13 @@ COPY frontend/public ./public
 WORKDIR /app/shared
 RUN pnpm build
 
+# Update @stream-manager/shared in node_modules with built files
+# When Docker copied node_modules, it resolved symlinks and copied the unbuilt shared package
+# We need to copy the built dist folder to node_modules so TypeScript can find the types
+WORKDIR /app
+RUN cp -r /app/shared/dist /app/backend/node_modules/@stream-manager/shared/ && \
+    cp /app/shared/package.json /app/backend/node_modules/@stream-manager/shared/
+
 # Build backend TypeScript
 WORKDIR /app/backend
 RUN pnpm build
