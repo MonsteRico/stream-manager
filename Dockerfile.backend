@@ -17,15 +17,17 @@ FROM base AS install-dev
 COPY shared ./shared
 
 # Install shared package devDependencies (typescript needed for build)
+# Use node-linker=hoisted to avoid symlink issues when copying between Docker stages
 WORKDIR /app/shared
-RUN pnpm install
+RUN pnpm install --node-linker=hoisted
 
 # Copy backend package files
 COPY backend/package.json backend/pnpm-lock.yaml ./backend/
 
 # Install backend dependencies (includes devDependencies for build)
+# Use node-linker=hoisted to avoid symlink issues when copying between Docker stages
 WORKDIR /app/backend
-RUN pnpm install
+RUN pnpm install --node-linker=hoisted
 
 # =============================================================================
 # Stage 3: Install dependencies (production only)
@@ -38,9 +40,11 @@ COPY shared ./shared
 # Copy backend package files
 COPY backend/package.json backend/pnpm-lock.yaml ./backend/
 
-# Install production dependencies only
+# Install production dependencies only with node-linker=hoisted to avoid symlink issues
+# This creates a flat node_modules structure similar to npm, which works correctly
+# when copying between Docker stages
 WORKDIR /app/backend
-RUN pnpm install --prod
+RUN pnpm install --prod --node-linker=hoisted
 
 # =============================================================================
 # Stage 4: Builder - Build TypeScript and generate Python scripts
@@ -92,7 +96,15 @@ COPY shared/package.json ./shared/
 COPY --from=install-prod /app/backend/node_modules ./backend/node_modules
 
 # Copy built shared package (needed at runtime for imports)
-COPY --from=builder /app/shared ./shared
+# Only copy the dist folder and package.json, not node_modules (which has build-time deps only)
+COPY --from=builder /app/shared/package.json ./shared/
+COPY --from=builder /app/shared/dist ./shared/dist
+
+# Ensure @stream-manager/shared is available in node_modules
+# pnpm uses symlinks for file: dependencies which may not work correctly when copied between stages
+# Copy the built shared package directly into node_modules to ensure it's properly resolved
+COPY --from=builder /app/shared/package.json ./backend/node_modules/@stream-manager/shared/
+COPY --from=builder /app/shared/dist ./backend/node_modules/@stream-manager/shared/dist
 
 # Copy built backend and migrations
 COPY --from=builder /app/backend/dist ./backend/dist
