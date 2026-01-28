@@ -16,13 +16,13 @@ FROM base AS install-dev
 # Copy shared package first (needed for file: dependency resolution)
 COPY shared ./shared
 
+# Copy backend package files
+COPY backend/package.json backend/pnpm-lock.yaml ./backend/
+
 # Install shared package devDependencies (typescript needed for build)
 # Use node-linker=hoisted to avoid symlink issues when copying between Docker stages
 WORKDIR /app/shared
 RUN pnpm install --node-linker=hoisted
-
-# Copy backend package files
-COPY backend/package.json backend/pnpm-lock.yaml ./backend/
 
 # Install backend dependencies (includes devDependencies for build)
 # Use node-linker=hoisted to avoid symlink issues when copying between Docker stages
