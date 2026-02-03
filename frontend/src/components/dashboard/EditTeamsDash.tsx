@@ -283,6 +283,8 @@ function EditTeamsDash({
                     team={team as 1 | 2}
                     formState={formState}
                     setFormState={setFormState}
+                    mutateFn={mutateFn}
+                    onSave={() => setHasChanges(false)}
                   />
                 </div>
               </div>
@@ -305,18 +307,26 @@ function LogoEdit({
   team,
   formState,
   setFormState,
+  mutateFn,
+  onSave,
 }: {
   team: 1 | 2;
   formState: Partial<Session>;
   setFormState: React.Dispatch<React.SetStateAction<Partial<Session>>>;
+  mutateFn: (data: Partial<Session>) => void;
+  onSave: () => void;
 }) {
   const handleLogoChange = (team: 1 | 2) => {
     const url = prompt("Enter logo URL:");
     if (url) {
+      const logoKey = `team${team}Logo` as keyof Session;
       setFormState((prev) => ({
         ...prev,
-        [`team${team}Logo`]: url,
+        [logoKey]: url,
       }));
+      // Auto-save after setting logo URL
+      mutateFn({ [logoKey]: url });
+      onSave();
     }
   };
 
@@ -347,10 +357,14 @@ function LogoEdit({
             </Button>
             <FileUpload
               onUploadComplete={(url) => {
+                const logoKey = `team${team}Logo` as keyof Session;
                 setFormState((prev) => ({
                   ...prev,
-                  [`team${team}Logo`]: url,
+                  [logoKey]: url,
                 }));
+                // Auto-save after logo upload completes
+                mutateFn({ [logoKey]: url });
+                onSave();
               }}
             />
           </div>
