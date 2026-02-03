@@ -4,7 +4,7 @@ BASE_URL = "https://stream-manager.matthewgardner.dev"
 SESSION_ID = "REPLACE_ME"
 
 response = requests.post(
-    f"{BASE_URL}/api/{SESSION_ID}/updateScore",
+    f"{BASE_URL}/api/sessions/{SESSION_ID}/updateScore",
     json={"team": "2", "changeBy": -1}
 )
 print(f"Status: {response.status_code}")

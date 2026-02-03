@@ -37,7 +37,7 @@ BASE_URL = "https://stream-manager.matthewgardner.dev"
 SESSION_ID = "REPLACE_ME"
 
 response = requests.post(
-    f"{BASE_URL}/api/{SESSION_ID}/updateBan",
+    f"{BASE_URL}/api/sessions/{SESSION_ID}/updateBan",
     json={"team": "${team}", "characterName": "${characterName}"}
 )
 print(f"Status: {response.status_code}")
@@ -55,7 +55,7 @@ BASE_URL = "https://stream-manager.matthewgardner.dev"
 SESSION_ID = "REPLACE_ME"
 
 response = requests.post(
-    f"{BASE_URL}/api/{SESSION_ID}/updateMap",
+    f"{BASE_URL}/api/sessions/{SESSION_ID}/updateMap",
     json={"mapName": "${mapName}"}
 )
 print(f"Status: {response.status_code}")
