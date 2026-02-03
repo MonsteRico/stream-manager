@@ -11,7 +11,7 @@ export const uploadRouter = {
        * Max file count: 1
        * Allowed types: jpg, jpeg, png, gif, webp (handled by image type)
        */
-      maxFileSize: "5MB",
+      maxFileSize: "4MB",
       maxFileCount: 1,
     },
   }).onUploadComplete((data) => {
