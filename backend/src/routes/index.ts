@@ -10,5 +10,3 @@ export {
 export { getStartGGTeams } from "./startgg.js";
 
 export { downloadWebDeckZip, generateWebDeckZip } from "./webdeck.js";
-
-export { handleUpload, serveUpload } from "./upload.js";

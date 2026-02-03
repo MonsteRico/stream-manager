@@ -1,9 +1,10 @@
 import express, { Request, Response, NextFunction } from "express";
-import multer from "multer";
 import { db } from "./db/index.js";
 import { sessions, teams } from "./db/schema.js";
 import { env } from "./env.js";
 import { eq } from "drizzle-orm";
+import { createRouteHandler } from "uploadthing/express";
+import { uploadRouter } from "./routes/uploadthing.js";
 
 // Helper to extract string param from Express 5's string | string[] type
 function getStringParam(param: string | string[] | undefined): string {
@@ -22,14 +23,6 @@ import {
 } from "./routes/sessions.js";
 import { getStartGGTeams } from "./routes/startgg.js";
 import { downloadWebDeckZip } from "./routes/webdeck.js";
-import { handleUpload, serveUpload, ensureUploadsDir } from "./routes/upload.js";
-import { startCleanupJob } from "./services/uploadCleanup.js";
-
-// Configure multer for memory storage (we'll write files ourselves)
-const upload = multer({
-  storage: multer.memoryStorage(),
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
-});
 
 const app = express();
 
@@ -48,19 +41,15 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-// Ensure uploads directory exists on startup
-ensureUploadsDir();
-
-// Start the upload cleanup job (runs every hour, deletes files older than 24 hours)
-startCleanupJob();
-
 // ============================================
-// File upload routes
+// File upload routes (UploadThing)
 // ============================================
-app.post("/api/upload", upload.single("file"), handleUpload);
-
-// Serve uploaded files
-app.get("/uploads/:filename", serveUpload);
+app.use(
+  "/api/uploadthing",
+  createRouteHandler({
+    router: uploadRouter,
+  })
+);
 
 // ============================================
 // Session-specific API routes (with sessionId param)
