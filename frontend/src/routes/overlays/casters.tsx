@@ -74,13 +74,13 @@ export function CastersOverlayPage() {
   return (
     <BorderAnimation clippath={clipPath}>
       <div className="flex flex-col items-center justify-center my-auto">
-        <div className="flex h-full w-full z-30 flex-row items-baseline gap-8">
+        <div className="flex h-full w-full z-30 flex-row items-baseline gap-8 qhd:gap-10 4k:gap-16">
           {Array.from({ length: numCasters }).map((_, index) => (
             <div className="flex flex-col items-center" key={index}>
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="bg-secondary mb-2 rounded-lg overflow-hidden"
+                className="bg-secondary mb-2 qhd:mb-3 4k:mb-4 rounded-lg overflow-hidden"
                 ref={index === 0 ? placeholderOneRef : placeholderTwoRef}
                 style={{
                   width: cameraWidth,

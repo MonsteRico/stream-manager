@@ -101,8 +101,8 @@ function TeamInfo({
         backgroundColor: color,
       }}
       className={cn(
-        "flex items-center gap-4 mt-4 w-[29.5%] h-12 justify-end pr-4",
-        flipped && "flex-row-reverse justify-end pl-4 pr-0"
+        "flex items-center gap-4 qhd:gap-5 4k:gap-8 mt-4 qhd:mt-5 4k:mt-8 w-[29.5%] h-12 qhd:h-16 4k:h-24 justify-end pr-4 qhd:pr-5 4k:pr-8",
+        flipped && "flex-row-reverse justify-end pl-4 qhd:pl-5 4k:pl-8 pr-0"
       )}
       initial={{ x: !flipped ? "-100%" : "200%" }}
       transition={{ duration: 0.5, delay }}
@@ -111,14 +111,14 @@ function TeamInfo({
         <img
           src={banImage}
           alt="Banned hero"
-          className="h-10 w-10 object-contain opacity-75"
+          className="h-10 w-10 qhd:h-14 qhd:w-14 4k:h-20 4k:w-20 object-contain opacity-75"
         />
       )}
       {icon && (
-        <img src={icon} alt={`${name} logo`} className="h-12 w-auto py-1" />
+        <img src={icon} alt={`${name} logo`} className="h-12 qhd:h-16 4k:h-24 w-auto py-1 qhd:py-1.5 4k:py-2" />
       )}
-      <span className="text-5xl font-overwatchOblique">{name}</span>
-      <span className="text-5xl font-bold font-overwatch">{score}</span>
+      <span className="text-5xl qhd:text-6xl 4k:text-10xl font-overwatchOblique">{name}</span>
+      <span className="text-5xl qhd:text-6xl 4k:text-10xl font-bold font-overwatch">{score}</span>
     </motion.div>
   );
 }

@@ -29,8 +29,8 @@ export function CastersSingleCameraPage() {
 
   return (
     <BorderAnimation>
-      <div className="flex flex-col items-center justify-end h-full pb-8">
-        <div className="flex flex-row items-end justify-center gap-8 z-30">
+      <div className="flex flex-col items-center justify-end h-full pb-8 qhd:pb-10 4k:pb-16">
+        <div className="flex flex-row items-end justify-center gap-8 qhd:gap-10 4k:gap-16 z-30">
           {casters.map((caster, index) => (
             <CasterInfoCard
               key={index}

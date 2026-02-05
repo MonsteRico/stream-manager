@@ -107,14 +107,14 @@ function TeamInfo({
           backgroundColor: color,
         }}
         className={cn(
-          "flex items-center gap-4 w-[30%] h-32 justify-between pr-4 pl-2",
-          flipped && "flex-row-reverse pl-4 pr-2"
+          "flex items-center gap-4 qhd:gap-5 4k:gap-8 w-[30%] h-32 qhd:h-44 4k:h-64 justify-between pr-4 qhd:pr-5 4k:pr-8 pl-2 qhd:pl-3 4k:pl-4",
+          flipped && "flex-row-reverse pl-4 qhd:pl-5 4k:pl-8 pr-2 qhd:pr-3 4k:pr-4"
         )}
       >
-        <div className="flex flex-col items-center w-full justify-center gap-2">
+        <div className="flex flex-col items-center w-full justify-center gap-2 qhd:gap-3 4k:gap-4">
           <div
             className={cn(
-              "flex flex-row items-center gap-4 w-full justify-between",
+              "flex flex-row items-center gap-4 qhd:gap-5 4k:gap-8 w-full justify-between",
               flipped && "flex-row-reverse"
             )}
           >
@@ -122,18 +122,18 @@ function TeamInfo({
               <img
                 src={icon}
                 alt={`${name} logo`}
-                className="h-12 w-auto py-1"
+                className="h-12 qhd:h-16 4k:h-24 w-auto py-1 qhd:py-1.5 4k:py-2"
               />
             )}
-            <span className={cn("text-3xl w-full float-right text-center")}>
+            <span className={cn("text-3xl qhd:text-4xl 4k:text-6xl w-full float-right text-center")}>
               {name}
             </span>
           </div>
-          <div className="w-full flex flex-row gap-2 justify-evenly">
+          <div className="w-full flex flex-row gap-2 qhd:gap-3 4k:gap-4 justify-evenly">
             {Array.from({ length: score }).map((_, index) => (
               <div
                 key={index}
-                className="bg-white h-4 w-4 rounded-full"
+                className="bg-white h-4 w-4 qhd:h-5 qhd:w-5 4k:h-8 4k:w-8 rounded-full"
               ></div>
             ))}
             {Array.from({
@@ -141,7 +141,7 @@ function TeamInfo({
             }).map((_, index) => (
               <div
                 key={index}
-                className="border-2 border-white h-4 w-4 rounded-full"
+                className="border-2 border-white h-4 w-4 qhd:h-5 qhd:w-5 4k:h-8 4k:w-8 rounded-full"
               ></div>
             ))}
           </div>

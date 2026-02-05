@@ -12,7 +12,7 @@ export function LeagueOfLegendsMatchOverlay({
   session,
 }: LeagueOfLegendsMatchOverlayProps) {
   return (
-    <div className="absolute bottom-[14.5rem] w-full justify-center flex flex-row !overflow-hidden">
+    <div className="absolute bottom-[14.5rem] qhd:bottom-[19.3rem] 4k:bottom-[29rem] w-full justify-center flex flex-row !overflow-hidden">
       {session.team1First && (
         <>
           <TeamInfo
@@ -90,17 +90,17 @@ function TeamInfo({
         backgroundColor: color,
       }}
       className={cn(
-        "flex items-center gap-4 w-[34%] h-12 justify-end pr-4",
-        flipped && "flex-row-reverse justify-end pl-4 pr-0"
+        "flex items-center gap-4 qhd:gap-5 4k:gap-8 w-[34%] h-12 qhd:h-16 4k:h-24 justify-end pr-4 qhd:pr-5 4k:pr-8",
+        flipped && "flex-row-reverse justify-end pl-4 qhd:pl-5 4k:pl-8 pr-0"
       )}
       initial={{ x: !flipped ? "-100%" : "200%" }}
       transition={{ duration: 0.5, delay }}
     >
       {icon && (
-        <img src={icon} alt={`${name} logo`} className="h-12 w-auto py-1" />
+        <img src={icon} alt={`${name} logo`} className="h-12 qhd:h-16 4k:h-24 w-auto py-1 qhd:py-1.5 4k:py-2" />
       )}
-      <span className="text-5xl font-overwatchOblique">{name}</span>
-      <span className="text-5xl font-bold font-overwatch">{score}</span>
+      <span className="text-5xl qhd:text-6xl 4k:text-10xl font-overwatchOblique">{name}</span>
+      <span className="text-5xl qhd:text-6xl 4k:text-10xl font-bold font-overwatch">{score}</span>
     </motion.div>
   );
 }

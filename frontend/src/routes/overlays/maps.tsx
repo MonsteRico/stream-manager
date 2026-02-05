@@ -58,9 +58,9 @@ export function MapsOverlayPage() {
   const previousMapIndex = maps.findIndex((map) => map.winner === null) - 1;
 
   return (
-    <div className="w-screen p-4 rounded-lg shadow-lg bg-[url(/images/puggMousepad2.png)] bg-no-repeat bg-cover h-screen !overflow-hidden">
+    <div className="w-screen p-4 qhd:p-5 4k:p-8 rounded-lg shadow-lg bg-[url(/images/puggMousepad2.png)] bg-no-repeat bg-cover h-screen !overflow-hidden">
       <BigScore session={session} />
-      <div className="flex flex-row px-8 w-full h-full">
+      <div className="flex flex-row px-8 qhd:px-10 4k:px-16 w-full h-full">
         {maps.map((map, index) => (
           <motion.div
             initial={{
@@ -116,11 +116,11 @@ export function MapsOverlayPage() {
               <div className="h-full w-full bg-black opacity-75 z-0"></div>
             )}
             {!map.winner && !map.image && (
-              <div className="h-full w-full p-16 flex items-center justify-center z-10 absolute top-0 left-0">
+              <div className="h-full w-full p-16 qhd:p-20 4k:p-32 flex items-center justify-center z-10 absolute top-0 left-0">
                 <img
                   src="/images/esap.png"
                   alt="Purdue Esports"
-                  className="z-10 w-32 h-32"
+                  className="z-10 w-32 h-32 qhd:w-44 qhd:h-44 4k:w-64 4k:h-64"
                 />
               </div>
             )}
@@ -138,24 +138,24 @@ export function MapsOverlayPage() {
                       : session.team2Logo) ?? getGameLogoSrc(session.game)
                   }
                   alt={`${map.winner === "team1" ? session.team1DisplayName : session.team2DisplayName} logo`}
-                  className="w-[75%] h-[75%] object-contain px-4"
+                  className="w-[75%] h-[75%] object-contain px-4 qhd:px-5 4k:px-8"
                 />
               </div>
             )}
             {gameHasMaps(session.game) && (
               <div
                 className={cn(
-                  "absolute bottom-0 left-0 right-0 bg-gray-700 bg-opacity-70 p-2 text-white flex items-center justify-between",
+                  "absolute bottom-0 left-0 right-0 bg-gray-700 bg-opacity-70 p-2 qhd:p-3 4k:p-4 text-white flex items-center justify-between",
                   index % 2 === 0 && "bg-gray-800"
                 )}
               >
                 <div>
-                  <h3 className="text-lg font-bold">{map.name || "TBD"}</h3>
-                  {map.mode && <p className="text-sm">{map.mode}</p>}
+                  <h3 className="text-lg qhd:text-xl 4k:text-2xl font-bold">{map.name || "TBD"}</h3>
+                  {map.mode && <p className="text-sm qhd:text-base 4k:text-lg">{map.mode}</p>}
                 </div>
                 {session.game === "Overwatch" &&
                   (map.team1Ban || map.team2Ban) && (
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 qhd:gap-4 4k:gap-6">
                       {map.team1Ban &&
                         (() => {
                           const banChar = OverwatchCharacters.find(
@@ -165,7 +165,7 @@ export function MapsOverlayPage() {
                             <img
                               src={banChar.image}
                               alt={map.team1Ban}
-                              className="h-12 w-12 object-contain opacity-75"
+                              className="h-12 w-12 qhd:h-16 qhd:w-16 4k:h-24 4k:w-24 object-contain opacity-75"
                               title={`${session.team1DisplayName} banned ${map.team1Ban}`}
                             />
                           ) : null;
@@ -179,7 +179,7 @@ export function MapsOverlayPage() {
                             <img
                               src={banChar.image}
                               alt={map.team2Ban}
-                              className="h-12 w-12 object-contain opacity-75"
+                              className="h-12 w-12 qhd:h-16 qhd:w-16 4k:h-24 4k:w-24 object-contain opacity-75"
                               title={`${session.team2DisplayName} banned ${map.team2Ban}`}
                             />
                           ) : null;

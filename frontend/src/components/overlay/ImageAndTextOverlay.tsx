@@ -30,13 +30,13 @@ function ImageAndTextOverlay({
             <img
               src={centerImage}
               alt={centerAlt}
-              className={cn("w-64", centerImageClassName)}
+              className={cn("w-64 qhd:w-[426px] 4k:w-[512px]", centerImageClassName)}
             />
           )}
           {text !== "" && (
             <p
               className={cn(
-                "text-black text-3xl font-bold bg-[#cfb991] px-4 py-1 rounded-lg",
+                "text-black text-3xl qhd:text-4xl 4k:text-6xl font-bold bg-[#cfb991] px-4 qhd:px-5 4k:px-8 py-1 qhd:py-1.5 4k:py-2 rounded-lg",
                 textClassName
               )}
             >

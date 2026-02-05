@@ -9,7 +9,7 @@ interface GenericMatchOverlayProps {
 
 export function GenericMatchOverlay({ session }: GenericMatchOverlayProps) {
   return (
-    <div className="relative w-full h-12 flex flex-row">
+    <div className="relative w-full h-12 qhd:h-16 4k:h-24 flex flex-row">
       {session.team1First && (
         <>
           <TeamInfo
@@ -87,14 +87,14 @@ function TeamInfo({
         backgroundColor: color,
       }}
       className={cn(
-        "flex items-center gap-4 w-1/2 justify-end pr-4",
-        flipped && "flex-row-reverse justify-end pl-4 pr-0"
+        "flex items-center gap-4 qhd:gap-5 4k:gap-8 w-1/2 justify-end pr-4 qhd:pr-5 4k:pr-8",
+        flipped && "flex-row-reverse justify-end pl-4 qhd:pl-5 4k:pl-8 pr-0"
       )}
       initial={{ x: !flipped ? "-100%" : "200%" }}
     >
-      {icon && <img src={icon} alt={`${name} logo`} className="w-10 h-10" />}
-      <span className="text-4xl font-semibold font-overwatchOblique">{name}</span>
-      <span className="text-4xl font-overwatch">{score}</span>
+      {icon && <img src={icon} alt={`${name} logo`} className="w-10 h-10 qhd:w-14 qhd:h-14 4k:w-20 4k:h-20" />}
+      <span className="text-4xl qhd:text-5xl 4k:text-8xl font-semibold font-overwatchOblique">{name}</span>
+      <span className="text-4xl qhd:text-5xl 4k:text-8xl font-overwatch">{score}</span>
     </motion.div>
   );
 }

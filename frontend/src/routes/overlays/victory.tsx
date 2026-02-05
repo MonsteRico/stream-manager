@@ -40,16 +40,16 @@ export function VictoryPage() {
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.5, delay: session.animationDelay }}
-          className="flex flex-col items-center gap-8 z-30"
+          className="flex flex-col items-center gap-8 qhd:gap-10 4k:gap-16 z-30"
         >
-          <Trophy className="w-32 h-32 text-yellow-400" />
+          <Trophy className="w-32 h-32 qhd:w-44 qhd:h-44 4k:w-64 4k:h-64 text-yellow-400" />
           <img
             src={winningLogo ?? getGameLogoSrc(session.game)}
             alt={winningTeam}
-            className="w-64 h-64 object-contain"
+            className="w-64 h-64 qhd:w-[426px] qhd:h-[426px] 4k:w-[512px] 4k:h-[512px] object-contain"
           />
           <h1
-            className="text-6xl font-bold text-white font-overwatch"
+            className="text-6xl qhd:text-8xl 4k:text-12xl font-bold text-white font-overwatch"
             style={{
               textShadow:
                 "3px 3px 0px #000, -3px -3px 0px #000, 3px -3px 0px #000, -3px 3px 0px #000",

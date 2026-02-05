@@ -1,8 +1,15 @@
+import { useEffect } from "react";
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 export function DashboardLayout() {
   const location = useLocation();
+
+  useEffect(() => {
+    // Restore body background for dashboard routes
+    document.body.style.backgroundColor = "";
+    document.documentElement.style.backgroundColor = "";
+  }, []);
 
   return (
     <main className="bg-background min-h-screen">

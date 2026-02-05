@@ -113,7 +113,7 @@ function TeamInfo({
         style={{
           backgroundColor: color,
         }}
-        className={cn("flex items-center gap-4 w-full h-6")}
+        className={cn("flex items-center gap-4 qhd:gap-5 4k:gap-8 w-full h-6 qhd:h-8 4k:h-12")}
         ref={scope1}
       ></motion.div>
       <motion.div
@@ -125,30 +125,30 @@ function TeamInfo({
           backgroundColor: color,
         }}
         className={cn(
-          "flex items-center gap-4 w-[60%] h-16 justify-between pr-4 pl-2",
-          flipped && "flex-row-reverse pl-4 pr-2"
+          "flex items-center gap-4 qhd:gap-5 4k:gap-8 w-[60%] h-16 qhd:h-20 4k:h-32 justify-between pr-4 qhd:pr-5 4k:pr-8 pl-2 qhd:pl-3 4k:pl-4",
+          flipped && "flex-row-reverse pl-4 qhd:pl-5 4k:pl-8 pr-2 qhd:pr-3 4k:pr-4"
         )}
       >
         <div
           className={cn(
-            "flex flex-row items-center gap-4",
+            "flex flex-row items-center gap-4 qhd:gap-5 4k:gap-8",
             flipped && "flex-row-reverse"
           )}
         >
           {icon && (
-            <img src={icon} alt={`${name} logo`} className="h-12 w-auto py-1" />
+            <img src={icon} alt={`${name} logo`} className="h-12 qhd:h-16 4k:h-24 w-auto py-1 qhd:py-1.5 4k:py-2" />
           )}
-          <span className="text-3xl">{name}</span>
+          <span className="text-3xl qhd:text-4xl 4k:text-6xl">{name}</span>
         </div>
         {Array.from({ length: score }).map((_, index) => (
-          <div key={index} className="bg-white h-4 w-4 rounded-full"></div>
+          <div key={index} className="bg-white h-4 w-4 qhd:h-5 qhd:w-5 4k:h-8 4k:w-8 rounded-full"></div>
         ))}
         {Array.from({
           length: (bestOf ? Math.round(numMaps / 2) : numMaps) - score,
         }).map((_, index) => (
           <div
             key={index}
-            className="border-2 border-white h-4 w-4 rounded-full"
+            className="border-2 border-white h-4 w-4 qhd:h-5 qhd:w-5 4k:h-8 4k:w-8 rounded-full"
           ></div>
         ))}
       </motion.div>

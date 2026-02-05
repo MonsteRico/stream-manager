@@ -25,7 +25,7 @@ function BigScore({ session }: BigScoreProps) {
   } = session;
 
   return (
-    <div className="w-full flex flex-row px-8 h-[10%] justify-between mb-8 font-overwatch">
+    <div className="w-full flex flex-row px-8 qhd:px-10 4k:px-16 h-[10%] justify-between mb-8 qhd:mb-10 4k:mb-16 font-overwatch">
       <div
         className="flex flex-row items-center w-full h-full"
         style={{ backgroundColor: team1Color }}
@@ -33,19 +33,19 @@ function BigScore({ session }: BigScoreProps) {
         <img
           src={team1Logo ?? getGameLogoSrc(game)}
           alt={team1DisplayName}
-          className="h-16 p-2"
+          className="h-16 qhd:h-20 4k:h-32 p-2 qhd:p-3 4k:p-4"
         />
-        <div className="flex flex-row justify-between items-center w-full px-4">
-          <div className="flex flex-row items-end gap-4">
-            <h3 className="text-6xl font-bold">
+        <div className="flex flex-row justify-between items-center w-full px-4 qhd:px-5 4k:px-8">
+          <div className="flex flex-row items-end gap-4 qhd:gap-5 4k:gap-8">
+            <h3 className="text-6xl qhd:text-8xl 4k:text-12xl font-bold">
               {team1Abbreviation !== "" ? team1Abbreviation : team1DisplayName}
             </h3>
             <div className="flex flex-col justify-between">
-              <h5 className="text-2xl font-bold">{team1Rank}</h5>
-              <h5 className="text-2xl font-bold">{team1Record}</h5>
+              <h5 className="text-2xl qhd:text-3xl 4k:text-4xl font-bold">{team1Rank}</h5>
+              <h5 className="text-2xl qhd:text-3xl 4k:text-4xl font-bold">{team1Record}</h5>
             </div>
           </div>
-          <h3 className="text-6xl font-bold">{team1Score}</h3>
+          <h3 className="text-6xl qhd:text-8xl 4k:text-12xl font-bold">{team1Score}</h3>
         </div>
       </div>
       <div
@@ -55,19 +55,19 @@ function BigScore({ session }: BigScoreProps) {
         <img
           src={team2Logo ?? getGameLogoSrc(game)}
           alt={team2DisplayName}
-          className="h-16 p-2"
+          className="h-16 qhd:h-20 4k:h-32 p-2 qhd:p-3 4k:p-4"
         />
-        <div className="flex flex-row-reverse items-center justify-between w-full px-4">
-          <div className="flex flex-row-reverse items-end gap-4">
-            <h3 className="text-6xl font-bold">
+        <div className="flex flex-row-reverse items-center justify-between w-full px-4 qhd:px-5 4k:px-8">
+          <div className="flex flex-row-reverse items-end gap-4 qhd:gap-5 4k:gap-8">
+            <h3 className="text-6xl qhd:text-8xl 4k:text-12xl font-bold">
               {team2Abbreviation !== "" ? team2Abbreviation : team2DisplayName}
             </h3>
             <div className="flex flex-col justify-between">
-              <h5 className="text-2xl font-bold">{team2Rank}</h5>
-              <h5 className="text-2xl font-bold">{team2Record}</h5>
+              <h5 className="text-2xl qhd:text-3xl 4k:text-4xl font-bold">{team2Rank}</h5>
+              <h5 className="text-2xl qhd:text-3xl 4k:text-4xl font-bold">{team2Record}</h5>
             </div>
           </div>
-          <h3 className="text-6xl font-bold">{team2Score}</h3>
+          <h3 className="text-6xl qhd:text-8xl 4k:text-12xl font-bold">{team2Score}</h3>
         </div>
       </div>
     </div>

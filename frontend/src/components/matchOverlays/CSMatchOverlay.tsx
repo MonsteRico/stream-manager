@@ -88,8 +88,8 @@ function TeamInfo({
         backgroundColor: color,
       }}
       className={cn(
-        "flex items-center gap-4 mt-4 w-[19.5%] h-12 justify-between pr-4 pl-2",
-        flipped && "flex-row-reverse pl-4 pr-2"
+        "flex items-center gap-4 qhd:gap-5 4k:gap-8 mt-4 qhd:mt-5 4k:mt-8 w-[19.5%] h-12 qhd:h-16 4k:h-24 justify-between pr-4 qhd:pr-5 4k:pr-8 pl-2 qhd:pl-3 4k:pl-4",
+        flipped && "flex-row-reverse pl-4 qhd:pl-5 4k:pl-8 pr-2 qhd:pr-3 4k:pr-4"
       )}
       initial={{ x: !flipped ? "-100%" : "200%" }}
       animate={{ x: 0 }}
@@ -97,16 +97,16 @@ function TeamInfo({
     >
       <div
         className={cn(
-          "flex flex-row items-center gap-4",
+          "flex flex-row items-center gap-4 qhd:gap-5 4k:gap-8",
           flipped && "flex-row-reverse"
         )}
       >
         {icon && (
-          <img src={icon} alt={`${name} logo`} className="h-12 w-auto py-1" />
+          <img src={icon} alt={`${name} logo`} className="h-12 qhd:h-16 4k:h-24 w-auto py-1 qhd:py-1.5 4k:py-2" />
         )}
-        <span className="text-3xl">{name}</span>
+        <span className="text-3xl qhd:text-4xl 4k:text-6xl">{name}</span>
       </div>
-      <span className="text-4xl">{score}</span>
+      <span className="text-4xl qhd:text-5xl 4k:text-8xl">{score}</span>
     </motion.div>
   );
 }
