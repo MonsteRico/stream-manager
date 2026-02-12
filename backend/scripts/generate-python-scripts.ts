@@ -141,12 +141,7 @@ async function generatePythonScripts() {
 
 // Run if executed directly
 // Check if this module is the entry point
-const isMain = import.meta.url === `file://${process.argv[1].replace(/\\/g, "/")}`;
-if (isMain) {
-    generatePythonScripts().catch((error) => {
-        console.error("Error generating Python scripts:", error);
-        process.exit(1);
-    });
-}
-
-export { generatePythonScripts };
+generatePythonScripts().catch((error) => {
+    console.error("Error generating Python scripts:", error);
+    process.exit(1);
+});
