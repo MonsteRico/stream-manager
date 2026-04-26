@@ -12,6 +12,8 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: stream_manager
     # No ports exposed - only accessible internally
+    volumes:
+      - stream_manager_pgdata:/var/lib/postgresql/data
     networks:
       - internal
     healthcheck:
@@ -28,10 +30,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.backend
-    ports:
-      - "8200:3000"
     env_file:
-      - backend/.env
+      - .env
     environment:
       DATABASE_URL: postgresql://postgres:postgres@db:5432/stream_manager
       PORT: "3000"
@@ -52,13 +52,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.frontend
-    env_file:
-      - frontend/.env
-    ports:
-      - "8201:80"
     networks:
       - internal
     restart: unless-stopped
+
+volumes:
+  stream_manager_pgdata:
 
 networks:
   internal:
