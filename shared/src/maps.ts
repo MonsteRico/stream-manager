@@ -218,6 +218,13 @@ export const OverwatchMaps: MapInfo[] = [
     mode: "Flashpoint",
     winner: null,
   },
+  {
+    id: 32,
+    name: "Tokkyo something or other, idk",
+    image: "/mapImages/overwatch/tokyo.png",
+    mode: "Hybrid",
+    winner: null,
+  }, 
 ];
 
 export const SplatoonMaps: MapInfo[] = [];
