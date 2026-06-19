@@ -218,6 +218,13 @@ export const OverwatchMaps: MapInfo[] = [
     mode: "Flashpoint",
     winner: null,
   },
+  {
+    id: 32,
+    name: "Neon Junction",
+    image: "/mapImages/overwatch/neonjunction.png",
+    mode: "Hybrid",
+    winner: null,
+  },
 ];
 
 export const SplatoonMaps: MapInfo[] = [];
