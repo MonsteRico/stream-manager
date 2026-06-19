@@ -304,4 +304,10 @@ export const OverwatchCharacters: CharacterInfo[] = [
     image: "/characterImages/overwatch/zenyatta.png",
     role: "Support",
   },
+  {
+    id: 51,
+    name: "Shion",
+    image: "/characterImages/overwatch/shion.png",
+    role: "Damage",
+  },
 ];
