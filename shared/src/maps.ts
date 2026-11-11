@@ -225,6 +225,13 @@ export const OverwatchMaps: MapInfo[] = [
     mode: "Hybrid",
     winner: null,
   },
+   {
+    id: 33,
+    name: "Watchpoint: Grímsvötn",
+    image: "/mapImages/overwatch/grimsvotn.png",
+    mode: "Escort",
+    winner: null,
+  },
 ];
 
 export const SplatoonMaps: MapInfo[] = [];
